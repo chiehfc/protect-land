@@ -1,0 +1,148 @@
+// saved by AuroraGT v0.1.0.5 (SpriteEditor v0.1.0.9)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 12
+    // Frames:  11
+    // Anims:   1
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [ALPHA "alpha_file"] [TRANSP transp_color]
+
+    IMAGE 0x0000 ".\WaterDrop.png" TRANSP 0x00FF00FF // 0  size: 375 x 800  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_LINE)	   -> color width height
+//              if (Type == MD_FILL_RECT_GRAD) -> color01 color02 direction width height
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	0	0	125	200
+        MD	0x1001	MD_IMAGE	0	125	0	125	200
+        MD	0x1002	MD_IMAGE	0	250	0	125	200
+        MD	0x1003	MD_IMAGE	0	0	200	125	200
+        MD	0x1004	MD_IMAGE	0	125	200	125	200
+        MD	0x1005	MD_IMAGE	0	250	200	125	200
+        MD	0x1006	MD_IMAGE	0	0	400	125	200
+        MD	0x1007	MD_IMAGE	0	125	400	125	200
+        MD	0x1008	MD_IMAGE	0	250	400	125	200
+        MD	0x1009	MD_IMAGE	0	0	600	125	200
+        MD	0x100A	MD_IMAGE	0	125	600	125	200
+        MD	0x100B	MD_IMAGE	0	250	600	125	200
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
+
+    FRAME "" // Index = 0, FModules = 1
+    {
+        0x2000
+        FM	0x1000	0	0
+    }
+
+    FRAME "" // Index = 1, FModules = 1
+    {
+        0x2001
+        FM	0x1001	0	0
+    }
+
+    FRAME "" // Index = 2, FModules = 1
+    {
+        0x2002
+        FM	0x1002	0	0
+    }
+
+    FRAME "" // Index = 3, FModules = 1
+    {
+        0x2003
+        FM	0x1003	0	0
+    }
+
+    FRAME "" // Index = 4, FModules = 1
+    {
+        0x2004
+        FM	0x1004	0	0
+    }
+
+    FRAME "" // Index = 5, FModules = 1
+    {
+        0x2005
+        FM	0x1005	0	0
+    }
+
+    FRAME "" // Index = 6, FModules = 1
+    {
+        0x2006
+        FM	0x1006	0	0
+    }
+
+    FRAME "" // Index = 7, FModules = 1
+    {
+        0x2007
+        FM	0x1007	0	0
+    }
+
+    FRAME "" // Index = 8, FModules = 1
+    {
+        0x2008
+        FM	0x1008	0	0
+    }
+
+    FRAME "" // Index = 9, FModules = 1
+    {
+        0x2009
+        FM	0x1009	0	0
+    }
+
+    FRAME "" // Index = 10, FModules = 1
+    {
+        0x200A
+        FM	0x100A	0	0
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Animations...
+// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
+// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
+// Flags  := FLIP_X | FLIP_Y | ROT_90
+
+    ANIM "" // Index = 0, AFrames = 11
+    {
+        0x3000
+        AF	0x2000	1	0	0
+        AF	0x2001	1	0	0
+        AF	0x2002	1	0	0
+        AF	0x2003	1	0	0
+        AF	0x2004	1	0	0
+        AF	0x2005	1	0	0
+        AF	0x2006	1	0	0
+        AF	0x2007	1	0	0
+        AF	0x2008	1	0	0
+        AF	0x2009	1	0	0
+        AF	0x200A	1	0	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////
