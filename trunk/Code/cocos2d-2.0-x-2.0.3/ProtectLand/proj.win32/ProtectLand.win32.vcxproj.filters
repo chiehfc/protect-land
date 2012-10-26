@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{0af74ede-4072-4eb1-befb-7c3e39ba0d1f}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{08b09fad-c0b6-4a29-a2c4-bc32c2ae4801}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{f34a2895-d7df-41ac-9c28-11ddf83ac3fb}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;jpg;jpeg;jpe;png;manifest</Extensions>
+    </Filter>
+    <Filter Include="include\Layers">
+      <UniqueIdentifier>{a6f6ec78-f485-4545-96a9-faa827fe2c9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Resource management">
+      <UniqueIdentifier>{38ff2b88-1401-406f-bbd7-108eaca14ec3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Scene management">
+      <UniqueIdentifier>{97e14f6d-d301-4b91-96bb-0ff4e03aba01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Layers">
+      <UniqueIdentifier>{035392aa-dca0-47b3-99f8-40e025efefcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Resource management">
+      <UniqueIdentifier>{2b6c7ce5-28f9-495f-ba14-cc0df2a677e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\Scene management">
+      <UniqueIdentifier>{c09ffc3a-c5bb-4bbf-b540-46415b3301b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameConfig">
+      <UniqueIdentifier>{e280d1a4-b05e-4922-96c6-a4ab8328795c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\ProtectLand.ico">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\CloseSelected.png">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\CloseNormal.png">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\HelloWorld.png">
+      <Filter>resource</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ProtectLand.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\AboutScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\GamePlay.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\HelpScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\IncludeHelper.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\IntroScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\IntroSceneSecond.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\LoadingScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\MainMenuScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\OptionScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\SelectLevelScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\SplashScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\WinScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Resource Management\AudioManager.h">
+      <Filter>include\Resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Resource Management\FileManager.h">
+      <Filter>include\Resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Resource Management\Level.h">
+      <Filter>include\Resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Resource Management\LevelManager.h">
+      <Filter>include\Resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Resource Management\MySprite.h">
+      <Filter>include\Resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Resource Management\SpriteFileReader.h">
+      <Filter>include\Resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Resource Management\SpriteManager.h">
+      <Filter>include\Resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Resource Management\Utils.h">
+      <Filter>include\Resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Layers\BackgroundLayer.h">
+      <Filter>include\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Layers\GameObjectLayer.h">
+      <Filter>include\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Layers\MenuLayer.h">
+      <Filter>include\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameConfig.h">
+      <Filter>GameConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene Management\GameOverScene.h">
+      <Filter>include\Scene management</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\AboutScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\GamePlay.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\HelpScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\IntroScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\IntroSceneSecond.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\LoadingScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\MainMenuScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\OptionScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\SelectLevelScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\SplashScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\WinScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Resource Management\AudioManager.cpp">
+      <Filter>source\Resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Resource Management\FileManager.cpp">
+      <Filter>source\Resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Resource Management\Level.cpp">
+      <Filter>source\Resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Resource Management\LevelManager.cpp">
+      <Filter>source\Resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Resource Management\MySprite.cpp">
+      <Filter>source\Resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Resource Management\SpriteFileReader.cpp">
+      <Filter>source\Resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Resource Management\SpriteManager.cpp">
+      <Filter>source\Resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Resource Management\Utils.cpp">
+      <Filter>source\Resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Layers\BackgroundLayer.cpp">
+      <Filter>source\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Layers\GameObjectLayer.cpp">
+      <Filter>source\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Layers\MenuLayer.cpp">
+      <Filter>source\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene Management\GameOverScene.cpp">
+      <Filter>source\Scene management</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
