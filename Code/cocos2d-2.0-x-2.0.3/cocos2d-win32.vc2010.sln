@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libExtensions", "extensions
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProtectLand.win32", "ProtectLand\proj.win32\ProtectLand.win32.vcxproj", "{B98789CE-420F-48E2-8A51-57319B6CF46D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "newproject.win32", "newproject\proj.win32\newproject.win32.vcxproj", "{C930269A-ADBD-4C22-8BC6-493FED4F855E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +33,10 @@ Global
 		{B98789CE-420F-48E2-8A51-57319B6CF46D}.Debug|Win32.Build.0 = Debug|Win32
 		{B98789CE-420F-48E2-8A51-57319B6CF46D}.Release|Win32.ActiveCfg = Release|Win32
 		{B98789CE-420F-48E2-8A51-57319B6CF46D}.Release|Win32.Build.0 = Release|Win32
+		{C930269A-ADBD-4C22-8BC6-493FED4F855E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C930269A-ADBD-4C22-8BC6-493FED4F855E}.Debug|Win32.Build.0 = Debug|Win32
+		{C930269A-ADBD-4C22-8BC6-493FED4F855E}.Release|Win32.ActiveCfg = Release|Win32
+		{C930269A-ADBD-4C22-8BC6-493FED4F855E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
