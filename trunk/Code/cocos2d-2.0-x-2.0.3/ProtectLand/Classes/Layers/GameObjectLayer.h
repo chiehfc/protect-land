@@ -8,7 +8,7 @@
 #include "IncludeHelper.h"
 #include "GamePlay.h"
 #include "MySprite.h"
-
+#include "Bullet.h"
 USING_NS_CC;
 
 enum {
@@ -54,7 +54,13 @@ private:
 	CCSprite *pWoodSprite ;
 	bool isAntTakeWater;
 	bool isDeleteAround;
-
+	//Area shoot bullet
+	int m_iCurrentBullet;
+	CCSprite *m_pAreaShootBullet;
+	CCSprite *m_pAreaShootFireBullet;
+	CCSprite *m_pAreaShootWaterBullet;
+	//Bullet
+	vector<Bullet *> *m_vBullet;
 	//Physic
 
 	int index ;	
@@ -68,7 +74,10 @@ private:
 	int *sound_waterdrop_id;
 	
 	
-	
+	void changeBullet();
+	void addBullet(CCPoint &p);
+	bool inAreaShoot(CCPoint *p);
+
 	void checkScore();
 	void spriteMoveDone( CCNode* sender );
 	void tipTextSpriteDone(CCNode* sender);
