@@ -5,6 +5,7 @@
 #include "SimpleAudioEngine.h"
 #include "IntroScene.h"
 #include "MainMenuScene.h"
+#include "SelectLevelScene.h"
 
 using namespace CocosDenshion;
 
@@ -35,7 +36,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     pDirector->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    CCScene *pScene = IntroScene::scene();
+	CCScene *pScene = IntroScene::scene();
 
     // run
     pDirector->runWithScene(pScene);
