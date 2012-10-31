@@ -121,7 +121,8 @@ bool CGameObjectLayer::init()
 	//=======INIT VALUE=======//
 	{
 		m_iTouchedItem = NONITEM;
-		m_pTouch = NULL;
+		m_pTouchbegin = NULL;
+		m_pTouchend=NULL;
 		m_bIscol = false;
 		m_bIsTouching = false;
 		this->m_pObject = NULL;
@@ -139,9 +140,11 @@ bool CGameObjectLayer::init()
 			CCRectMake(0,0,AREA_SHOOT_BULLET_WIDTH,AREA_SHOOT_BULLET_HEIGHT));
 		m_pAreaShootWaterBullet->setPosition(ccp(size.width/2,AREA_SHOOT_BULLET_HEIGHT));
 		m_pAreaShootBullet=m_pAreaShootFireBullet;
-		m_iCurrentBullet=FIRE_BULLET;
+		m_iCurrentBullet=FIRE_BULLET_SMALL;
 		this->addChild(m_pAreaShootBullet);
 		m_vBullet = new vector<Bullet *>();
+		m_pTouchTemp = new CCPoint();
+		
 	}		
 	//DEBUG 
 	m_label = CCLabelTTF::labelWithString(m_str, "Arial", 24);
@@ -165,9 +168,11 @@ void CGameObjectLayer::update(float dt)
 		if(m_fTimeFire>1) {
 			updateBullet();
 		}
+		
+		
 		//sprintf(m_str,"%f",m_fTimeFire);
 		m_label->setString( m_str );
-
+		
 	}
 }
 
@@ -202,8 +207,11 @@ bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 		{
 			m_bIsTouching = true;
 			m_fTimeFire=0;
-			m_pTouch= new CCTouch(*pTouch);
+			length=0;
+			m_pTouchbegin = new CCPoint(pTouch->getLocation().x,pTouch->getLocation().y);
+			m_pTouchend = new CCPoint(pTouch->getLocation().x,pTouch->getLocation().y);
 			addBullet(pTouch->getLocation());
+			
 		}
 	}
 
@@ -216,12 +224,28 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 {	
 	if(m_bIsTouching)
 	{
+		m_pTouchTemp->setPoint(pTouch->getLocation().x,pTouch->getLocation().y);	
+		
 		m_fTimeFire=0;
 		m_bIscol = false;
-		CCPoint direction;
-		CCPoint touchPoint = CCDirector::sharedDirector()->convertToGL(pTouch->locationInView());
+		//CCPoint direction;
+		//CCPoint touchPoint = CCDirector::sharedDirector()->convertToGL(pTouch->locationInView());
+		
+
+			float x1=m_pTouchend->x;
+			float x2=pTouch->getLocation().x;
+			float y1=m_pTouchend->y;
+			float y2=pTouch->getLocation().y;
+			float d= sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+			if(d>20){
+				length+=d;
+				m_pTouchbegin->setPoint(m_pTouchend->x,m_pTouchend->y);
+				m_pTouchend->setPoint(pTouch->getLocation().x,pTouch->getLocation().y);
+			}
+		
 		CCSprite* t_bullet= m_pBulletTemp->getSprite();
-		t_bullet->setPosition(pTouch->getLocation());
+		t_bullet->setPosition(*m_pTouchTemp);
+
 		//this->removeChild(
 	}
 
@@ -232,15 +256,16 @@ void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 	if(m_bIsTouching){
 
 		m_bIsTouching = false;	
-		float X1=m_pTouch->getLocation().x;
-		float Y1=m_pTouch->getLocation().y;	
+		float X1=m_pTouchbegin->x;
+		float Y1=m_pTouchbegin->y;	
 		float X2=pTouch->getLocation().x;
 		float Y2=pTouch->getLocation().y;
 
 		float Dx=X2-X1;
 		float Dy=Y2-Y1;
 		// Determine speed of the target
-		float length = sqrt(Dx*Dx+Dy*Dy);
+		length += sqrt(Dx*Dx+Dy*Dy);
+		
 		if(length>20) 
 		{	
 			m_vBullet->push_back(m_pBulletTemp);// add Bullet to vector
@@ -248,7 +273,6 @@ void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 			float realMoveDuration= 100/length;
 			if(realMoveDuration<0.5) realMoveDuration=0.5;
 			if(realMoveDuration>1.5) realMoveDuration=1.5;
-
 			sprintf(m_str,"Time:%f",realMoveDuration);
 			CCPoint realDest = getRealDest(X1,Y1,X2,Y2);
 
@@ -506,12 +530,12 @@ void CGameObjectLayer::delayWinScene( float dt )
 void CGameObjectLayer::changeBullet()
 {	
 	this->removeChild(m_pAreaShootBullet, false);
-	if(m_iCurrentBullet==FIRE_BULLET) {
-		m_iCurrentBullet=WATER_BULLET;
+	if(m_iCurrentBullet==FIRE_BULLET_SMALL) {
+		m_iCurrentBullet=WATER_BULLET_SMALL;
 		m_pAreaShootBullet=m_pAreaShootWaterBullet;
 	}
 	else{
-		m_iCurrentBullet=FIRE_BULLET;
+		m_iCurrentBullet=FIRE_BULLET_SMALL;
 		m_pAreaShootBullet=m_pAreaShootFireBullet;
 	}
 	this->addChild(m_pAreaShootBullet);
@@ -520,7 +544,7 @@ void CGameObjectLayer::changeBullet()
 void CGameObjectLayer::addBullet(CCPoint &p)
 {
 	char * path="";
-	if(m_iCurrentBullet==FIRE_BULLET) path="FireBulletSmall.png";
+	if(m_iCurrentBullet==FIRE_BULLET_SMALL) path="FireBulletSmall.png";
 	else path="WaterBulletSmall.png";
 	CCSprite* sp = CCSprite::create(path);
 
@@ -545,11 +569,12 @@ bool CGameObjectLayer::inAreaShoot(const CCPoint *p)
 CCPoint CGameObjectLayer::getRealDest(float X1,float Y1, float X2, float Y2)
 {
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
-	float t= 100/(X2-X1);
+	float t;
+	if(X2-X1!= 0) t= 100/(X2-X1);
+	else t= 100/(Y2-Y1);
 	if(t<0) t=-t;
 	float Vx=t*(X2-X1);
 	float Vy=t*(Y2-Y1);
-	if(Vy<0) Vy=-Vy;
 	float DestX=X1;
 	float DestY=Y1;
 	//int i=5;
@@ -567,15 +592,28 @@ void CGameObjectLayer::updateBullet()
 {
 	Bullet *oldBullet= m_pBulletTemp;
 	char * path="";
-	if(m_iCurrentBullet==FIRE_BULLET) path="FireBulletBig.png";
-	else path="WaterBulletBig.png";
+	if(m_iCurrentBullet==FIRE_BULLET_SMALL) {
+		m_iCurrentBullet=FIRE_BULLET_BIG;
+		path="FireBulletBig.png";
+	}
+	else {
+		m_iCurrentBullet=WATER_BULLET_BIG;
+		path="WaterBulletBig.png";
+	}
 	CCSprite* newBullet = CCSprite::create(path);
 
 	newBullet->setScale(50.0/128.0);
 	newBullet->setPosition(m_pBulletTemp->getSprite()->getPosition());
 	Bullet *b= new Bullet(m_iCurrentBullet,newBullet);
-
 	m_pBulletTemp=b;
+	if(m_iCurrentBullet==FIRE_BULLET_BIG) {
+		m_iCurrentBullet=FIRE_BULLET_SMALL;
+		
+	}
+	else {
+		m_iCurrentBullet=WATER_BULLET_SMALL;
+		
+	}
 	this->removeChild(oldBullet->getSprite(),true);
 	this->addChild(newBullet);
 

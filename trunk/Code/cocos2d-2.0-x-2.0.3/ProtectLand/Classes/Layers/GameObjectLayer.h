@@ -33,7 +33,9 @@ private:
 	CCArray* 	m_pSpriteList;
 	bool		m_bIscol;
 	bool		m_bIsTouching;
-	CCTouch*	m_pTouch;
+	CCPoint*	m_pTouchbegin;
+	CCPoint*	m_pTouchend;
+	CCPoint*    m_pTouchTemp;
 	CCSprite*	m_pObject;
 	CCSprite*	pMoveSprite;
 	CCMenuItemImage *pMute;
@@ -63,6 +65,7 @@ private:
 	vector<Bullet *> *m_vBullet;
 	float m_fTimeFire;
 	Bullet *m_pBulletTemp;
+	float length;
 	//Physic
 
 	int index ;	
