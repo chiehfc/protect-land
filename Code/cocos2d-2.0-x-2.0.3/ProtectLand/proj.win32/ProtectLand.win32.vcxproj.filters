@@ -34,6 +34,12 @@
     <Filter Include="GameConfig">
       <UniqueIdentifier>{e280d1a4-b05e-4922-96c6-a4ab8328795c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\GameObject">
+      <UniqueIdentifier>{99097f09-b34c-438c-8d80-3f67e2435517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameObject">
+      <UniqueIdentifier>{422c6b00-8b82-4eab-8c08-774118918a5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\ProtectLand.ico">
@@ -142,6 +148,9 @@
     <ClInclude Include="..\Classes\Scene Management\GameOverScene.h">
       <Filter>include\Scene management</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Bullet.h">
+      <Filter>include\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -221,6 +230,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Scene Management\GameOverScene.cpp">
       <Filter>source\Scene management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Bullet.cpp">
+      <Filter>source\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
