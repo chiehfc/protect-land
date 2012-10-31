@@ -61,6 +61,8 @@ private:
 	CCSprite *m_pAreaShootWaterBullet;
 	//Bullet
 	vector<Bullet *> *m_vBullet;
+	float m_fTimeFire;
+	Bullet *m_pBulletTemp;
 	//Physic
 
 	int index ;	
@@ -76,7 +78,9 @@ private:
 	
 	void changeBullet();
 	void addBullet(CCPoint &p);
-	bool inAreaShoot(CCPoint *p);
+	bool inAreaShoot(const CCPoint *p);
+	CCPoint getRealDest(float X1,float Y1, float X2, float Y2);
+	void updateBullet();
 
 	void checkScore();
 	void spriteMoveDone( CCNode* sender );
@@ -85,6 +89,7 @@ private:
 
 public:	
 	//Sprite	
+	
 	void menuSubMenuCallback(CCObject* pSender);
 	void menuReplayMenuCallback(CCObject* pSender);
 	void menuMuteMenuCallback(CCObject* pSender);
