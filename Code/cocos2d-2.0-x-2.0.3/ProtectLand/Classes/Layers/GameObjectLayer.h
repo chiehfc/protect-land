@@ -84,6 +84,7 @@ private:
 	bool inAreaShoot(const CCPoint *p);
 	CCPoint getRealDest(float X1,float Y1, float X2, float Y2);
 	void updateBullet();
+	void shootBullet();
 
 	void checkScore();
 	void spriteMoveDone( CCNode* sender );
@@ -117,6 +118,8 @@ public:
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
+	virtual void keyBackClicked();
+
 	CREATE_FUNC(CGameObjectLayer);
 };
 
