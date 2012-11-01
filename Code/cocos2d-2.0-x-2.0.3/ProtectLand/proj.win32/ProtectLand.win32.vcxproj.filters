@@ -151,6 +151,12 @@
     <ClInclude Include="..\Classes\GameObject\Bullet.h">
       <Filter>include\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Monster.h">
+      <Filter>include\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameObject\Tower.h">
+      <Filter>include\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -232,6 +238,12 @@
       <Filter>source\Scene management</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameObject\Bullet.cpp">
+      <Filter>source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Monster.cpp">
+      <Filter>source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObject\Tower.cpp">
       <Filter>source\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
