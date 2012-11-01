@@ -225,24 +225,29 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 	if(m_bIsTouching)
 	{
 		m_pTouchTemp->setPoint(pTouch->getLocation().x,pTouch->getLocation().y);	
-		
+
 		m_fTimeFire=0;
 		m_bIscol = false;
 		//CCPoint direction;
 		//CCPoint touchPoint = CCDirector::sharedDirector()->convertToGL(pTouch->locationInView());
-		
 
-			float x1=m_pTouchend->x;
-			float x2=pTouch->getLocation().x;
-			float y1=m_pTouchend->y;
-			float y2=pTouch->getLocation().y;
-			float d= sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
-			if(d>20){
-				length+=d;
-				m_pTouchbegin->setPoint(m_pTouchend->x,m_pTouchend->y);
-				m_pTouchend->setPoint(pTouch->getLocation().x,pTouch->getLocation().y);
+
+		float x1=m_pTouchend->x;
+		float x2=pTouch->getLocation().x;
+		float y1=m_pTouchend->y;
+		float y2=pTouch->getLocation().y;
+		float d= sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+		if(d>20){
+			length+=d;
+			m_pTouchbegin->setPoint(m_pTouchend->x,m_pTouchend->y);
+			m_pTouchend->setPoint(pTouch->getLocation().x,pTouch->getLocation().y);
+			if(length>MAX_LENGTH_MOVE){
+				m_bIsTouching=false;
+				shootBullet();
 			}
-		
+			
+		}
+
 		CCSprite* t_bullet= m_pBulletTemp->getSprite();
 		t_bullet->setPosition(*m_pTouchTemp);
 
@@ -256,36 +261,10 @@ void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 	if(m_bIsTouching){
 
 		m_bIsTouching = false;	
-		float X1=m_pTouchbegin->x;
-		float Y1=m_pTouchbegin->y;	
-		float X2=pTouch->getLocation().x;
-		float Y2=pTouch->getLocation().y;
-
-		float Dx=X2-X1;
-		float Dy=Y2-Y1;
-		// Determine speed of the target
-		length += sqrt(Dx*Dx+Dy*Dy);
-		
-		if(length>20) 
-		{	
-			m_vBullet->push_back(m_pBulletTemp);// add Bullet to vector
-			//float velocity= length/m_fTimeFire;
-			float realMoveDuration= 100/length;
-			if(realMoveDuration<0.5) realMoveDuration=0.5;
-			if(realMoveDuration>1.5) realMoveDuration=1.5;
-			sprintf(m_str,"Time:%f",realMoveDuration);
-			CCPoint realDest = getRealDest(X1,Y1,X2,Y2);
-
-			m_pBulletTemp->getSprite()->runAction( CCSequence::actions(
-				CCMoveTo::actionWithDuration(realMoveDuration, realDest),
-				CCCallFuncN::actionWithTarget(this,
-				callfuncN_selector(CGameObjectLayer::spriteMoveDone)), 
-				NULL) );
-		}
-		else{
-			this->removeChild(m_pBulletTemp->getSprite(),true);
-		}
+		shootBullet();
 	}
+	
+	
 }
 
 void CGameObjectLayer::draw()
@@ -570,19 +549,19 @@ CCPoint CGameObjectLayer::getRealDest(float X1,float Y1, float X2, float Y2)
 {
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
 	float t;
-	if(X2-X1!= 0) t= 100/(X2-X1);
-	else t= 100/(Y2-Y1);
+	if(X2-X1!= 0) t= 50/(X2-X1);
+	else t= 50/(Y2-Y1);
 	if(t<0) t=-t;
 	float Vx=t*(X2-X1);
 	float Vy=t*(Y2-Y1);
 	float DestX=X1;
 	float DestY=Y1;
-	//int i=5;
+	
 	do{
 
 		DestX+= Vx;
 		DestY+= Vy;
-		if(DestX < -20 || DestX > (size.width +20) || DestY > (size.height+20)) break;
+		if(DestX < -20 || DestX > (size.width +20) || DestY<-20 || DestY > (size.height+20)) break;
 	}
 	while(1);
 	return ccp(DestX,DestY);
@@ -617,4 +596,34 @@ void CGameObjectLayer::updateBullet()
 	this->removeChild(oldBullet->getSprite(),true);
 	this->addChild(newBullet);
 
+}
+void CGameObjectLayer::shootBullet(){
+	float X1=m_pTouchbegin->x;
+	float Y1=m_pTouchbegin->y;	
+	float X2=m_pTouchend->x;
+	float Y2=m_pTouchend->y;
+
+	float Dx=X2-X1;
+	float Dy=Y2-Y1;
+	// Determine speed of the target
+	length += sqrt(Dx*Dx+Dy*Dy);
+
+	if(length>20) 
+	{	
+		m_vBullet->push_back(m_pBulletTemp);// add Bullet to vector
+		//float velocity= length/m_fTimeFire;
+		float realMoveDuration= 100/length;
+		if(realMoveDuration<0.5) realMoveDuration=0.5;
+		if(realMoveDuration>1.5) realMoveDuration=1.5;
+		sprintf(m_str,"Time:%f",realMoveDuration);
+		CCPoint realDest = getRealDest(X1,Y1,X2,Y2);
+
+		m_pBulletTemp->getSprite()->runAction( CCSequence::actions(
+			CCMoveTo::actionWithDuration(realMoveDuration, realDest),
+			CCCallFuncN::actionWithTarget(this,
+			callfuncN_selector(CGameObjectLayer::spriteMoveDone)), 
+			NULL) );
+	}else{
+		this->removeChild(m_pBulletTemp->getSprite(),true);
+	}
 }
