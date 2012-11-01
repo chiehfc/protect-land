@@ -1,46 +1,54 @@
-﻿Build started 10/24/2012 3:29:58 AM.
-     1>Project "D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\ProtectLand\proj.win32\ProtectLand.win32.vcxproj" on node 2 (build target(s)).
+﻿Build started 11/2/2012 3:45:03 AM.
+     1>Project "E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\ProtectLand\proj.win32\ProtectLand.win32.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug.win32\ProtectLand.win32.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Classes" /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Classes\Layers" /I. /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Classes\Scene Management" /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Classes\Resource Management" /I..\Classes /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\cocos2dx" /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\cocos2dx\include" /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\cocos2dx\kazmath\include" /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\cocos2dx\platform\win32" /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\cocos2dx\platform\third_party\win32" /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\cocos2dx\platform\third_party\win32\OGLES" /I"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\CocosDenshion\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D STRICT /D _CRT_SECURE_NO_WARNINGS /D _SCL_SECURE_NO_WARNINGS_DEBUG /D COCOS2D_DEBUG=1 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug.win32\\" /Fd"Debug.win32\vc100.pdb" /Gd /TP /wd4267 /wd4251 /wd4244 /analyze- /errorReport:prompt "..\Classes\Scene Management\IntroScene.cpp"
-         IntroScene.cpp
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(108): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(120): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(180): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(180): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(199): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(199): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(205): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(205): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(211): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(211): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(217): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(217): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(223): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(223): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(230): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(230): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(262): warning C4305: 'argument' : truncation from 'int' to 'bool'
-     1>d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\protectland\classes\scene management\introscene.cpp(294): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
-                 d:\009. subject\hk 1 - nam 4\003_gameprograming\assignment\protectlandsvn\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Classes" /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Classes\GameObject" /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Classes\Layers" /I. /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Classes\Scene Management" /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Classes\Resource Management" /I..\Classes /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\cocos2dx" /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\cocos2dx\include" /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\cocos2dx\kazmath\include" /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\cocos2dx\platform\win32" /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\cocos2dx\platform\third_party\win32" /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\cocos2dx\platform\third_party\win32\OGLES" /I"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\CocosDenshion\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D STRICT /D _CRT_SECURE_NO_WARNINGS /D _SCL_SECURE_NO_WARNINGS_DEBUG /D COCOS2D_DEBUG=1 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug.win32\\" /Fd"Debug.win32\vc100.pdb" /Gd /TP /wd4267 /wd4251 /wd4244 /analyze- /errorReport:prompt ..\Classes\Layers\GameObjectLayer.cpp
+         GameObjectLayer.cpp
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(144): warning C4996: 'cocos2d::CCSprite::spriteWithFile': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\sprite_nodes\ccsprite.h(186) : see declaration of 'cocos2d::CCSprite::spriteWithFile'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(147): warning C4996: 'cocos2d::CCSprite::spriteWithFile': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\sprite_nodes\ccsprite.h(186) : see declaration of 'cocos2d::CCSprite::spriteWithFile'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(155): warning C4996: 'cocos2d::CCLabelTTF::labelWithString': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\label_nodes\cclabelttf.h(56) : see declaration of 'cocos2d::CCLabelTTF::labelWithString'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(187): warning C4101: 'txt' : unreferenced local variable
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(245): warning C4996: 'cocos2d::CCTouch::locationInView': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\touch_dispatcher\cctouch.h(60) : see declaration of 'cocos2d::CCTouch::locationInView'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(282): warning C4996: 'cocos2d::CCSequence::actions': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninterval.h(118) : see declaration of 'cocos2d::CCSequence::actions'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(282): warning C4996: 'cocos2d::CCCallFuncN::actionWithTarget': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(301) : see declaration of 'cocos2d::CCCallFuncN::actionWithTarget'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(282): warning C4996: 'cocos2d::CCMoveTo::actionWithDuration': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninterval.h(352) : see declaration of 'cocos2d::CCMoveTo::actionWithDuration'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(339): warning C4996: 'cocos2d::CCDelayTime::actionWithDuration': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninterval.h(760) : see declaration of 'cocos2d::CCDelayTime::actionWithDuration'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(340): warning C4996: 'cocos2d::CCCallFuncND::actionWithTarget': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninstant.h(338) : see declaration of 'cocos2d::CCCallFuncND::actionWithTarget'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(341): warning C4996: 'cocos2d::CCSequence::actions': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\actions\ccactioninterval.h(118) : see declaration of 'cocos2d::CCSequence::actions'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(360): warning C4996: 'cocos2d::CCTouch::locationInView': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\touch_dispatcher\cctouch.h(60) : see declaration of 'cocos2d::CCTouch::locationInView'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(367): warning C4996: 'cocos2d::CCTouch::locationInView': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\touch_dispatcher\cctouch.h(60) : see declaration of 'cocos2d::CCTouch::locationInView'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(370): warning C4996: 'cocos2d::CCRect::CCRectIntersectsRect': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\cocoa\ccgeometry.h(108) : see declaration of 'cocos2d::CCRect::CCRectIntersectsRect'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(378): warning C4996: 'cocos2d::CCTouch::locationInView': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\touch_dispatcher\cctouch.h(60) : see declaration of 'cocos2d::CCTouch::locationInView'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(381): warning C4996: 'cocos2d::CCRect::CCRectIntersectsRect': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\cocoa\ccgeometry.h(108) : see declaration of 'cocos2d::CCRect::CCRectIntersectsRect'
+     1>e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\protectland\classes\layers\gameobjectlayer.cpp(777): warning C4996: 'cocos2d::CCRect::CCRectIntersectsRect': was declared deprecated
+                 e:\tuyen\tuyen\hk7\game\protect-land\code\cocos2d-2.0-x-2.0.3\cocos2dx\cocoa\ccgeometry.h(108) : see declaration of 'cocos2d::CCRect::CCRectIntersectsRect'
        ResourceCompile:
          All outputs are up-to-date.
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\Debug.win32\ProtectLand.win32.exe" /INCREMENTAL /NOLOGO /LIBPATH:"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\Debug.win32\\" libcocos2d.lib libExtensions.lib opengl32.lib glew32.lib libCocosDenshion.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug.win32\ProtectLand.win32.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\Debug.win32\ProtectLand.win32.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\Debug.win32\ProtectLand.win32.lib" /MACHINE:X86 Debug.win32\ProtectLand.res
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\Debug.win32\ProtectLand.win32.exe" /INCREMENTAL /NOLOGO /LIBPATH:"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\Debug.win32\\" libcocos2d.lib libExtensions.lib opengl32.lib glew32.lib libCocosDenshion.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug.win32\ProtectLand.win32.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\Debug.win32\ProtectLand.win32.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\Debug.win32\ProtectLand.win32.lib" /MACHINE:X86 Debug.win32\ProtectLand.res
          Debug.win32\ProtectLand.win32.exe.embed.manifest.res
          Debug.win32\AppDelegate.obj
+         Debug.win32\Bullet.obj
+         Debug.win32\Monster.obj
+         Debug.win32\Tower.obj
          Debug.win32\HelloWorldScene.obj
          Debug.win32\BackgroundLayer.obj
          Debug.win32\GameObjectLayer.obj
@@ -71,12 +79,12 @@
          All outputs are up-to-date.
        LinkEmbedManifest:
          All outputs are up-to-date.
-         ProtectLand.win32.vcxproj -> D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\Debug.win32\ProtectLand.win32.exe
+         ProtectLand.win32.vcxproj -> E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\Debug.win32\ProtectLand.win32.exe
        FinalizeBuildStatus:
          Deleting file "Debug.win32\ProtectLand.win32.unsuccessfulbuild".
          Touching "Debug.win32\ProtectLand.win32.lastbuildstate".
-     1>Done Building Project "D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\ProtectLand\proj.win32\ProtectLand.win32.vcxproj" (build target(s)).
+     1>Done Building Project "E:\TUYEN\tuyen\hk7\Game\protect-land\Code\cocos2d-2.0-x-2.0.3\ProtectLand\proj.win32\ProtectLand.win32.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:05.15
+Time Elapsed 00:00:05.16
