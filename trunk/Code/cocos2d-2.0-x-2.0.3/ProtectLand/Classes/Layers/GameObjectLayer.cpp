@@ -50,6 +50,7 @@ bool CGameObjectLayer::init()
 		m_checkLose = false;
 		m_time = 0;
 		m_arrMonster = new CCArray;
+		m_arrBullet = new CCArray;
 		m_index = -1;
 
 		isAntTakeWater = false;
@@ -150,7 +151,7 @@ bool CGameObjectLayer::init()
 		m_pAreaShootBullet=m_pAreaShootFireBullet;
 		m_iCurrentBullet=FIRE_BULLET_SMALL;
 		this->addChild(m_pAreaShootBullet);
-		m_vBullet = new vector<Bullet *>();
+		//m_vBullet = new vector<Bullet *>();
 		m_pTouchTemp = new CCPoint();
 		
 	}		
@@ -172,7 +173,7 @@ bool CGameObjectLayer::init()
 void CGameObjectLayer::update(float dt)
 {
 	if(m_bIsTouching) {
-		if(inAreaShoot(&m_pBulletTemp->getSprite()->getPosition())) m_fTimeFire+=dt;
+		if(inAreaShoot(&m_pBulletTemp->getPosition())) m_fTimeFire+=dt;
 		if(m_fTimeFire>1) {
 			updateBullet();
 		}
@@ -259,8 +260,8 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 			
 		}
 
-		CCSprite* t_bullet= m_pBulletTemp->getSprite();
-		t_bullet->setPosition(*m_pTouchTemp);
+		//CCSprite* t_bullet= m_pBulletTemp;
+		m_pBulletTemp->setPosition(*m_pTouchTemp);
 
 		//this->removeChild(
 	}
@@ -481,8 +482,10 @@ void CGameObjectLayer::spriteMoveDone( CCNode* sender )
 {
 	//labelTarget->stopAllActions();
 	//labelTarget->setVisible(false);
-	CCSprite *sprite = (CCSprite *)sender;
+	Bullet *sprite = (Bullet *)sender;
 	this->removeChild(sprite, true);
+	m_arrBullet->removeObject(sprite);
+	
 	//labelTarget->release();
 }
 
@@ -537,14 +540,14 @@ void CGameObjectLayer::addBullet(CCPoint &p)
 	if(m_iCurrentBullet==FIRE_BULLET_SMALL) path="FireBulletSmall.png";
 	else path="WaterBulletSmall.png";
 	CCSprite* sp = CCSprite::create(path);
-
+	sp->setPosition(ccp(0,0));
 	sp->setScale(30.0/128.0);
-	sp->setPosition(CCPoint(p));
 	Bullet *b= new Bullet(m_iCurrentBullet,sp);
 	b->setType(m_iCurrentBullet);
 
 	m_pBulletTemp=b;
-	this->addChild(sp);
+	m_pBulletTemp->setPosition(CCPoint(p));
+	this->addChild(m_pBulletTemp);
 
 
 }
@@ -593,9 +596,12 @@ void CGameObjectLayer::updateBullet()
 	CCSprite* newBullet = CCSprite::create(path);
 
 	newBullet->setScale(50.0/128.0);
-	newBullet->setPosition(m_pBulletTemp->getSprite()->getPosition());
-	Bullet *b= new Bullet(m_iCurrentBullet,newBullet);
+	newBullet->setPosition(ccp(0,0));
+	Bullet* b= new Bullet(m_iCurrentBullet,newBullet);
+	b->setPosition(m_pBulletTemp->getPosition());
+	this->removeChild(m_pBulletTemp,true);
 	m_pBulletTemp=b;
+	this->addChild(m_pBulletTemp);
 	if(m_iCurrentBullet==FIRE_BULLET_BIG) {
 		m_iCurrentBullet=FIRE_BULLET_SMALL;
 		
@@ -604,8 +610,7 @@ void CGameObjectLayer::updateBullet()
 		m_iCurrentBullet=WATER_BULLET_SMALL;
 		
 	}
-	this->removeChild(oldBullet->getSprite(),true);
-	this->addChild(newBullet);
+	
 
 }
 void CGameObjectLayer::shootBullet(){
@@ -621,7 +626,8 @@ void CGameObjectLayer::shootBullet(){
 
 	if(length>20) 
 	{	
-		m_vBullet->push_back(m_pBulletTemp);// add Bullet to vector
+		//m_vBullet->push_back(m_pBulletTemp);// add Bullet to vector
+		m_arrBullet->addObject(m_pBulletTemp);
 		//float velocity= length/m_fTimeFire;
 		float realMoveDuration= 100/length;
 		if(realMoveDuration<0.5) realMoveDuration=0.5;
@@ -629,13 +635,13 @@ void CGameObjectLayer::shootBullet(){
 		sprintf(m_str,"Time:%f",realMoveDuration);
 		CCPoint realDest = getRealDest(X1,Y1,X2,Y2);
 
-		m_pBulletTemp->getSprite()->runAction( CCSequence::actions(
+		m_pBulletTemp->runAction( CCSequence::actions(
 			CCMoveTo::actionWithDuration(realMoveDuration, realDest),
 			CCCallFuncN::actionWithTarget(this,
 			callfuncN_selector(CGameObjectLayer::spriteMoveDone)), 
 			NULL) );
 	}else{
-		this->removeChild(m_pBulletTemp->getSprite(),true);
+		this->removeChild(m_pBulletTemp,true);
 	}
 }
 
