@@ -121,6 +121,7 @@ bool CGameObjectLayer::init()
 
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, TOUCH_PRIORITY_MAIN_LAYER , true);
 	this->setTouchEnabled(true);
+	 
 	this->addChild(this->pMenu, ZODER_GAMEOBJECTLAYER_SPRITE_0, TAG_PMENU);
 
 
@@ -141,10 +142,11 @@ bool CGameObjectLayer::init()
 
 		m_pAreaShootFireBullet=CCSprite::spriteWithFile("AreaShootFireBullet.png",
 			CCRectMake(0,0,AREA_SHOOT_BULLET_WIDTH,AREA_SHOOT_BULLET_HEIGHT));
-		m_pAreaShootFireBullet->setPosition(ccp(size.width/2,AREA_SHOOT_BULLET_HEIGHT));
+		//m_pAreaShootFireBullet->setRotation(90);
+		m_pAreaShootFireBullet->setPosition(ccp(size.width/2,AREA_SHOOT_BULLET_HEIGHT/2.0));
 		m_pAreaShootWaterBullet=CCSprite::spriteWithFile("AreaShootWaterBullet.png",
 			CCRectMake(0,0,AREA_SHOOT_BULLET_WIDTH,AREA_SHOOT_BULLET_HEIGHT));
-		m_pAreaShootWaterBullet->setPosition(ccp(size.width/2,AREA_SHOOT_BULLET_HEIGHT));
+		m_pAreaShootWaterBullet->setPosition(ccp(size.width/2,AREA_SHOOT_BULLET_HEIGHT/2.0));
 		m_pAreaShootBullet=m_pAreaShootFireBullet;
 		m_iCurrentBullet=FIRE_BULLET_SMALL;
 		this->addChild(m_pAreaShootBullet);
@@ -636,6 +638,24 @@ void CGameObjectLayer::shootBullet(){
 		this->removeChild(m_pBulletTemp->getSprite(),true);
 	}
 }
+
+void CGameObjectLayer::ccTouchesBegan(CCSet* touch, CCEvent* touchEvent)  
+{  
+	// Initialization.  
+	
+
+	// Verify whether "UP" keyboard key is pressed or not  
+	if(GetKeyState(VK_UP))  
+	{  
+		
+	}
+
+	// Verify whether "DOWN" keyboard key is pressed or not  
+	if(GetKeyState(VK_DOWN))  
+	{  
+		
+	}  
+} 
 
 void CGameObjectLayer::loadMap(){
 	CCSize size = CCDirector::sharedDirector()->getWinSize();

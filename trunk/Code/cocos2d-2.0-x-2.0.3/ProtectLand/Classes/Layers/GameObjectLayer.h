@@ -99,6 +99,7 @@ private:
 	void updateBullet();
 	void shootBullet();
 
+
 	void checkScore();
 	void spriteMoveDone( CCNode* sender );
 	void tipTextSpriteDone(CCNode* sender);
@@ -136,7 +137,9 @@ public:
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-	
+
+	virtual void ccTouchesBegan(cocos2d::CCSet* touch, cocos2d::CCEvent* touchEvent); 
+
 
 	CREATE_FUNC(CGameObjectLayer);
 };
