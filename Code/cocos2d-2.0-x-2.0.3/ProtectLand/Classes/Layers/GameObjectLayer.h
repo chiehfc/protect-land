@@ -65,7 +65,8 @@ private:
 	CCSprite *m_pAreaShootFireBullet;
 	CCSprite *m_pAreaShootWaterBullet;
 	//Bullet
-	vector<Bullet *> *m_vBullet;
+	//vector<Bullet *> *m_vBullet;
+	CCArray *m_arrBullet;
 	float m_fTimeFire;
 	Bullet *m_pBulletTemp;
 	float length;
