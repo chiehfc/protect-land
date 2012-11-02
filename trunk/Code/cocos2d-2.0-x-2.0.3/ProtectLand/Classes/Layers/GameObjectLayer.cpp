@@ -180,12 +180,14 @@ void CGameObjectLayer::update(float dt)
 		
 		
 		//sprintf(m_str,"%f",m_fTimeFire);
-		m_label->setString( m_str );
+		//m_label->setString( m_str );
 		
 	}
 	creatMonster();
 	attackTower();
+	attackMonster();
 	m_time = m_time + dt;
+	
 }
 
 void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
@@ -634,7 +636,7 @@ void CGameObjectLayer::shootBullet(){
 		if(realMoveDuration>1.5) realMoveDuration=1.5;
 		sprintf(m_str,"Time:%f",realMoveDuration);
 		CCPoint realDest = getRealDest(X1,Y1,X2,Y2);
-
+		sprintf(m_str,"%f %f",m_pBulletTemp->getPosition().x,m_pBulletTemp->getPosition().y);
 		m_pBulletTemp->runAction( CCSequence::actions(
 			CCMoveTo::actionWithDuration(realMoveDuration, realDest),
 			CCCallFuncN::actionWithTarget(this,
@@ -769,7 +771,7 @@ void CGameObjectLayer::loadMap(){
 }
 
 void CGameObjectLayer::creatMonster(){
-	for (int i = 0;i<50;i++)
+	for (int i = 0;i<20;i++)
 	{
 		if(i*4<m_time && i>m_index){
 			int minDuration = (int)0.0;
@@ -861,4 +863,41 @@ void CGameObjectLayer::actionDestroyTower()
 		m_tower->release();
 		m_checkLose = true;
 	}
+}
+
+void CGameObjectLayer::attackMonster()
+{
+	CCArray *monsterToDelete = new CCArray;
+	//for(CCSprite *it in _projectiles){
+	CCObject *it = new CMonster;
+	CCObject *jt = new Bullet;
+	//_projectiles = dynamic_cast<CCSprite*>(it);
+	CCARRAY_FOREACH(m_arrMonster,it){
+		CMonster *monsterD = (CMonster*) it;
+		CCRect monsterRect = CCRectMake(monsterD->getPosition().x - monsterD->m_sprite->getContentSize().width*0.2/2,monsterD->getPosition().y-monsterD->m_sprite->getContentSize().height*0.2/2,monsterD->m_sprite->getContentSize().width*0.2,monsterD->m_sprite->getContentSize().height*0.2);
+		CCArray *bulletsToDelete = new CCArray;
+		CCARRAY_FOREACH(m_arrBullet,jt){
+			Bullet *bulletD = (Bullet*)jt;
+			CCRect bulletRect = CCRectMake(bulletD->getPosition().x- bulletD->m_sprite->getContentSize().width*30.0/128.0/2,bulletD->getPosition().y-bulletD->m_sprite->getContentSize().height*30.0/128.0/2,bulletD->m_sprite->getContentSize().width*30.0/128.0,bulletD->m_sprite->getContentSize().height*30.0/128.0);
+			if(CCRect::CCRectIntersectsRect(monsterRect,bulletRect)){
+				bulletsToDelete->addObject(bulletD);
+			}
+		}
+		CCARRAY_FOREACH(bulletsToDelete,jt){
+			Bullet *bulletD= (Bullet*)jt;
+			m_arrBullet->removeObject(bulletD);
+			this->removeChild(bulletD,true);
+		}
+		if(bulletsToDelete->count() > 0)
+		{
+			monsterToDelete->addObject(monsterD);
+		}
+		bulletsToDelete->release();
+	}
+	CCARRAY_FOREACH(monsterToDelete,it){
+		CMonster* monsterD = (CMonster*)it;
+		m_arrMonster->removeObject(monsterD);
+		this->removeChild(monsterD,true);
+	}
+	monsterToDelete->release();
 }
