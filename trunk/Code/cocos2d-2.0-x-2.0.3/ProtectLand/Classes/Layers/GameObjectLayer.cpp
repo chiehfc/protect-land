@@ -47,6 +47,11 @@ bool CGameObjectLayer::init()
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	//init value
 	{
+		m_checkLose = false;
+		m_time = 0;
+		m_arrMonster = new CCArray;
+		m_index = -1;
+
 		isAntTakeWater = false;
 		isDeleteAround = false;
 		isShowTip = false;
@@ -61,6 +66,7 @@ bool CGameObjectLayer::init()
 	}
 
 	CCSize size = CCDirector::sharedDirector()->getWinSize();	
+	loadMap();
 
 
 
@@ -174,6 +180,9 @@ void CGameObjectLayer::update(float dt)
 		m_label->setString( m_str );
 		
 	}
+	creatMonster();
+	attackTower();
+	m_time = m_time + dt;
 }
 
 void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
@@ -625,5 +634,205 @@ void CGameObjectLayer::shootBullet(){
 			NULL) );
 	}else{
 		this->removeChild(m_pBulletTemp->getSprite(),true);
+	}
+}
+
+void CGameObjectLayer::loadMap(){
+	CCSize size = CCDirector::sharedDirector()->getWinSize();
+	CCSprite* pSprite = CCSprite::create("map.png");
+	//pSprite->getContentSize().width;
+	pSprite->setScaleX((float)size.width/pSprite->getContentSize().width);
+	pSprite->setScaleY((float)size.height/pSprite->getContentSize().height);
+	// position the sprite on the center of the screen
+	pSprite->setPosition( ccp(size.width/2, size.height/2) );
+
+	// add the sprite as a child to this layer
+	this->addChild(pSprite, 0);
+
+	CCPointArray *array1 = CCPointArray::create(20);
+	array1->addControlPoint(ccp(0,0));
+	array1->addControlPoint(ccp(25, 150));
+	array1->addControlPoint(ccp(50, 200));
+	array1->addControlPoint(ccp(100, 250));
+	array1->addControlPoint(ccp(150, 270));
+	array1->addControlPoint(ccp(200, 300));
+	array1->addControlPoint(ccp(250, 320));
+	array1->addControlPoint(ccp(300, 331));
+	array1->addControlPoint(ccp(350, 334));
+	array1->addControlPoint(ccp(400, 335));
+	array1->addControlPoint(ccp(450, 335));
+	array1->addControlPoint(ccp(500, 340));
+	array1->addControlPoint(ccp(550, 351));
+	array1->addControlPoint(ccp(600, 375));
+	array1->addControlPoint(ccp(650, 410));
+	array1->addControlPoint(ccp(700, 440));
+	array1->addControlPoint(ccp(750, 450));
+	array1->addControlPoint(ccp(800, 455));
+	array1->addControlPoint(ccp(850, 455));
+	m_array1 = array1;
+	m_array1->retain();
+
+
+	CCPointArray *array2 = CCPointArray::create(20);
+	array2->addControlPoint(ccp(0,0));
+	array2->addControlPoint(ccp(50, 20));
+	array2->addControlPoint(ccp(100, 50));
+	array2->addControlPoint(ccp(150, 80));
+	array2->addControlPoint(ccp(200, 95));
+	array2->addControlPoint(ccp(250, 100));
+	array2->addControlPoint(ccp(300, 105));
+	array2->addControlPoint(ccp(350, 115));
+	array2->addControlPoint(ccp(400, 130));
+	array2->addControlPoint(ccp(450, 150));
+	array2->addControlPoint(ccp(500, 170));
+	array2->addControlPoint(ccp(550, 210));
+	array2->addControlPoint(ccp(600, 250));
+	array2->addControlPoint(ccp(650, 330));
+	array2->addControlPoint(ccp(675, 380));
+	array2->addControlPoint(ccp(700, 440));
+	array2->addControlPoint(ccp(750, 450));
+	array2->addControlPoint(ccp(800, 455));
+	array2->addControlPoint(ccp(850, 455));
+	m_array2 = array2;
+	m_array2->retain();
+
+	CCPointArray *array3 = CCPointArray::create(20);
+	array3->addControlPoint(ccp(-70,300));
+	array3->addControlPoint(ccp(0,290));
+	//array3->addControlPoint(ccp(25, 300));
+	array3->addControlPoint(ccp(50, 300));
+	array3->addControlPoint(ccp(100, 310));
+	array3->addControlPoint(ccp(150, 320));
+	array3->addControlPoint(ccp(200, 350));
+	array3->addControlPoint(ccp(250, 390));
+	array3->addControlPoint(ccp(300, 420));
+	array3->addControlPoint(ccp(350, 450));
+	array3->addControlPoint(ccp(400, 470));
+	array3->addControlPoint(ccp(450, 480));
+	array3->addControlPoint(ccp(500, 490));
+	array3->addControlPoint(ccp(550, 490));
+	array3->addControlPoint(ccp(600, 480));
+	array3->addControlPoint(ccp(650, 470));
+	array3->addControlPoint(ccp(700, 440));
+	array3->addControlPoint(ccp(750, 450));
+	array3->addControlPoint(ccp(800, 455));
+	array3->addControlPoint(ccp(850, 455));
+	m_array3 = array3;
+	m_array3->retain();
+
+	CCPointArray *array4 = CCPointArray::create(20);
+	array4->addControlPoint(ccp(400, -70));
+	array4->addControlPoint(ccp(450, -30));
+	array4->addControlPoint(ccp(500, 0));
+	array4->addControlPoint(ccp(550, 20));
+	array4->addControlPoint(ccp(600, 80));
+	array4->addControlPoint(ccp(650, 160));
+	array4->addControlPoint(ccp(675, 260));
+	array4->addControlPoint(ccp(700, 320));
+	array4->addControlPoint(ccp(725, 360));
+	array4->addControlPoint(ccp(750, 400));
+	array4->addControlPoint(ccp(800, 440));
+	array4->addControlPoint(ccp(850, 455));
+	m_array4 = array4;
+	m_array4->retain();
+
+
+	m_tower = new CTower(30);
+	m_tower->setPosition(ccp(950,525));
+	this->addChild(m_tower);
+}
+
+void CGameObjectLayer::creatMonster(){
+	for (int i = 0;i<50;i++)
+	{
+		if(i*4<m_time && i>m_index){
+			int minDuration = (int)0.0;
+			int maxDuration = (int)4.0;
+			int rangeDuration = maxDuration - minDuration;
+			//srand(TimgetTicks())
+			int actualDuration = (rand()%rangeDuration) + minDuration;
+			if (actualDuration==1)
+			{
+				CMonster * monsterObj = new CMonster(MONSTER_FIRE,1,12,m_array2);
+				monsterObj->moveMonster();
+				//this->addChild(monsterObj->m_sprite);
+				//monsterObj->setScale(0.2);
+				m_arrMonster->addObject(monsterObj);
+				//monster[i] = new CMonster(MONSTER_FIRE,1,12,m_array);
+				//monster[i]->moveMonster();
+				//this->addChild(monster[i]->m_sprite);
+				this->addChild(monsterObj);
+			}else if(actualDuration==2){
+				CMonster * monsterObj = new CMonster(MONSTER_FIRE,1,12,m_array1);
+				monsterObj->moveMonster();
+				//this->addChild(monsterObj->m_sprite);
+				//monsterObj->setScale(0.2);
+				m_arrMonster->addObject(monsterObj);
+				//monster[i] = new CMonster(MONSTER_FIRE,1,12,m_array);
+				//monster[i]->moveMonster();
+				//this->addChild(monster[i]->m_sprite);
+				this->addChild(monsterObj);
+			}else if(actualDuration==3){
+				CMonster * monsterObj = new CMonster(MONSTER_FIRE,1,12,m_array4);
+				monsterObj->moveMonster();
+				//this->addChild(monsterObj->m_sprite);
+				//monsterObj->setScale(0.2);
+				m_arrMonster->addObject(monsterObj);
+				//monster[i] = new CMonster(MONSTER_FIRE,1,12,m_array);
+				//monster[i]->moveMonster();
+				//this->addChild(monster[i]->m_sprite);
+				this->addChild(monsterObj);
+			}else {
+				CMonster * monsterObj = new CMonster(MONSTER_FIRE,1,12,m_array3);
+				monsterObj->moveMonster();
+				//this->addChild(monsterObj->m_sprite);
+				//monsterObj->setScale(0.2);
+				m_arrMonster->addObject(monsterObj);
+				//monster[i] = new CMonster(MONSTER_FIRE,1,12,m_array);
+				//monster[i]->moveMonster();
+				//this->addChild(monster[i]->m_sprite);
+				this->addChild(monsterObj);
+			}
+			m_index = i;
+		}
+	}
+}
+
+void CGameObjectLayer::attackTower(){
+	if(!m_checkLose){
+		bool check =false;
+		CCRect towerRect = CCRectMake(m_tower->getPosition().x - m_tower->m_sprite->getContentSize().width/2,
+			m_tower->getPosition().y - m_tower->m_sprite->getContentSize().height/2,
+			m_tower->m_sprite->getContentSize().width,m_tower->m_sprite->getContentSize().height);
+		CCObject *it = new CMonster;
+		CMonster *monsterToDele = new CMonster;
+		CCARRAY_FOREACH(m_arrMonster,it){
+			CMonster*jt = (CMonster*)it;
+			CCRect monsterRect = CCRectMake(jt->getPosition().x - jt->getContentSize().width/2,
+				jt->getPosition().y-jt->getContentSize().height/2,
+				jt->getContentSize().width,jt->getContentSize().height);
+			if(CCRect::CCRectIntersectsRect(towerRect,monsterRect)){
+				monsterToDele = jt;
+				actionKillMonster( monsterToDele );
+				//break;
+			}
+		}
+	}
+}
+
+void CGameObjectLayer::actionKillMonster( CMonster* pMonster )
+{
+	m_tower->setHP(m_tower->getHP()-pMonster->getHP());
+	actionDestroyTower();
+	m_arrMonster->removeObject(pMonster);
+	this->removeChild(pMonster, true);
+}
+
+void CGameObjectLayer::actionDestroyTower()
+{
+	if(m_tower->getHP()<=0){
+		this->removeChild(m_tower, true);
+		m_tower->release();
+		m_checkLose = true;
 	}
 }
