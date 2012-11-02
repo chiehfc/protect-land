@@ -105,14 +105,15 @@ private:
 	void spriteMoveDone( CCNode* sender );
 	void tipTextSpriteDone(CCNode* sender);
 	void playSound(CCNode* sender, void* data);	
-	void actionKillMonster(CMonster* pMonster);
-	void actionDestroyTower();
 
 public:	
 	//Sprite	
 	void loadMap();
 	void creatMonster();
 	void attackTower();
+	void actionKillMonster(CMonster* pMonster);
+	void actionDestroyTower();
+	void attackMonster();
 	
 	void menuSubMenuCallback(CCObject* pSender);
 	void menuReplayMenuCallback(CCObject* pSender);
