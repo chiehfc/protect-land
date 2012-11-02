@@ -9,6 +9,9 @@
 #include "GamePlay.h"
 #include "MySprite.h"
 #include "Bullet.h"
+#include "Monster.h"
+#include "Tower.h"
+
 USING_NS_CC;
 
 enum {
@@ -77,6 +80,16 @@ private:
 	int m_iNumWater;
 	int *sound_water_id;
 	int *sound_waterdrop_id;
+
+	CCArray *m_arrMonster;
+	CCPointArray *m_array1;
+	CCPointArray *m_array2;
+	CCPointArray *m_array3;
+	CCPointArray *m_array4;
+	float m_time;
+	int m_index;
+	CTower *m_tower;
+	bool m_checkLose;
 	
 	
 	void changeBullet();
@@ -90,9 +103,14 @@ private:
 	void spriteMoveDone( CCNode* sender );
 	void tipTextSpriteDone(CCNode* sender);
 	void playSound(CCNode* sender, void* data);	
+	void actionKillMonster(CMonster* pMonster);
+	void actionDestroyTower();
 
 public:	
 	//Sprite	
+	void loadMap();
+	void creatMonster();
+	void attackTower();
 	
 	void menuSubMenuCallback(CCObject* pSender);
 	void menuReplayMenuCallback(CCObject* pSender);
@@ -118,7 +136,7 @@ public:
 	virtual bool ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
-	virtual void keyBackClicked();
+	
 
 	CREATE_FUNC(CGameObjectLayer);
 };
