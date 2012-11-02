@@ -16,9 +16,12 @@ class Bullet: public cocos2d::CCSprite
 {
 private:	
 	CC_SYNTHESIZE(int, m_iType, Type);
-	CC_SYNTHESIZE(CCSprite*, m_pSprite, Sprite);
+	//CC_SYNTHESIZE(CCSprite*, m_pSprite, Sprite);
 public:
 	Bullet(int type,CCSprite* p);
+	bool init(CCSprite * p);
+	void onExit();
+	~Bullet();
 };
 
 #endif
