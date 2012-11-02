@@ -10,6 +10,11 @@ Bullet::Bullet(int type,CCSprite* p)
 	//setSprite(p);
 }
 
+Bullet::Bullet()
+{
+
+}
+
 bool Bullet::init(CCSprite * p)
 {
 	if (!CCSprite::init())
@@ -20,7 +25,8 @@ bool Bullet::init(CCSprite * p)
 	
 	//m_pSprite->setPosition(ccp(0,0));
 	//this->setPosition(m_pSprite->getPosition());
-	addChild(p);
+	m_sprite = p;
+	addChild(m_sprite);
 	return true;
 }
 

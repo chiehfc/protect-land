@@ -18,7 +18,9 @@ private:
 	CC_SYNTHESIZE(int, m_iType, Type);
 	//CC_SYNTHESIZE(CCSprite*, m_pSprite, Sprite);
 public:
+	CCSprite *m_sprite;
 	Bullet(int type,CCSprite* p);
+	Bullet();
 	bool init(CCSprite * p);
 	void onExit();
 	~Bullet();
