@@ -57,3 +57,4 @@ void CMonster::onExit()
 	CCSprite::onExit();
 	
 }
+

@@ -90,7 +90,7 @@ void CMenuLayer::menuContinueCallback(CCObject* pSender)
 	/*CAudioManager::instance()->stopAllEff();
 	CAudioManager::instance()->stopBGMusic();*/
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_CLICK_1);
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_MENU_LAYER);
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_COLOR_LAYER);
 	CCDirector::sharedDirector()->resume();

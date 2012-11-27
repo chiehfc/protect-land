@@ -6,6 +6,7 @@ CCScene* CGamePlay::pScene					 = NULL;
 CCLayer* CGamePlay::pMenuLayer				 = NULL;
 CCLayer* CGamePlay::pBackgroundLayer         = NULL;
 CCLayer* CGamePlay::pGameObjectLayer		 = NULL;
+CCLayer* CGamePlay::pSkillLayer              = NULL;
 CLevel*  CGamePlay::m_pCurrentLevel          = NULL;
 int      CGamePlay::s_iNumWoods				 = 0;
 int		 CGamePlay::s_iNumKillThiefTimes	 = 0;
