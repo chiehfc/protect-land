@@ -107,7 +107,7 @@ bool CGameObjectLayer::init()
 
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, TOUCH_PRIORITY_MAIN_LAYER , true);
 	this->setTouchEnabled(true);
-	 
+
 	this->addChild(this->pMenu, ZODER_GAMEOBJECTLAYER_SPRITE_0, TAG_PMENU);
 
 
@@ -119,10 +119,10 @@ bool CGameObjectLayer::init()
 		this->pMoveSprite = NULL;		
 
 		this->pMenu->setEnabled(true);
-	
+
 		m_pBaseTower=CCSprite::spriteWithFile("Tower\\Data\\tower_11.png");
 		m_pBaseTower->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
-		m_iCurrentBullet=FIRE_BULLET_0;
+		m_iCurrentBullet=FIRE_BULLET;
 		this->addChild(m_pBaseTower);
 		m_pTowerItem=new CMySprite("Tower\\tower.sprite");
 		m_pTowerItem->setPosition(ccp(LOCATION_X_TOWER+10,LOCATION_Y_TOWER+20));
@@ -131,17 +131,17 @@ bool CGameObjectLayer::init()
 		m_timeSkill=0;
 		m_isClickSkill=false;
 		m_isClickChangeBullet=false;
-	    m_fSpeed=300;
+		m_fSpeed=1000;
 		m_isFullEmergy=true;
 		m_fTimeRetireBullet=0;
 		m_TimeDelayBullet=0.5;
-		
+		m_levelBullet=BULLET_LEVEL_2;
 	}		
 
 	
 	// TEST
 	// them layskill nhan du kien touch
-	addStarSkill();
+	//addStarSkill();
 
 	
 
@@ -154,13 +154,22 @@ bool CGameObjectLayer::init()
 
 void CGameObjectLayer::update(float dt)
 {
-	
+	//CCLOG("%f",m_fTimeRetireBullet);
+
+	m_fTimeRetireBullet+=dt;
+	if(m_bIsTouching){
+		if(m_fTimeRetireBullet>m_TimeDelayBullet){
+			addBullets(m_pCurrentPoint);
+			m_fTimeRetireBullet=0;
+		}
+	}
+
 	creatMonster();
 	attackTower();
 	attackMonster();
 	m_time = m_time + dt;
-	m_fTimeRetireBullet+= dt;
-	
+
+
 }
 
 void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
@@ -180,7 +189,7 @@ void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
 
 bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 {
-	
+
 	if(CCDirector::sharedDirector()->isPaused()) return false;
 	if(m_bIsTouching)
 	{
@@ -189,12 +198,18 @@ bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 	else
 	{
 
-		
-			m_bIsTouching = true;
-			if(m_fTimeRetireBullet>m_TimeDelayBullet){
-				addBullet(pTouch->getLocation());
-				m_fTimeRetireBullet=0;
-			}
+
+		m_bIsTouching = true;
+		m_pCurrentPoint = pTouch->getLocation();
+		/*
+		if(m_fTimeRetireBullet>m_TimeDelayBullet){
+		addBullets(pTouch->getLocation());
+		m_fTimeRetireBullet=0;
+		}
+		*/
+
+
+
 	}
 	return true;
 }
@@ -204,10 +219,16 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 	if(m_bIsTouching)
 	{
 		m_bIscol = false;
+		m_pCurrentPoint=pTouch->getLocation();
+		/*
 		if(m_fTimeRetireBullet>m_TimeDelayBullet){
-			addBullet(pTouch->getLocation());
-			m_fTimeRetireBullet=0;
+		//addBullets(pTouch->getLocation());
+		m_fTimeRetireBullet=0;
 		}
+		*/
+
+
+
 	}
 }
 
@@ -216,7 +237,10 @@ void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 	if(m_bIsTouching){
 
 		m_bIsTouching = false;	
+
 	}
+
+
 }
 
 void CGameObjectLayer::draw()
@@ -287,7 +311,7 @@ void CGameObjectLayer::spriteMoveDone( CCNode* sender )
 	Bullet *sprite = (Bullet *)sender;
 	this->removeChild(sprite, true);
 	m_arrBullet->removeObject(sprite);
-	
+
 }
 
 void CGameObjectLayer::playSound( CCNode* sender, void* data )
@@ -305,21 +329,54 @@ void CGameObjectLayer::delayWinScene( float dt )
 void CGameObjectLayer::changeBullet()
 {	
 	m_isClickChangeBullet=true;
-	if(m_iCurrentBullet==FIRE_BULLET_0) {
-		m_iCurrentBullet=WATER_BULLET_0;
-		
+	if(m_iCurrentBullet==FIRE_BULLET) {
+		m_iCurrentBullet=WATER_BULLET;
+
 	}
 	else{
-		if(m_iCurrentBullet==WATER_BULLET_0)
-		m_iCurrentBullet=FIRE_BULLET_0;		
+		if(m_iCurrentBullet==WATER_BULLET)
+			m_iCurrentBullet=FIRE_BULLET;
+
 	}
 	
 }
 
-void CGameObjectLayer::addBullet(CCPoint &p)
+void CGameObjectLayer::addBullets(CCPoint &centerPoint)
+{	
+	CCLOG("Shoot: %f",m_fTimeRetireBullet);
+	float angle = -caculateAngle(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER),centerPoint);
+	int a=2;
+	float dx,dy;
+	dx=centerPoint.x - LOCATION_X_TOWER;
+	m_levelBullet=BULLET_LEVEL_3;
+	if(angle<88 && dx>0){
+		switch(m_levelBullet){
+		case BULLET_LEVEL_1:
+			addOneBullet(centerPoint,-angle);
+			break;
+		case BULLET_LEVEL_2:
+
+			dy= dx*tan((angle+a)/(180/PI));
+			addOneBullet(ccp(centerPoint.x, LOCATION_Y_TOWER + dy),-(angle+a/2));
+			dy= dx*tan((angle-a)/(180/PI));
+			addOneBullet(ccp(centerPoint.x, LOCATION_Y_TOWER + dy),-(angle-a/2));
+			break;
+		case BULLET_LEVEL_3:
+			dx=centerPoint.x - LOCATION_X_TOWER;
+			addOneBullet(centerPoint, -angle);
+			dy= dx*tan((angle+a)/(180/PI));
+			addOneBullet(ccp(centerPoint.x, LOCATION_Y_TOWER + dy),-(angle+a));
+			dy= dx*tan((angle-a)/(180/PI));
+			addOneBullet(ccp(centerPoint.x, LOCATION_Y_TOWER + dy),-(angle-a));
+			break;
+		}
+	}
+}
+
+void CGameObjectLayer::addOneBullet(CCPoint &p,float angle)
 {
 	char * path="";
-	if(m_iCurrentBullet==FIRE_BULLET_0) path="Bullets\\data use\\bullets_01.png";
+	if(m_iCurrentBullet==FIRE_BULLET) path="Bullets\\data use\\bullets_01.png";
 	else path="Bullets\\data use\\bullets_01.png";
 	CCSprite* sp = CCSprite::create(path);
 	sp->setPosition(ccp(0,0));
@@ -327,10 +384,7 @@ void CGameObjectLayer::addBullet(CCPoint &p)
 	Bullet *newBullet= new Bullet(m_iCurrentBullet,sp);
 	newBullet->setType(m_iCurrentBullet);
 	newBullet->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
-	//caculate Angle Rotate
-
-	///////////////////////
-
+	newBullet->setRotation(angle);
 	this->addChild(newBullet);
 	m_arrBullet->addObject(newBullet);
 	CCPoint realDest = getDestination(p.x,p.y);
@@ -346,16 +400,17 @@ void CGameObjectLayer::addBullet(CCPoint &p)
 
 }
 
-float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1,CCPoint v2)
+float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
 {
-	return 0.0f;
+
+	float dx=v1.x - v.x;
+	float dy=v1.y - v.y;
+
+	float angle=-atan(dy/dx);
+	angle = angle/(PI/180);
+	return angle;
 }
-bool CGameObjectLayer::inAreaShoot(const CCPoint *p)
-{
-	CCSize size = CCDirector::sharedDirector()->getWinSize();
-	return (p->x >= size.width/2 - AREA_SHOOT_BULLET_WIDTH/2) && (p->x <= size.width/2 + AREA_SHOOT_BULLET_WIDTH/2)
-		&&(p->y >= 40 - AREA_SHOOT_BULLET_HEIGHT/2) && (p->y <= 40 + AREA_SHOOT_BULLET_HEIGHT/2);
-}
+
 
 CCPoint CGameObjectLayer::getDestination(float X,float Y)
 {
@@ -368,7 +423,7 @@ CCPoint CGameObjectLayer::getDestination(float X,float Y)
 	float Vy=t*(Y-LOCATION_Y_TOWER);
 	float DestX=X;
 	float DestY=Y;
-	
+
 	do{
 
 		DestX+= Vx;
@@ -381,7 +436,7 @@ CCPoint CGameObjectLayer::getDestination(float X,float Y)
 }
 void CGameObjectLayer::updateBullet()
 {
-	
+
 
 }
 
@@ -401,7 +456,7 @@ bool CGameObjectLayer::isSelectSkill(CCPoint *p)
 		return false;
 	}
 	return false;
-	
+
 }
 
 void  CGameObjectLayer::addStarSkill(){
@@ -417,7 +472,7 @@ void  CGameObjectLayer::addStarSkill(){
 	CGamePlay::pSkillLayer = CSkillLayer::create();
 	CGamePlay::pScene->addChild(CGamePlay::pSkillLayer, ZODER_GAMEPLAY_MENU_LAYER, TAG_GAMEPLAY_MENU_LAYER);
 	CGamePlay::pScene->addChild(PBlurLayer, ZORDER_GAMEPLAY_COLOR_LAYER, TAG_GAMEPLAY_COLOR_LAYER);
-	
+
 
 }
 void CGameObjectLayer::loadMap(){
