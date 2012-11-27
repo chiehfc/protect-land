@@ -11,7 +11,6 @@ bool CSkillLayer::init()
 		return false;
 	}
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 10 , true);
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this,100,true);
 	
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	float dx=s.width/2.0-125;
@@ -61,4 +60,10 @@ void CSkillLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 void CSkillLayer::update(float dt)
 {
 
+}
+
+void CSkillLayer::onEnter()
+{
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+	this->setTouchEnabled(true);
 }

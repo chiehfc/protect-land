@@ -55,26 +55,13 @@ bool CGameObjectLayer::init()
 		m_arrBullet = new CCArray;
 		m_index = -1;
 
-		isAntTakeWater = false;
-		isDeleteAround = false;
-		isShowTip = false;
-		m_bIsChooseKillThief = false;
-		m_iNumWater = CGamePlay::getCurrentLevel()->getIntValue(LEVEL_ID_NUMWATER);
-		this->m_pBeet = NULL;
-		this->m_pTeleport = NULL;
-		this->pTarget = NULL;
-		this->pThief  = NULL;
-		this->m_pSpriteWood = NULL;
+		
+		
 
 	}
 
 	CCSize size = CCDirector::sharedDirector()->getWinSize();	
 	loadMap();
-
-
-
-	sound_water_id =  new int(SOUND_WATER_1);
-	sound_waterdrop_id =  new int(SOUND_ALARM_WATER_DROP_1);
 
 
 
@@ -85,8 +72,6 @@ bool CGameObjectLayer::init()
 			"PauseGameSelected.png",
 			this,
 			menu_selector(CGameObjectLayer::menuSubMenuCallback));
-		//pSubMenu->setScaleX((float)size.width/WIDTH_SCREEN);
-		//pSubMenu->setScaleY((float)size.height/HEIGHT_SCREEN);
 		pSubMenu->setPosition( ccp(s.width -70 , s.height -40) );
 		this->pMenu = CCMenu::create(pSubMenu, NULL);
 		this->pMenu->setPosition( CCPointZero );	
@@ -96,8 +81,6 @@ bool CGameObjectLayer::init()
 			"ReplaySelected.png",
 			this,
 			menu_selector(CGameObjectLayer::menuReplayMenuCallback));
-		/*pReplay->setScaleX((float)size.width/WIDTH_SCREEN);
-		pReplay->setScaleY((float)size.height/HEIGHT_SCREEN);*/
 		pReplay->setPosition( ccp(s.width -140, s.height -40) );
 		this->pMenu->addChild(pReplay);
 
@@ -130,15 +113,11 @@ bool CGameObjectLayer::init()
 
 	//=======INIT VALUE=======//
 	{
-		m_iTouchedItem = NONITEM;
 		m_bIscol = false;
 		m_bIsTouching = false;
 		this->m_pObject = NULL;
-		this->pMoveSprite = NULL;
-		this->pSpriteTip = NULL;
-		pTipText1 = NULL;
-		m_bIsAllowTouchKillThief = false;
-		m_bIsStopPlay = false;
+		this->pMoveSprite = NULL;		
+
 		this->pMenu->setEnabled(true);
 	
 		m_pBaseTower=CCSprite::spriteWithFile("Tower\\Data\\tower_11.png");
@@ -158,13 +137,13 @@ bool CGameObjectLayer::init()
 		m_TimeDelayBullet=0.5;
 		
 	}		
-	//DEBUG 
-	m_label = CCLabelTTF::labelWithString(m_str, "Arial", 24);
 
-	m_label->setPosition( ccp(size.width/2,size.height/2) );
-	this->addChild( m_label );
-	/////////////////
+	
+	// TEST
+	// them layskill nhan du kien touch
+	addStarSkill();
 
+	
 
 	CAudioManager::instance()->stopAllEff();
 	CAudioManager::instance()->stopBGMusic();
@@ -180,16 +159,12 @@ void CGameObjectLayer::update(float dt)
 	attackTower();
 	attackMonster();
 	m_time = m_time + dt;
-	m_fTimeRetireBullet+=dt;
+	m_fTimeRetireBullet+= dt;
 	
 }
 
 void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
-{
-	//cai in menu no xu ly tai day 
-	//khi may kich vo nut pause game do
-	//CMenuLayer la cai layer dc them vo, tuong ung voi SkillLayer cua may
-	//ok
+{	
 	if(CCDirector::sharedDirector()->isPaused()) return;
 	CAudioManager::instance()->playEff(SOUND_CLICK_1);
 	this->pMenu->setEnabled(false);
@@ -220,14 +195,7 @@ bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 				addBullet(pTouch->getLocation());
 				m_fTimeRetireBullet=0;
 			}
-			
-			
-
-	
 	}
-
-
-
 	return true;
 }
 
@@ -235,20 +203,12 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 {	
 	if(m_bIsTouching)
 	{
-		
-		
 		m_bIscol = false;
-		//CCPoint direction;
-		//CCPoint touchPoint = CCDirector::sharedDirector()->convertToGL(pTouch->locationInView());
 		if(m_fTimeRetireBullet>m_TimeDelayBullet){
 			addBullet(pTouch->getLocation());
 			m_fTimeRetireBullet=0;
 		}
-
-		
-
 	}
-
 }
 
 void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
@@ -256,134 +216,12 @@ void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 	if(m_bIsTouching){
 
 		m_bIsTouching = false;	
-		
 	}
-	
-	
 }
 
 void CGameObjectLayer::draw()
 {
 
-}
-
-void CGameObjectLayer::gameLogic( float dt )
-{
-
-	index += (int) m_iNumWater/3;
-	if (index == m_iNumWater)
-	{
-		if(CGamePlay::getCurrentLevel()->getIntValue(LEVEL_ID_NUMTHIEF) > 0)
-		{
-			if (!m_bIsAllowTouchKillThief) {
-				m_bIsAllowTouchKillThief = true;
-				CAudioManager::instance()->playEff(SOUND_ENABLE_BUTTON);
-			}
-			if (CGamePlay::getLevel() == 2 && !isShowTip)
-			{
-				isShowTip = true;
-				//show hand
-				{
-					CCSprite * pSprite = CCSprite::create("hand_mode_choose.png");
-					pSprite->setPosition( ccp(m_pSpriteKillThief->getPositionX() , m_pSpriteKillThief->getPositionY() - 40 ));
-					pSprite->setScale(0.6f);
-					addChild(pSprite, ZODER_GAMEOBJECTLAYER_FRONT_0);
-					pSprite->setOpacity(0);
-					CCActionInterval*  a1 = CCFadeIn::create(1.5f);
-					CCActionInterval* fade_out = CCFadeOut::create(1.0f);
-					CCAction*  action2;
-					action2 = CCSequence::create(a1,fade_out, NULL);	
-					pSprite->runAction(action2);
-				}
-				//show text
-				{
-					pTipText1 = CCSprite::create("tipTextKillThief2.png");
-					pTipText1->setPosition( ccp(m_pSpriteKillThief->getPositionX() - 230 , m_pSpriteKillThief->getPositionY() + 50));
-					pTipText1->setScale(0.7f);
-					addChild(pTipText1, ZODER_GAMEOBJECTLAYER_FRONT_0);
-					pTipText1->setOpacity(0);
-					CCActionInterval*  a1 = CCFadeIn::create(1.5f);
-					CCActionInterval* fade_out = CCFadeOut::create(1.0f);
-					CCAction*  action2;
-					action2 = CCSequence::create(a1,fade_out, NULL);
-					pTipText1->runAction(action2);
-				}				
-			}
-		}
-	}
-	CCDelayTime *delayAction = CCDelayTime::actionWithDuration(2.0f);
-	cocos2d::CCCallFuncND* callFunc = CCCallFuncND::actionWithTarget(this, callfuncND_selector(CWinScene::playSound) ,(void*) sound_water_id);
-	this->runAction(CCSequence::actions(delayAction, callFunc, NULL));
-}
-
-void CGameObjectLayer::openBox( float dt )
-{
-	CAudioManager::instance()->stopAllEff();
-}
-
-void CGameObjectLayer::addElement()
-{
-
-}
-
-bool CGameObjectLayer::checkColision(CCTouch* pTouch, int ID )
-{
-	switch(ID)
-	{
-	case MENU_ITEM_WOOD:
-		if(CCDirector::sharedDirector()->convertToGL(pTouch->locationInView()).x >= MENU_BODER_LEFT*SCREEN_WIDTH_RATIO_PORT
-			&& CCDirector::sharedDirector()->convertToGL(pTouch->locationInView()).y >= MENU_BODER_BOTTOM*SCREEN_HEIGHT_RATION_PORT)
-		{
-			return true;
-		}	
-
-		for(int i = 0; i < CGamePlay::getCurrentLevel()->getIntValue(LEVEL_ID_NUMTARGET); i++)
-		{
-			CCRect touchRec = CCRectMake((CCDirector::sharedDirector()->convertToGL(pTouch->locationInView())).x - WOOD_BOUNDINGBOX_WIDTH/2.0f , (CCDirector::sharedDirector()->convertToGL(pTouch->locationInView())).y - WOOD_BOUNDINGBOX_HEIGHT/2.0f , WOOD_BOUNDINGBOX_WIDTH, WOOD_BOUNDINGBOX_HEIGHT);
-			CCRect objRec   = CCRectMake((CGamePlay::getCurrentLevel()->getObjectList(LEVEL_ID_TARGETLIST)[i].position).x - COCONUT_WIDTH/2.0f , (CGamePlay::getCurrentLevel()->getObjectList(LEVEL_ID_TARGETLIST)[i].position).y - COCONUT_WIDTH/2.0f, COCONUT_WIDTH, COCONUT_HEIGHT);
-
-			if(CCRect::CCRectIntersectsRect(touchRec, objRec))
-			{			
-				return true;
-			}
-		}
-
-		for(int i = 0; i < CGamePlay::getCurrentLevel()->getIntValue(LEVEL_ID_NUMROCK); i++)
-		{
-			CCRect touchRec = CCRectMake((CCDirector::sharedDirector()->convertToGL(pTouch->locationInView())).x - WOOD_BOUNDINGBOX_WIDTH/2.0f , (CCDirector::sharedDirector()->convertToGL(pTouch->locationInView())).y - WOOD_BOUNDINGBOX_HEIGHT/2.0f , WOOD_BOUNDINGBOX_WIDTH, WOOD_BOUNDINGBOX_HEIGHT);
-			CCRect objRec   = CCRectMake((CGamePlay::getCurrentLevel()->getObjectList(LEVEL_ID_ROCK_LIST)[i].position).x - ROCK_WIDTH/2.0f , (CGamePlay::getCurrentLevel()->getObjectList(LEVEL_ID_ROCK_LIST)[i].position).y - ROCK_HEIGHT/2.0f, ROCK_WIDTH, ROCK_HEIGHT);
-
-			if(CCRect::CCRectIntersectsRect(touchRec, objRec))
-			{
-				return true;
-			}
-		}
-		break;
-	default:
-		break;
-	}
-	return false;
-}
-
-void CGameObjectLayer::checkScore()
-{
-	int scores = 0;
-	int countLiqiudToStop = 0;		
-
-	if(CGamePlay::getValue(SCORE)%20 == 0 && scores >  CGamePlay::getValue(SCORE))
-	{
-		CAudioManager::instance()->playEff(SOUND_WATER_3);
-	}
-	CGamePlay::addValue(SCORE,scores - CGamePlay::getValue(SCORE));	
-
-	if(countLiqiudToStop == m_iNumWater && !m_bIsStopPlay) 
-	{
-		CAudioManager::instance()->stopAllEff();
-		m_bIsStopPlay = true;
-		int valueItemRemain = CGamePlay::getValue(OBJECT_ITEM_KILLTHIEF)*SCORE_BONUS_KILLTHIEF + CGamePlay::getValue(OBJECT_ITEM_WOOD)*SCORE_BONUS_WOOD;
-		CGamePlay::addValue(BONUS,valueItemRemain );
-		this->schedule(schedule_selector(CGameObjectLayer::delayWinScene), 1.5f, 0, 0); //, 0,  CGamePlay::getCurrentLevel()->getIntValue(LEVEL_ID_TIME_OPEN_BOX));
-	}
 }
 
 void CGameObjectLayer::menuReplayMenuCallback( CCObject* pSender )
@@ -437,34 +275,15 @@ void CGameObjectLayer::menuMuteMenuCallback( CCObject* pSender )
 	}
 }
 
-void CGameObjectLayer::shakeBeet( float dt )
-{
-	if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF || CAudioManager::instance()->GetSound()==SOUND_EFF )
-		CAudioManager::instance()->playEff(SOUND_ALARM_WATER_DROP_1,true);
 
-}
 
 void CGameObjectLayer::onExit()
 {
-#ifdef DEBUGMODE
-	CCLOG("Exit Gameobject Layer");
-#endif // DEBUGMODE
-
-	if(this->pThief != NULL)
-		CC_SAFE_DELETE(this->pThief);
-
-	delete sound_water_id;
-	delete sound_waterdrop_id;
-	//m_pSpriteList->removeAllObjects();
-	//this->removeAllChildrenWithCleanup(true);
-	//m_pSpriteList->release();
 
 }
 
 void CGameObjectLayer::spriteMoveDone( CCNode* sender )
 {
-	//labelTarget->stopAllActions();
-	//labelTarget->setVisible(false);
 	Bullet *sprite = (Bullet *)sender;
 	this->removeChild(sprite, true);
 	m_arrBullet->removeObject(sprite);
@@ -477,25 +296,7 @@ void CGameObjectLayer::playSound( CCNode* sender, void* data )
 		CAudioManager::instance()->playEff(*(int*)data);
 }		
 
-void CGameObjectLayer::tipTextSpriteDone( CCNode* sender )
-{
 
-
-	//show text
-	{
-		pTipText1->setVisible(false);
-		CCSprite* pSprite = CCSprite::create("tipTextKillThief3.png");
-		pSprite->setPosition( ccp(m_pSpriteKillThief->getPositionX() - 230 , m_pSpriteKillThief->getPositionY() + 10));
-		pSprite->setScale(0.7f);
-		addChild(pSprite, ZODER_GAMEOBJECTLAYER_FRONT_0);	
-		CCActionInterval*  a1 = CCFadeIn::create(0.7f);
-		CCActionInterval*  a2 = CCMoveBy::create(1.0f, ccp(0, 0));
-		CCActionInterval* fade_out = CCFadeOut::create(1.0f);
-		CCAction*  action2;
-		action2 = CCRepeat::create(CCSequence::create(a1, a2, fade_out, NULL), 1);	
-		pSprite->runAction(action2);
-	}
-}
 
 void CGameObjectLayer::delayWinScene( float dt )
 {
@@ -510,21 +311,9 @@ void CGameObjectLayer::changeBullet()
 	}
 	else{
 		if(m_iCurrentBullet==WATER_BULLET_0)
-		m_iCurrentBullet=FIRE_BULLET_0;
-		
+		m_iCurrentBullet=FIRE_BULLET_0;		
 	}
-	/*
-	this->removeChild(m_pAreaShootBullet, false);
-	if(m_iCurrentBullet==FIRE_BULLET_0) {
-		m_iCurrentBullet=WATER_BULLET_0;
-		m_pAreaShootBullet=m_pAreaShootWaterBullet;
-	}
-	else{
-		m_iCurrentBullet=FIRE_BULLET_0;
-		m_pAreaShootBullet=m_pAreaShootFireBullet;
-	}
-	this->addChild(m_pAreaShootBullet);
-	*/
+	
 }
 
 void CGameObjectLayer::addBullet(CCPoint &p)
@@ -553,13 +342,13 @@ void CGameObjectLayer::addBullet(CCPoint &p)
 		CCMoveTo::actionWithDuration(timeMoveDuration, realDest),
 		CCCallFuncN::actionWithTarget(this,
 		callfuncN_selector(CGameObjectLayer::spriteMoveDone)), 
-		NULL) );
+		NULL));
 
 }
 
 float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1,CCPoint v2)
 {
-	
+	return 0.0f;
 }
 bool CGameObjectLayer::inAreaShoot(const CCPoint *p)
 {
@@ -595,39 +384,7 @@ void CGameObjectLayer::updateBullet()
 	
 
 }
-/*
-void CGameObjectLayer::shootBullet(){
-	float X1=m_pTouchbegin->x;
-	float Y1=m_pTouchbegin->y;	
-	float X2=m_pTouchend->x;
-	float Y2=m_pTouchend->y;
 
-	float Dx=X2-X1;
-	float Dy=Y2-Y1;
-	// Determine speed of the target
-	length += sqrt(Dx*Dx+Dy*Dy);
-
-	if(length>20) 
-	{	
-		//m_vBullet->push_back(m_pBulletTemp);// add Bullet to vector
-		m_arrBullet->addObject(m_pBulletTemp);
-		//float velocity= length/m_fTimeFire;
-		float realMoveDuration= 100/length;
-		if(realMoveDuration<0.5) realMoveDuration=0.5;
-		if(realMoveDuration>1.5) realMoveDuration=1.5;
-		sprintf(m_str,"Time:%f",realMoveDuration);
-		CCPoint realDest = getRealDest(X1,Y1,X2,Y2);
-		sprintf(m_str,"%f %f",m_pBulletTemp->getPosition().x,m_pBulletTemp->getPosition().y);
-		m_pBulletTemp->runAction( CCSequence::actions(
-			CCMoveTo::actionWithDuration(realMoveDuration, realDest),
-			CCCallFuncN::actionWithTarget(this,
-			callfuncN_selector(CGameObjectLayer::spriteMoveDone)), 
-			NULL) );
-	}else{
-		this->removeChild(m_pBulletTemp,true);
-	}
-}
-*/
 bool CGameObjectLayer::isSelectSkill(CCPoint *p)
 {
 	if(m_isFullEmergy){
@@ -650,9 +407,9 @@ bool CGameObjectLayer::isSelectSkill(CCPoint *p)
 void  CGameObjectLayer::addStarSkill(){
 	CCLOG("Click Skill");
 	if(CCDirector::sharedDirector()->isPaused()) return;
-	//CAudioManager::instance()->playEff(SOUND_CLICK_1);
-	//this->pMenu->setEnabled(false);
-	CCDirector::sharedDirector()->pause();
+	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
+	//this->setTouchEnabled(false);
+	//CCDirector::sharedDirector()->pause();
 	CCLayerColor *PBlurLayer = CCLayerColor::create();
 	PBlurLayer->setOpacityModifyRGB(true);
 	PBlurLayer->setColor(ccc3(0,0,0));
@@ -769,7 +526,7 @@ void CGameObjectLayer::loadMap(){
 }
 
 void CGameObjectLayer::creatMonster(){
-	for (int i = 0;i<20;i++)
+	for (int i = 0; i<20; i++)
 	{
 		if(i*4<m_time && i>m_index){
 			int minDuration = (int)0.0;

@@ -19,6 +19,7 @@ public:
 	CSkillLayer();
 	~CSkillLayer();
 	virtual bool init();
+	virtual void onEnter();
 	void addSphere(CCSprite *m_sprite,char *path,int x,int y);
 	virtual void onExit();
 	virtual void update(float dt);
