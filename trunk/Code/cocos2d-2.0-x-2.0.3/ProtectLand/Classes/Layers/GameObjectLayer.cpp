@@ -49,6 +49,7 @@ bool CGameObjectLayer::init()
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	//init value
 	{
+		oneMonster =false;
 		m_checkLose = false;
 		m_time = 0;
 		m_arrMonster = new CCArray;
@@ -163,8 +164,11 @@ void CGameObjectLayer::update(float dt)
 			m_fTimeRetireBullet=0;
 		}
 	}
-	if(m_time >4 && m_time <4.1){
-		creatMonster();
+	if(!oneMonster){
+		if(m_time >4 && m_time <4.1){
+			creatMonster();
+			oneMonster = true;
+		}
 	}
 	//attackTower();
 	//attackMonster();
