@@ -33,11 +33,7 @@ CCScene* CGamePlay::scene()
 		CGamePlay::pGameObjectLayer = CGameObjectLayer::create();
     	// add layer as a child to scene
 		//CGamePlay::pScene->addChild(CGamePlay::pBackgroundLayer, ZODER_GAMEPLAY_BACKGROUND_LAYER, TAG_GAMEPLAY_BACKGROUND_LAYER);
-		CGamePlay::pScene->addChild(CGamePlay::pGameObjectLayer, ZODER_GAMEPLAY_GAME_OBJECT_LAYER, TAG_GAMEPLAY_GAME_OBJECT_LAYER);
-		((CGameObjectLayer* )CGamePlay::pGameObjectLayer)->addElement();
-		CMySprite *m_sprite = new CMySprite("stitch_lose.sprite");
-		CGamePlay::pGameObjectLayer->addChild(m_sprite,ZODER_GAMEOBJECTLAYER_FRONT_2, TAG_STITCH_LOSE);
-		m_sprite->setVisible(false);
+		CGamePlay::pScene->addChild(CGamePlay::pGameObjectLayer, ZODER_GAMEPLAY_GAME_OBJECT_LAYER, TAG_GAMEPLAY_GAME_OBJECT_LAYER);			
 
 		return CGamePlay::pScene;
 	}
