@@ -492,7 +492,7 @@ void CGameObjectLayer::loadMap(){
 }
 
 void CGameObjectLayer::creatMonster(){
-	CMonster * newMonster = new CMonster(WATER_MONSTER,LEVEL1_MONSTER);
+	CMonster * newMonster = new CMonster(FIRE_MONSTER,LEVEL1_MONSTER);
 	this->addChild(newMonster);
 	m_arrMonster->addObject(newMonster);
 }
