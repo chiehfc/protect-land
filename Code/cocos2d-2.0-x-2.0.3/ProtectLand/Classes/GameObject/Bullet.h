@@ -1,7 +1,11 @@
 #ifndef __BULLET_OBJECT_H__
 #define __BULLET_OBJECT_H__ 
 //TYPE BULLET
-
+#define BULLET_LEVEL_1 1
+#define BULLET_LEVEL_2 2
+#define BULLET_LEVEL_3 3
+#define FIRE_BULLET 9
+#define WATER_BULLET 10
 #include "cocos2d.h"
 
 USING_NS_CC;

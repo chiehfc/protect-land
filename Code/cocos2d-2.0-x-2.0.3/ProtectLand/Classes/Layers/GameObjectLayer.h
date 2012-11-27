@@ -49,8 +49,10 @@ private:
 	bool m_isClickChangeBullet;
 	//Bullet
 	float m_fSpeed;
+	CCPoint m_pCurrentPoint;
 	float m_fTimeRetireBullet;
     float m_TimeDelayBullet;
+	int m_levelBullet;
 	//Skill
 	CCSprite *m_pSkill;
 	float m_timeSkill;
@@ -77,12 +79,13 @@ private:
 	
 	
 	void changeBullet();
-	void addBullet(CCPoint &p);
-	bool inAreaShoot(const CCPoint *p);
+	void addOneBullet(CCPoint &p,float angle);
+	void addBullets(CCPoint &centerPoint);
+	
 	bool isSelectSkill(CCPoint *p);
 	CCPoint getDestination(float X,float Y);
 	void updateBullet();
-	float caculateAngle(CCPoint v,CCPoint v1,CCPoint v2);
+	float caculateAngle(CCPoint v,CCPoint v1);
 	void removeStarSkill();
 	void addStarSkill();
 	

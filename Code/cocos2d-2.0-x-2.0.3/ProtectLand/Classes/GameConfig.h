@@ -368,7 +368,7 @@ enum MonsterType
 #define  LOGE CCLOG
 #endif
 
-#endif
+
 
 
 
@@ -386,14 +386,6 @@ DEFINE	AREA SHOOT SIZE
 #define AREA_SHOOT_BULLET_WIDTH 240
 #define AREA_SHOOT_BULLET_HEIGHT 128
 
-/* 
-BULLET
-*/
-#define MAX_NUMBER_BULLET 5
-#define MAX_LENGTH_MOVE 300 
-
-#define FIRE_BULLET_0 0
-#define WATER_BULLET_0 2
 /*
 SKILL
 */
@@ -405,4 +397,6 @@ TOWER
 #define FIRE_TOWER 0
 #define WATER_TOWER 1
 #define LOCATION_X_TOWER 82
-#define LOCATION_Y_TOWER 290
+#define LOCATION_Y_TOWER 335
+
+#endif
