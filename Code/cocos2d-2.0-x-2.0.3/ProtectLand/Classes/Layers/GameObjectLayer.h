@@ -76,6 +76,7 @@ private:
 	int m_index;
 	CTower *m_tower;
 	bool m_checkLose;
+	bool oneMonster;
 	
 	
 	void changeBullet();
