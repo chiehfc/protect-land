@@ -3,7 +3,6 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "IntroScene.h"
 #include "MainMenuScene.h"
 #include "SelectLevelScene.h"
 
