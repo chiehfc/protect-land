@@ -4,10 +4,12 @@
 #include "GameConfig.h"
 #include "GamePlay.h"
 #include "MenuLayer.h"
+#include "SkillLayer.h"
 
 #include "WinScene.h"
 #include "AudioManager.h"
 #include "Bullet.h"
+
 #if DEBUG_MODE
 #include "MemoryManager.h"
 #include "MemoryOperators.h"
@@ -129,8 +131,6 @@ bool CGameObjectLayer::init()
 	//=======INIT VALUE=======//
 	{
 		m_iTouchedItem = NONITEM;
-		m_pTouchbegin = NULL;
-		m_pTouchend=NULL;
 		m_bIscol = false;
 		m_bIsTouching = false;
 		this->m_pObject = NULL;
@@ -140,19 +140,22 @@ bool CGameObjectLayer::init()
 		m_bIsAllowTouchKillThief = false;
 		m_bIsStopPlay = false;
 		this->pMenu->setEnabled(true);
-
-		m_pAreaShootFireBullet=CCSprite::spriteWithFile("AreaShootFireBullet.png",
-			CCRectMake(0,0,AREA_SHOOT_BULLET_WIDTH,AREA_SHOOT_BULLET_HEIGHT));
-		//m_pAreaShootFireBullet->setRotation(90);
-		m_pAreaShootFireBullet->setPosition(ccp(size.width/2,AREA_SHOOT_BULLET_HEIGHT/2.0));
-		m_pAreaShootWaterBullet=CCSprite::spriteWithFile("AreaShootWaterBullet.png",
-			CCRectMake(0,0,AREA_SHOOT_BULLET_WIDTH,AREA_SHOOT_BULLET_HEIGHT));
-		m_pAreaShootWaterBullet->setPosition(ccp(size.width/2,AREA_SHOOT_BULLET_HEIGHT/2.0));
-		m_pAreaShootBullet=m_pAreaShootFireBullet;
-		m_iCurrentBullet=FIRE_BULLET_SMALL;
-		this->addChild(m_pAreaShootBullet);
-		//m_vBullet = new vector<Bullet *>();
-		m_pTouchTemp = new CCPoint();
+	
+		m_pBaseTower=CCSprite::spriteWithFile("Tower\\Data\\tower_11.png");
+		m_pBaseTower->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
+		m_iCurrentBullet=FIRE_BULLET_0;
+		this->addChild(m_pBaseTower);
+		m_pTowerItem=new CMySprite("Tower\\tower.sprite");
+		m_pTowerItem->setPosition(ccp(LOCATION_X_TOWER+10,LOCATION_Y_TOWER+20));
+		this->addChild(m_pTowerItem);
+		m_pTowerItem->PlayAnimation(FIRE_TOWER,0.4f, true, false);
+		m_timeSkill=0;
+		m_isClickSkill=false;
+		m_isClickChangeBullet=false;
+	    m_fSpeed=300;
+		m_isFullEmergy=true;
+		m_fTimeRetireBullet=0;
+		m_TimeDelayBullet=0.5;
 		
 	}		
 	//DEBUG 
@@ -172,27 +175,21 @@ bool CGameObjectLayer::init()
 
 void CGameObjectLayer::update(float dt)
 {
-	if(m_bIsTouching) {
-		if(inAreaShoot(&m_pBulletTemp->getPosition())) m_fTimeFire+=dt;
-		if(m_fTimeFire>1) {
-			updateBullet();
-		}
-		
-		
-		//sprintf(m_str,"%f",m_fTimeFire);
-		//m_label->setString( m_str );
-		
-	}
+	
 	creatMonster();
 	attackTower();
 	attackMonster();
 	m_time = m_time + dt;
+	m_fTimeRetireBullet+=dt;
 	
 }
 
 void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
 {
-
+	//cai in menu no xu ly tai day 
+	//khi may kich vo nut pause game do
+	//CMenuLayer la cai layer dc them vo, tuong ung voi SkillLayer cua may
+	//ok
 	if(CCDirector::sharedDirector()->isPaused()) return;
 	CAudioManager::instance()->playEff(SOUND_CLICK_1);
 	this->pMenu->setEnabled(false);
@@ -208,7 +205,7 @@ void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
 
 bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 {
-
+	
 	if(CCDirector::sharedDirector()->isPaused()) return false;
 	if(m_bIsTouching)
 	{
@@ -217,16 +214,16 @@ bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 	else
 	{
 
-		if(inAreaShoot(&pTouch->getLocation()))
-		{
+		
 			m_bIsTouching = true;
-			m_fTimeFire=0;
-			length=0;
-			m_pTouchbegin = new CCPoint(pTouch->getLocation().x,pTouch->getLocation().y);
-			m_pTouchend = new CCPoint(pTouch->getLocation().x,pTouch->getLocation().y);
-			addBullet(pTouch->getLocation());
+			if(m_fTimeRetireBullet>m_TimeDelayBullet){
+				addBullet(pTouch->getLocation());
+				m_fTimeRetireBullet=0;
+			}
 			
-		}
+			
+
+	
 	}
 
 
@@ -238,34 +235,18 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 {	
 	if(m_bIsTouching)
 	{
-		m_pTouchTemp->setPoint(pTouch->getLocation().x,pTouch->getLocation().y);	
-
-		m_fTimeFire=0;
+		
+		
 		m_bIscol = false;
 		//CCPoint direction;
 		//CCPoint touchPoint = CCDirector::sharedDirector()->convertToGL(pTouch->locationInView());
-
-
-		float x1=m_pTouchend->x;
-		float x2=pTouch->getLocation().x;
-		float y1=m_pTouchend->y;
-		float y2=pTouch->getLocation().y;
-		float d= sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
-		if(d>20){
-			length+=d;
-			m_pTouchbegin->setPoint(m_pTouchend->x,m_pTouchend->y);
-			m_pTouchend->setPoint(pTouch->getLocation().x,pTouch->getLocation().y);
-			if(length>MAX_LENGTH_MOVE){
-				m_bIsTouching=false;
-				shootBullet();
-			}
-			
+		if(m_fTimeRetireBullet>m_TimeDelayBullet){
+			addBullet(pTouch->getLocation());
+			m_fTimeRetireBullet=0;
 		}
 
-		//CCSprite* t_bullet= m_pBulletTemp;
-		m_pBulletTemp->setPosition(*m_pTouchTemp);
+		
 
-		//this->removeChild(
 	}
 
 }
@@ -275,7 +256,7 @@ void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 	if(m_bIsTouching){
 
 		m_bIsTouching = false;	
-		shootBullet();
+		
 	}
 	
 	
@@ -488,7 +469,6 @@ void CGameObjectLayer::spriteMoveDone( CCNode* sender )
 	this->removeChild(sprite, true);
 	m_arrBullet->removeObject(sprite);
 	
-	//labelTarget->release();
 }
 
 void CGameObjectLayer::playSound( CCNode* sender, void* data )
@@ -521,39 +501,66 @@ void CGameObjectLayer::delayWinScene( float dt )
 {
 	CGamePlay::checkWin();
 }
-
 void CGameObjectLayer::changeBullet()
 {	
+	m_isClickChangeBullet=true;
+	if(m_iCurrentBullet==FIRE_BULLET_0) {
+		m_iCurrentBullet=WATER_BULLET_0;
+		
+	}
+	else{
+		if(m_iCurrentBullet==WATER_BULLET_0)
+		m_iCurrentBullet=FIRE_BULLET_0;
+		
+	}
+	/*
 	this->removeChild(m_pAreaShootBullet, false);
-	if(m_iCurrentBullet==FIRE_BULLET_SMALL) {
-		m_iCurrentBullet=WATER_BULLET_SMALL;
+	if(m_iCurrentBullet==FIRE_BULLET_0) {
+		m_iCurrentBullet=WATER_BULLET_0;
 		m_pAreaShootBullet=m_pAreaShootWaterBullet;
 	}
 	else{
-		m_iCurrentBullet=FIRE_BULLET_SMALL;
+		m_iCurrentBullet=FIRE_BULLET_0;
 		m_pAreaShootBullet=m_pAreaShootFireBullet;
 	}
 	this->addChild(m_pAreaShootBullet);
+	*/
 }
 
 void CGameObjectLayer::addBullet(CCPoint &p)
 {
 	char * path="";
-	if(m_iCurrentBullet==FIRE_BULLET_SMALL) path="FireBulletSmall.png";
-	else path="WaterBulletSmall.png";
+	if(m_iCurrentBullet==FIRE_BULLET_0) path="Bullets\\data use\\bullets_01.png";
+	else path="Bullets\\data use\\bullets_01.png";
 	CCSprite* sp = CCSprite::create(path);
 	sp->setPosition(ccp(0,0));
-	sp->setScale(30.0/128.0);
-	Bullet *b= new Bullet(m_iCurrentBullet,sp);
-	b->setType(m_iCurrentBullet);
+	//sp->setScale(30.0/240.0);
+	Bullet *newBullet= new Bullet(m_iCurrentBullet,sp);
+	newBullet->setType(m_iCurrentBullet);
+	newBullet->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
+	//caculate Angle Rotate
 
-	m_pBulletTemp=b;
-	m_pBulletTemp->setPosition(CCPoint(p));
-	this->addChild(m_pBulletTemp);
+	///////////////////////
 
+	this->addChild(newBullet);
+	m_arrBullet->addObject(newBullet);
+	CCPoint realDest = getDestination(p.x,p.y);
+	float dx=realDest.x-LOCATION_X_TOWER;
+	float dy=realDest.y-LOCATION_Y_TOWER;
+	float s=sqrt(dx*dx+dy*dy);
+	float timeMoveDuration= s/m_fSpeed;
+	newBullet->runAction( CCSequence::actions(
+		CCMoveTo::actionWithDuration(timeMoveDuration, realDest),
+		CCCallFuncN::actionWithTarget(this,
+		callfuncN_selector(CGameObjectLayer::spriteMoveDone)), 
+		NULL) );
 
 }
 
+float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1,CCPoint v2)
+{
+	
+}
 bool CGameObjectLayer::inAreaShoot(const CCPoint *p)
 {
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
@@ -561,17 +568,17 @@ bool CGameObjectLayer::inAreaShoot(const CCPoint *p)
 		&&(p->y >= 40 - AREA_SHOOT_BULLET_HEIGHT/2) && (p->y <= 40 + AREA_SHOOT_BULLET_HEIGHT/2);
 }
 
-CCPoint CGameObjectLayer::getRealDest(float X1,float Y1, float X2, float Y2)
+CCPoint CGameObjectLayer::getDestination(float X,float Y)
 {
-	CCSize size = CCDirector::sharedDirector()->getWinSize();
+	CCSize size= CCDirector::sharedDirector()->getWinSize();
 	float t;
-	if(X2-X1!= 0) t= 50/(X2-X1);
-	else t= 50/(Y2-Y1);
+	if(X-LOCATION_X_TOWER!= 0) t= 50/(X-LOCATION_X_TOWER);
+	else t= 50/(Y-LOCATION_Y_TOWER);
 	if(t<0) t=-t;
-	float Vx=t*(X2-X1);
-	float Vy=t*(Y2-Y1);
-	float DestX=X1;
-	float DestY=Y1;
+	float Vx=t*(X-LOCATION_X_TOWER);
+	float Vy=t*(Y-LOCATION_Y_TOWER);
+	float DestX=X;
+	float DestY=Y;
 	
 	do{
 
@@ -585,36 +592,10 @@ CCPoint CGameObjectLayer::getRealDest(float X1,float Y1, float X2, float Y2)
 }
 void CGameObjectLayer::updateBullet()
 {
-	Bullet *oldBullet= m_pBulletTemp;
-	char * path="";
-	if(m_iCurrentBullet==FIRE_BULLET_SMALL) {
-		m_iCurrentBullet=FIRE_BULLET_BIG;
-		path="FireBulletBig.png";
-	}
-	else {
-		m_iCurrentBullet=WATER_BULLET_BIG;
-		path="WaterBulletBig.png";
-	}
-	CCSprite* newBullet = CCSprite::create(path);
-
-	newBullet->setScale(50.0/128.0);
-	newBullet->setPosition(ccp(0,0));
-	Bullet* b= new Bullet(m_iCurrentBullet,newBullet);
-	b->setPosition(m_pBulletTemp->getPosition());
-	this->removeChild(m_pBulletTemp,true);
-	m_pBulletTemp=b;
-	this->addChild(m_pBulletTemp);
-	if(m_iCurrentBullet==FIRE_BULLET_BIG) {
-		m_iCurrentBullet=FIRE_BULLET_SMALL;
-		
-	}
-	else {
-		m_iCurrentBullet=WATER_BULLET_SMALL;
-		
-	}
 	
 
 }
+/*
 void CGameObjectLayer::shootBullet(){
 	float X1=m_pTouchbegin->x;
 	float Y1=m_pTouchbegin->y;	
@@ -646,28 +627,45 @@ void CGameObjectLayer::shootBullet(){
 		this->removeChild(m_pBulletTemp,true);
 	}
 }
+*/
+bool CGameObjectLayer::isSelectSkill(CCPoint *p)
+{
+	if(m_isFullEmergy){
+		CCSize size = CCDirector::sharedDirector()->getWinSize();
+		int xLeft=size.width/2.0 + AREA_SHOOT_BULLET_WIDTH/2 +10;
+		int xRight=xLeft+60;
+		int yMin= 10;
+		int yMax= yMin+60;
+		int realX = p->x;
+		int realY = p->y;
+		if(realY>= yMin && realY<=yMax && realX>=xLeft && realX<=xRight){
+			return true;
+		}
+		return false;
+	}
+	return false;
+	
+}
 
-void CGameObjectLayer::ccTouchesBegan(CCSet* touch, CCEvent* touchEvent)  
-{  
-	// Initialization.  
+void  CGameObjectLayer::addStarSkill(){
+	CCLOG("Click Skill");
+	if(CCDirector::sharedDirector()->isPaused()) return;
+	//CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	//this->pMenu->setEnabled(false);
+	CCDirector::sharedDirector()->pause();
+	CCLayerColor *PBlurLayer = CCLayerColor::create();
+	PBlurLayer->setOpacityModifyRGB(true);
+	PBlurLayer->setColor(ccc3(0,0,0));
+	PBlurLayer->setOpacity(150);
+	CGamePlay::pSkillLayer = CSkillLayer::create();
+	CGamePlay::pScene->addChild(CGamePlay::pSkillLayer, ZODER_GAMEPLAY_MENU_LAYER, TAG_GAMEPLAY_MENU_LAYER);
+	CGamePlay::pScene->addChild(PBlurLayer, ZORDER_GAMEPLAY_COLOR_LAYER, TAG_GAMEPLAY_COLOR_LAYER);
 	
 
-	// Verify whether "UP" keyboard key is pressed or not  
-	if(GetKeyState(VK_UP))  
-	{  
-		
-	}
-
-	// Verify whether "DOWN" keyboard key is pressed or not  
-	if(GetKeyState(VK_DOWN))  
-	{  
-		
-	}  
-} 
-
+}
 void CGameObjectLayer::loadMap(){
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
-	CCSprite* pSprite = CCSprite::create("map.png");
+	CCSprite* pSprite = CCSprite::create("Background\\background_package_level_1.png");
 	//pSprite->getContentSize().width;
 	pSprite->setScaleX((float)size.width/pSprite->getContentSize().width);
 	pSprite->setScaleY((float)size.height/pSprite->getContentSize().height);

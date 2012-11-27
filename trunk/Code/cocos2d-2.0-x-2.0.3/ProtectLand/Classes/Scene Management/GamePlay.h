@@ -39,6 +39,7 @@ public:
 	static cocos2d::CCLayer* pBackgroundLayer;
 	//static cocos2d::CCLayer* pFrontSpriteLayer;
 	static cocos2d::CCLayer* pGameObjectLayer;
+	static cocos2d::CCLayer* pSkillLayer;
 
 	static CLevel* m_pCurrentLevel;
 	static int  m_iLevel;

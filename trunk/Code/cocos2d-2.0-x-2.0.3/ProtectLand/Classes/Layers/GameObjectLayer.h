@@ -11,7 +11,7 @@
 #include "Bullet.h"
 #include "Monster.h"
 #include "Tower.h"
-
+#include "SkillLayer.h"
 USING_NS_CC;
 
 enum {
@@ -36,9 +36,6 @@ private:
 	CCArray* 	m_pSpriteList;
 	bool		m_bIscol;
 	bool		m_bIsTouching;
-	CCPoint*	m_pTouchbegin;
-	CCPoint*	m_pTouchend;
-	CCPoint*    m_pTouchTemp;
 	CCSprite*	m_pObject;
 	CCSprite*	pMoveSprite;
 	CCMenuItemImage *pMute;
@@ -61,14 +58,22 @@ private:
 	bool isDeleteAround;
 	//Area shoot bullet
 	int m_iCurrentBullet;
-	CCSprite *m_pAreaShootBullet;
-	CCSprite *m_pAreaShootFireBullet;
-	CCSprite *m_pAreaShootWaterBullet;
+	CCSprite *m_pBaseTower;
+	CMySprite *m_pTowerItem;
+	int m_angleRotate;
+	bool m_isClickChangeBullet;
 	//Bullet
+	float m_fSpeed;
+	float m_fTimeRetireBullet;
+    float m_TimeDelayBullet;
+	//Skill
+	CCSprite *m_pSkill;
+	float m_timeSkill;
+	bool m_isClickSkill;
+	bool m_isFullEmergy;
 	//vector<Bullet *> *m_vBullet;
 	CCArray *m_arrBullet;
-	float m_fTimeFire;
-	Bullet *m_pBulletTemp;
+	
 	float length;
 	//Physic
 
@@ -96,11 +101,13 @@ private:
 	void changeBullet();
 	void addBullet(CCPoint &p);
 	bool inAreaShoot(const CCPoint *p);
-	CCPoint getRealDest(float X1,float Y1, float X2, float Y2);
+	bool isSelectSkill(CCPoint *p);
+	CCPoint getDestination(float X,float Y);
 	void updateBullet();
-	void shootBullet();
-
-
+	float caculateAngle(CCPoint v,CCPoint v1,CCPoint v2)
+	void removeStarSkill();
+	void addStarSkill();
+	
 	void checkScore();
 	void spriteMoveDone( CCNode* sender );
 	void tipTextSpriteDone(CCNode* sender);
@@ -140,7 +147,7 @@ public:
 	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
 
-	virtual void ccTouchesBegan(cocos2d::CCSet* touch, cocos2d::CCEvent* touchEvent); 
+	//virtual void ccTouchesBegan(cocos2d::CCSet* touch, cocos2d::CCEvent* touchEvent); 
 
 
 	CREATE_FUNC(CGameObjectLayer);
