@@ -172,7 +172,18 @@
 // <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
 // Flags  := FLIP_X | FLIP_Y | ROT_90
 
-    ANIM "ANIM_MOSTER_FIRE_LV1_ATTACK" // Index = 0, AFrames = 6
+    ANIM "ANIM_MONSTER_FIRE_LV1_RUN" // Index = 0, AFrames = 6
+    {
+        0x3003
+        AF	0x200C	1	0	0
+        AF	0x200D	1	0	0
+        AF	0x200E	1	0	0
+        AF	0x200F	1	0	0
+        AF	0x2010	1	0	0
+        AF	0x2011	1	0	0
+    }
+
+    ANIM "ANIM_MOSTER_FIRE_LV1_ATTACK" // Index = 1, AFrames = 6
     {
         0x3000
         AF	0x2000	1	0	0
@@ -183,7 +194,13 @@
         AF	0x2005	1	-8	-9
     }
 
-    ANIM "ANIM_MONSTER_FIRE_LV1_DIE" // Index = 1, AFrames = 5
+    ANIM "ANIM_MONSTER_FIRE_LV1_HIT" // Index = 2, AFrames = 1
+    {
+        0x3002
+        AF	0x200B	1	0	0
+    }
+
+    ANIM "ANIM_MONSTER_FIRE_LV1_DIE" // Index = 3, AFrames = 5
     {
         0x3001
         AF	0x2006	1	0	0
@@ -191,23 +208,6 @@
         AF	0x2008	1	7	12
         AF	0x2009	1	2	13
         AF	0x200A	1	-8	52
-    }
-
-    ANIM "ANIM_MONSTER_FIRE_LV1_HIT" // Index = 2, AFrames = 1
-    {
-        0x3002
-        AF	0x200B	1	0	0
-    }
-
-    ANIM "ANIM_MONSTER_FIRE_LV1_RUN" // Index = 3, AFrames = 6
-    {
-        0x3003
-        AF	0x200C	1	0	0
-        AF	0x200D	1	0	0
-        AF	0x200E	1	0	0
-        AF	0x200F	1	0	0
-        AF	0x2010	1	0	0
-        AF	0x2011	1	0	0
     }
 
     SPRITE_END
