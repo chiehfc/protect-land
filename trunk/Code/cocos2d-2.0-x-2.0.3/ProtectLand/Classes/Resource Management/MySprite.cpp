@@ -330,7 +330,7 @@ void CMySprite::PlayAnimation( int idAnimation, float DurationTime, bool isRunFo
 	}
 	CCArray* arrAnim = (CCArray*)m_pAnimationArray->objectAtIndex(idAnimation);
 	float numOfFrame = arrAnim->count();
-	CCAnimation *anima = CCAnimation::create(arrAnim, DurationTime/numOfFrame);
+	CCAnimation *anima = CCAnimation::createWithSpriteFrames(arrAnim, DurationTime/numOfFrame);
 	CCActionInterval* seq = (CCActionInterval*) CCAnimate::create(anima);
 	if(isReverse)
 		seq = seq->reverse();
@@ -352,7 +352,7 @@ void CMySprite::PlayAnimation( int idAnimation, float DurationTime, int NumOfRep
 	}
 	CCArray* arrAnim = (CCArray*)m_pAnimationArray->objectAtIndex(idAnimation);
 	float numOfFrame = arrAnim->count();
-	CCAnimation *anima = CCAnimation::create(arrAnim, DurationTime/numOfFrame);
+	CCAnimation *anima = CCAnimation::createWithSpriteFrames(arrAnim, DurationTime/numOfFrame);
 	CCActionInterval* seq = (CCActionInterval*) CCAnimate::create(anima);
 	if(isReverse)
 		seq = seq->reverse();
@@ -406,7 +406,7 @@ bool CMySprite::PlayAnimation( float TimeDuration, ... )
 		arrAnim = (CCArray*)m_pAnimationArray->objectAtIndex(idx);
 		int nFrame = arrAnim->count();
 
-		anima = CCAnimation::create(arrAnim, TimeDuration/nFrame);
+		anima = CCAnimation::createWithSpriteFrames(arrAnim, TimeDuration/nFrame);
 
 		seq = (CCActionInterval*) CCAnimate::create(anima);
 		arrayOfAction->addObject(seq);
@@ -489,7 +489,7 @@ bool CMySprite::PlayAnimation( float TimeDuration, bool isReverse, CCFiniteTimeA
 		arrAnim = (CCArray*)m_pAnimationArray->objectAtIndex(idx);
 		int nFrame = arrAnim->count();
 
-		anima = CCAnimation::create(arrAnim, TimeDuration/nFrame);
+		anima = CCAnimation::createWithSpriteFrames(arrAnim, TimeDuration/nFrame);
 
 		seq = (CCActionInterval*) CCAnimate::create(anima);
 		if (isReverse)
@@ -532,8 +532,8 @@ void CMySprite::PlayAnimationTwoAction( float timeDuration, int idx, int jdx , b
 	int nFrame1 = arrAnim1->count();
 	int nFrame2 = arrAnim2->count();
 
-	CCAnimation *anima1 = CCAnimation::create(arrAnim1, timeDuration/nFrame1);
-	CCAnimation *anima2 = CCAnimation::create(arrAnim2, timeDuration/nFrame2);
+	CCAnimation *anima1 = CCAnimation::createWithSpriteFrames(arrAnim1, timeDuration/nFrame1);
+	CCAnimation *anima2 = CCAnimation::createWithSpriteFrames(arrAnim2, timeDuration/nFrame2);
 
 	CCActionInterval* seq1 = (CCActionInterval*) CCAnimate::create(anima1);
 	CCActionInterval* seq2 = (CCActionInterval*) CCAnimate::create(anima2);
@@ -565,7 +565,7 @@ void CMySprite::PlayAnimationToPosition( float x, float y, float TimeToMove, flo
 	CCArray* arrAnim = (CCArray*)m_pAnimationArray->objectAtIndex(0);
 	CCArray* arrAnim1 = (CCArray*)m_pAnimationArray->objectAtIndex(1);
 	float numOfFrame = arrAnim->count();
-	CCAnimation *anima = CCAnimation::create(arrAnim, DurationTime/numOfFrame);
+	CCAnimation *anima = CCAnimation::createWithSpriteFrames(arrAnim, DurationTime/numOfFrame);
 	CCActionInterval* seq = (CCActionInterval*) CCAnimate::create(anima);
 	if(isReverse)
 		seq = seq->reverse();
