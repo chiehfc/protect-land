@@ -1,0 +1,224 @@
+// saved by AuroraGT v0.1.0.2 (SpriteEditor v0.1.0.5)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 19
+    // Frames:  19
+    // Anims:   4
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [ALPHA "alpha_file"] [TRANSP transp_color]
+
+    IMAGE 0x0000 ".\water_monster_lv1.png" TRANSP 0x00FF00FF // 0  size: 512 x 512  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x1000	MD_IMAGE	0	383	155	63	91	"attack1"
+        MD	0x1001	MD_IMAGE	0	101	155	91	90	"attack2"
+        MD	0x1002	MD_IMAGE	0	1	66	57	80	"attack3"
+        MD	0x1003	MD_IMAGE	0	282	66	74	88	"attack4"
+        MD	0x1004	MD_IMAGE	0	59	66	56	87	"attack5"
+        MD	0x1005	MD_IMAGE	0	193	155	70	90	"attack6"
+        MD	0x1006	MD_IMAGE	0	116	66	89	87	"die1"
+        MD	0x1007	MD_IMAGE	0	264	155	118	91	"die2"
+        MD	0x1008	MD_IMAGE	0	369	1	119	64	"die3"
+        MD	0x1009	MD_IMAGE	0	246	1	122	64	"die4"
+        MD	0x100A	MD_IMAGE	0	1	1	121	64	"die5"
+        MD	0x100B	MD_IMAGE	0	123	1	122	64	"die6"
+        MD	0x100C	MD_IMAGE	0	357	66	75	88	"hit"
+        MD	0x100D	MD_IMAGE	0	1	155	99	89	"run1"
+        MD	0x100E	MD_IMAGE	0	93	247	87	92	"run2"
+        MD	0x100F	MD_IMAGE	0	181	247	63	94	"run3"
+        MD	0x1010	MD_IMAGE	0	245	247	71	94	"run4"
+        MD	0x1011	MD_IMAGE	0	317	247	79	95	"run5"
+        MD	0x1012	MD_IMAGE	0	1	247	91	92	"run6"
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
+
+    FRAME "attack1" // Index = 0, FModules = 1
+    {
+        0x2000
+        FM	0x1000	-30	-90
+    }
+
+    FRAME "attack2" // Index = 1, FModules = 1
+    {
+        0x2001
+        FM	0x1001	-34	-89
+    }
+
+    FRAME "attack3" // Index = 2, FModules = 1
+    {
+        0x2002
+        FM	0x1002	-13	-79
+    }
+
+    FRAME "attack4" // Index = 3, FModules = 1
+    {
+        0x2003
+        FM	0x1003	-31	-83
+    }
+
+    FRAME "attack5" // Index = 4, FModules = 1
+    {
+        0x2004
+        FM	0x1004	-27	-86
+    }
+
+    FRAME "attack6" // Index = 5, FModules = 1
+    {
+        0x2005
+        FM	0x1005	-38	-89
+    }
+
+    FRAME "die1" // Index = 6, FModules = 1
+    {
+        0x2006
+        FM	0x1006	0	0
+    }
+
+    FRAME "die2" // Index = 7, FModules = 1
+    {
+        0x2007
+        FM	0x1007	0	0
+    }
+
+    FRAME "die3" // Index = 8, FModules = 1
+    {
+        0x2008
+        FM	0x1008	0	0
+    }
+
+    FRAME "die4" // Index = 9, FModules = 1
+    {
+        0x2009
+        FM	0x1009	0	0
+    }
+
+    FRAME "die5" // Index = 10, FModules = 1
+    {
+        0x200A
+        FM	0x100A	0	0
+    }
+
+    FRAME "die6" // Index = 11, FModules = 1
+    {
+        0x200B
+        FM	0x100B	0	0
+    }
+
+    FRAME "SPR_MONSTER_WATER_LV1_HIT" // Index = 12, FModules = 1
+    {
+        0x200C
+        FM	0x100C	0	0
+    }
+
+    FRAME "run1" // Index = 13, FModules = 1
+    {
+        0x200D
+        FM	0x100D	0	0
+    }
+
+    FRAME "run2" // Index = 14, FModules = 1
+    {
+        0x200E
+        FM	0x100E	0	0
+    }
+
+    FRAME "run3" // Index = 15, FModules = 1
+    {
+        0x200F
+        FM	0x100F	0	0
+    }
+
+    FRAME "run4" // Index = 16, FModules = 1
+    {
+        0x2010
+        FM	0x1010	0	0
+    }
+
+    FRAME "run5" // Index = 17, FModules = 1
+    {
+        0x2011
+        FM	0x1011	0	0
+    }
+
+    FRAME "run6" // Index = 18, FModules = 1
+    {
+        0x2012
+        FM	0x1012	0	0
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Animations...
+// <Anim> := ANIM ["desc"] { id [<AF1> <AF2> ...] }
+// <AFi>  := AF frame_id time ox oy [FLAGS hex_flags] [+Flags]
+// Flags  := FLIP_X | FLIP_Y | ROT_90
+
+    ANIM "ANIM_MONSTER_WATER_LV1_ATTACK" // Index = 0, AFrames = 6
+    {
+        0x3000
+        AF	0x2000	1	0	0
+        AF	0x2001	1	0	0
+        AF	0x2002	1	0	0
+        AF	0x2003	1	0	0
+        AF	0x2004	1	0	0
+        AF	0x2005	1	0	0
+    }
+
+    ANIM "ANIM_MONSTER_WATER_LV1_DIE" // Index = 1, AFrames = 6
+    {
+        0x3001
+        AF	0x2006	1	-7	8
+        AF	0x2007	1	0	0
+        AF	0x2008	1	0	29
+        AF	0x2009	1	0	29
+        AF	0x200A	1	0	29
+        AF	0x200B	1	0	29
+    }
+
+    ANIM "ANIM_MONSTER_WATER_LV1_RUN" // Index = 2, AFrames = 6
+    {
+        0x3002
+        AF	0x200D	1	0	0
+        AF	0x200E	1	0	0
+        AF	0x200F	1	0	0
+        AF	0x2010	1	0	0
+        AF	0x2011	1	0	0
+        AF	0x2012	1	0	0
+    }
+
+    ANIM "ANIM_MONSTER_WATER_LV1_RUN" // Index = 3, AFrames = 1
+    {
+        0x3003
+        AF	0x200C	1	0	0
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////
