@@ -1,0 +1,110 @@
+// saved by AuroraGT v0.1.0.2 (SpriteEditor v0.1.0.5)
+////////////////////////////////////////////////////////////////////////////////
+/*SPRITE*/ {
+
+    VERSION 0001
+
+    // Images:  1
+    // Modules: 8
+    // Frames:  8
+    // Anims:   0
+
+////////////////////////////////////////////////////////////////////////////////
+// Images...
+// <Image> := IMAGE [id] "file" [ALPHA "alpha_file"] [TRANSP transp_color]
+
+    IMAGE 0x0000 ".\bullets.png" TRANSP 0x00FF00FF // 0  size: 1080 x 160  palettes: 1
+
+////////////////////////////////////////////////////////////////////////////////
+// Modules...
+// <Modules> := MODULES { <MD1> <MD2> ... }
+// <MDi>     := MD id Type [params] ["desc"]
+// Type      := MD_IMAGE | MD_RECT | ...
+// [params]  := if (Type == MD_IMAGE)     -> image x y width height
+//              if (Type == MD_RECT)      -> color width height
+//              if (Type == MD_FILL_RECT) -> color width height
+//              if (Type == MD_ARC)       -> color width height startAngle arcAngle
+//              if (Type == MD_FILL_ARC)  -> color width height startAngle arcAngle
+//              if (Type == MD_MARKER)    -> color width height
+//              if (Type == MD_TRIANGLE)  -> color p2X p2Y p3X p3Y
+//              if (Type == MD_FILL_TRIANGLE)  -> color p2X p2Y p3X p3Y
+
+    MODULES
+    {
+        MD	0x1007	MD_IMAGE	0	891	93	114	51	"lv4"
+        MD	0x1006	MD_IMAGE	0	587	94	161	49	"lv3"
+        MD	0x1005	MD_IMAGE	0	358	86	111	63	"lv2"
+        MD	0x1004	MD_IMAGE	0	47	80	191	80	"lv1"
+        MD	0x1003	MD_IMAGE	0	887	24	116	30	"lv4"
+        MD	0x1002	MD_IMAGE	0	558	10	190	57	"lv3"
+        MD	0x1001	MD_IMAGE	0	341	23	124	32	"lv2"
+        MD	0x1000	MD_IMAGE	0	102	21	105	35	"lv1"
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+// Frames...
+// <Frame> := FRAME ["desc"] { id <RC1> [<RC2> ...] <FM1> [<FM2> ...] }
+// <RCi>   := RC x1 y1 x2 y2
+// <FMi>   := FM module_or_frame_id ox oy [FLAGS hex_flags] [+Flags]
+// Flags   := HYPER_FM | FLIP_X | FLIP_Y | ROT_90 | FREE_ROT
+
+    FRAME "SPR_BULLET_FIRE_LV1" // Index = 0, FModules = 1
+    {
+        0x2007
+        RC	-40	-17	37	13
+        FM	0x1000	-52	-17
+    }
+
+    FRAME "SPR_BULLET_FIRE_LV2" // Index = 1, FModules = 1
+    {
+        0x2006
+        RC	0	0	124	32
+        FM	0x1001	-62	-16
+    }
+
+    FRAME "SPR_BULLET_FIRE_LV3" // Index = 2, FModules = 1
+    {
+        0x2005
+        RC	-50	-17	72	15
+        FM	0x1002	-121	-29
+    }
+
+    FRAME "SPR_BULLET_FIRE_LV4" // Index = 3, FModules = 1
+    {
+        0x2004
+        RC	-58	-15	58	15
+        FM	0x1003	-58	-15
+    }
+
+    FRAME "SPR_BULLET_WATER_LV1" // Index = 4, FModules = 1
+    {
+        0x2003
+        RC	-53	-22	50	13
+        FM	0x1004	-95	-40
+    }
+
+    FRAME "SPR_BULLET_WATER_LV2" // Index = 5, FModules = 1
+    {
+        0x2002
+        RC	-42	-19	41	17
+        FM	0x1005	-55	-31
+    }
+
+    FRAME "SPR_BULLET_WATER_LV3" // Index = 6, FModules = 1
+    {
+        0x2001
+        RC	-58	-13	59	13
+        FM	0x1006	-80	-24
+    }
+
+    FRAME "SPR_BULLET_WATER_LV4" // Index = 7, FModules = 1
+    {
+        0x2000
+        RC	-43	-14	46	13
+        FM	0x1007	-57	-25
+    }
+
+    SPRITE_END
+
+} // SPRITE
+////////////////////////////////////////////////////////////////////////////////
