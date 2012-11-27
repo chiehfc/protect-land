@@ -193,12 +193,6 @@ enum eStar
 	STAR3,
 };
 
-enum MonsterType
-{
-	MONSTER_FIRE,
-	MONSTER_WATER,
-	MONSTER_MAX,
-};
 /************************************************************************/
 /* Menu Item                                                            */
 /************************************************************************/
@@ -398,5 +392,62 @@ TOWER
 #define WATER_TOWER 1
 #define LOCATION_X_TOWER 82
 #define LOCATION_Y_TOWER 335
+
+
+#define MAX_LENGTH_MOVE 300 
+
+/*
+MONSTER
+*/
+
+//texture:
+#define LEVEL1_WATER_MONSTER_TEXTURE "Monster/Water_lv1/water_monster_lv1.sprite"
+#define LEVEL1_FIRE_MONSTER_TEXTURE	 "Monster/Fire_lv1/monster_fire_level1.sprite"
+#define LEVEL2_WATER_MONSTER_TEXTURE ""
+#define LEVEL2_FIRE_MONSTER_TEXTURE ""
+#define LEVEL3_WATER_MONSTER_TEXTURE ""
+#define LEVEL3_FIRE_MONSTER_TEXTURE ""
+
+//hp
+#define LEVEL1_MONSTER_HP 2
+#define LEVEL2_MONSTER_HP 4
+#define LEVEL3_MONSTER_HP 6
+
+//speed
+#define LEVEL1_MONSTER_SPEED 6
+#define LEVEL2_MONSTER_SPEED 4
+#define LEVEL3_MONSTER_SPEED 2
+
+//power
+#define LEVEL1_MONSTER_POWER 10
+#define LEVEL2_MONSTER_POWER 20
+#define LEVEL3_MONSTER_POWER 30
+
+//damage
+#define LEVEL1_MONSTER_DAMAGE 2
+#define LEVEL2_MONSTER_DAMAGE 4
+#define LEVEL3_MONSTER_DAMAGE 6
+
+//coin
+#define LEVEL1_MONSTER_COIN 5
+#define LEVEL2_MONSTER_COIN 7
+#define LEVEL3_MONSTER_COIN 9
+
+//type
+enum TypeMonster
+{
+	FIRE_MONSTER,
+	WATER_MONSTER,
+	MAX_MONSTER,
+};
+
+//level
+enum MonsterLevel
+{
+	LEVEL1_MONSTER,
+	LEVEL2_MONSTER,
+	LEVEL3_MONSTER,
+	LEVEL_MAX,
+};
 
 #endif

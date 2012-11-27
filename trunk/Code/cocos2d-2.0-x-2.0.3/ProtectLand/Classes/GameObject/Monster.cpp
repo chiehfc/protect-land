@@ -2,38 +2,35 @@
 #include "cocos2d.h"
 //#include "GameObjectLayer.h"
 
-CMonster::CMonster(MonsterType type, int level, float timemove, CCPointArray*array){	
-	m_iType = type;
-	switch (level)
-	{
-		case 1:
-			m_iHp = 2;
-			break;
-		case 2:
-			m_iHp = 4;
-			break;
-		case 3:
-			m_iHp = 6;
-			break;
-	}
-	m_fTimeMove = timemove;
-	m_arrPath = array;
+CMonster::CMonster(TypeMonster type, MonsterLevel level){	
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	int minDuration = (int)1.0;
+	int maxDuration = (int)4.0;
+	int rangeDuration = maxDuration - minDuration;
+	srand(time(NULL));
+	//CCRANDOM_0_1()
+	int actualDuration = (rand()%rangeDuration) + minDuration;
+	setPos(actualDuration);
+
+	setPosition(ccp(s.width,s.height/5*getPos()));
+
+
+	setLevel(level);
+	setType(type);
 	init();
-	}
+}
 CMonster::CMonster(){
 }
 void CMonster::moveMonster(){
-	CCCatmullRomBy *action = CCCatmullRomBy::create(m_fTimeMove, m_arrPath);
-	
-    CCFiniteTimeAction *seq = CCSequence::create(action,NULL);
-	this->setScale(0.2);
-	// position the sprite on the center of the screen
-	this->setPosition( ccp(50,50) );
-	this->runAction(seq);
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	//addChild(m_spriteAttack);
+	m_sprite->PlayAnimation(0,getSpeed()/10.0f,10,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackTower)));
+	runAction(CCMoveBy::create(getSpeed(),ccp(-s.width*3/4,0)));
+	//m_sprite->PlayAnimationToPosition(-s.width*3/4,0,getSpeed(),2,0.8f,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackTower)));
 }
 
 CMonster::~CMonster(){
-	
+
 	m_sprite->release();
 	//delete (m_arrPath);
 }
@@ -44,17 +41,91 @@ bool CMonster::init()
 	{
 		return false;
 	}
-
+	switch(getLevel()){
+	case LEVEL1_MONSTER:
+		setHP(LEVEL1_MONSTER_HP);
+		setSpeed(LEVEL1_MONSTER_SPEED);
+		setDamage(LEVEL1_MONSTER_DAMAGE);
+		setPower(LEVEL1_MONSTER_POWER);
+		setCoin(LEVEL1_MONSTER_COIN);
+		if(getType()==WATER_MONSTER){
+			m_sprite = new CMySprite(LEVEL1_WATER_MONSTER_TEXTURE);
+		}else{
+			m_sprite = new CMySprite(LEVEL1_FIRE_MONSTER_TEXTURE);
+		}
+		break;
+	case LEVEL2_MONSTER:
+		setHP(LEVEL2_MONSTER_HP);
+		setSpeed(LEVEL2_MONSTER_SPEED);
+		setDamage(LEVEL2_MONSTER_DAMAGE);
+		setPower(LEVEL2_MONSTER_POWER);
+		setCoin(LEVEL1_MONSTER_COIN);
+		if(getType()==WATER_MONSTER){
+			m_sprite = new CMySprite(LEVEL2_WATER_MONSTER_TEXTURE);
+		}else{
+			m_sprite = new CMySprite(LEVEL2_FIRE_MONSTER_TEXTURE);
+		}
+		break;
+	case LEVEL3_MONSTER:
+		setHP(LEVEL3_MONSTER_HP);
+		setSpeed(LEVEL3_MONSTER_SPEED);
+		setDamage(LEVEL3_MONSTER_DAMAGE);
+		setPower(LEVEL3_MONSTER_POWER);
+		setCoin(LEVEL1_MONSTER_COIN);
+		if(getType()==WATER_MONSTER){
+			m_sprite = new CMySprite(LEVEL3_WATER_MONSTER_TEXTURE);
+		}else{
+			m_sprite = new CMySprite(LEVEL3_FIRE_MONSTER_TEXTURE);
+		}
+		break;
+	}
 	//init here
-	m_sprite = CMonster::create("images.jpg");
+
+	//m_spriteAttack = m_sprite;
+	//m_spriteDie = m_spriteAttack;
 	m_sprite->setPosition(ccp(0, 0));
 	addChild(m_sprite);
+	moveMonster();
 	return true;
 }
 
 void CMonster::onExit()
 {
 	CCSprite::onExit();
-	
+
 }
 
+void CMonster::attackTower(CCNode* sender)
+{
+	//this->removeChild(m_sprite,false);
+	//addChild(m_spriteAttack);
+	//m_spriteAttack->setPosition(ccp(0,0));
+	m_sprite->PlayAnimation(1,1.0f,100,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackDone)));
+}
+
+void CMonster::attackDone( CCNode* sender )
+{
+	this->removeChild(m_spriteAttack,true);
+}
+
+void CMonster::monsterDie()
+{
+	m_sprite->PlayAnimation(0,1.0f,100,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackDone)));
+}
+
+void CMonster::hitMonster()
+{
+
+}
+
+void CMonster::removeMonster()
+{
+	this->removeChild(m_sprite,false);
+}
+
+void CMonster::draw()
+{
+	ccDrawColor4F(1.0f, 0.0f, 0.0f, 1.0f);
+	//ccDrawRect();
+	ccDrawColor4F(1.0f, 1.0f, 1.0f, 1.0f);
+}
