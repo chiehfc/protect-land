@@ -5,6 +5,8 @@
 #include "GameConfig.h"
 #include "MySprite.h"
 
+#define FIRE_TOWER 0
+#define WATER_TOWER 1
 USING_NS_CC;
 
 class CTower: public CCSprite{

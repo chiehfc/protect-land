@@ -42,7 +42,7 @@ private:
 	CCMenu* pMenu;
 	
 	//Area shoot bullet
-	int m_iCurrentBullet;
+	int m_typeBullet;
 	CCSprite *m_pBaseTower;
 	CMySprite *m_pTowerItem;
 	int m_angleRotate;
@@ -79,13 +79,13 @@ private:
 	bool oneMonster;
 	
 	
-	void changeBullet();
+	
 	void addOneBullet(CCPoint &p,float angle);
 	void addBullets(CCPoint &centerPoint);
-	
+	void loadTower(char * base, char * item);
 	bool isSelectSkill(CCPoint *p);
 	CCPoint getDestination(float X,float Y);
-	void updateBullet();
+	void updateBullet(int type, int level);
 	float caculateAngle(CCPoint v,CCPoint v1);
 	void removeStarSkill();
 	void addStarSkill();

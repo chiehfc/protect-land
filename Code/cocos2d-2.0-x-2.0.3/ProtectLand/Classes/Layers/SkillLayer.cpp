@@ -1,5 +1,8 @@
 #include "SkillLayer.h"
 #include "GameConfig.h"
+#define CENTRAL_X1 145
+#define CENTRAL_Y1 380
+
 CSkillLayer::CSkillLayer()
 {
 	init();
@@ -13,13 +16,19 @@ bool CSkillLayer::init()
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 10 , true);
 	
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
-	float dx=s.width/2.0-125;
-	float dy=s.height/2.0-110;
-	addSphere(m_sprite1,"SphereYellow.png",73+dx,30+dy);
-	addSphere(m_sprite2,"SphereOrange.png",194+dx,30+dy);
-	addSphere(m_sprite3,"SphereRed.png",223+dx,220-92+dy);
-	addSphere(m_sprite4,"SphereGreen.png",130+dx,220-36+dy);
-	addSphere(m_sprite5,"SphereBlue.png",42+dx,220-92+dy);
+	float dx=s.width/2.0-250;
+	float dy=s.height/2.0-220;
+	m_sprite1=CCSprite::create("Skill\\StarSkill.png");
+	//m_pCSkillLayer->setScale(0.5);
+	m_sprite1->setPosition(ccp(s.width/2.0,s.height/2.0));
+	addChild(m_sprite1);
+	/*
+	addSphere(m_sprite1,"Skill\\SphereYellow.png",146+dx,30+dy);
+	addSphere(m_sprite2,"Skill\\SphereOrange.png",194+dx,30+dy);
+	addSphere(m_sprite3,"Skill\\SphereRed.png",223+dx,220-92+dy);
+	addSphere(m_sprite4,"Skill\\SphereGreen.png",130+dx,220-36+dy);
+	addSphere(m_sprite5,"Skill\\SphereBlue.png",42+dx,220-92+dy);
+	*/
 	m_timer=0;
 	
 	return true;
@@ -44,8 +53,7 @@ CSkillLayer::~CSkillLayer()
 bool CSkillLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 {
 	if(CCDirector::sharedDirector()->isPaused()) return false;
-	CCLOG("%d %d",pTouch->getLocation().x,pTouch->getLocation().y);
-	
+	CCLOG("%f %f",pTouch->getLocation().x,pTouch->getLocation().y);
 	return true;
 }
 
