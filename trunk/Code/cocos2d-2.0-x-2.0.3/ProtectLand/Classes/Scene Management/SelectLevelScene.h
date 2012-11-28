@@ -15,17 +15,10 @@ public:
 	// there's no 'id' in cpp, so we recommand to return the exactly class pointer
 	static cocos2d::CCScene* scene();
 
-	int m_levelSelected;
-	// a selector callback
-	void level1CallBack(CCObject* pSender);
-	void level2CallBack(CCObject* pSender);
-	void level3CallBack(CCObject* pSender);
-	void level4CallBack(CCObject* pSender);
-	void level5CallBack(CCObject* pSender);
-	void level6CallBack(CCObject* pSender);
-	void level7CallBack(CCObject* pSender);
-	void level8CallBack(CCObject* pSender);
-	void menuBackCallBack(CCObject* pSender);
+	int m_levelSelected;	
+	void menuBackCallBack(CCObject* pSender);  // call when click button back
+	void menuNextCallBack(CCObject* pSender);  // call when click button next
+
 
 	// implement the "static node()" method manually
 	CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label, Label);

@@ -120,6 +120,9 @@ public:
 	virtual void ccTouchMoved(CCTouch *pTouch, CCEvent *pEvent);
 	virtual void ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent);
 
+	CCRect getRectBulletFire(Bullet* pBullet);  // get Rect cua bullet nhap vao
+	CCRect getRectMonsterFire(CMonster* pMonster); //get Rect cuar monster truyen vao
+
 
 	CREATE_FUNC(CGameObjectLayer);
 };

@@ -362,12 +362,7 @@ void CMySprite::PlayAnimation( int idAnimation, float DurationTime, int NumOfRep
 		AnimArray->addObject(seq);
 	}
 	this->runAction(CCSequence::actionWithArray(AnimArray));
-	/*if (isRepeat)
-	{
-		sprite->runAction(CCRepeatForever::create( seq ) );
-	}else{
-		sprite->runAction(seq);
-	}*/
+	
 }
 
 bool CMySprite::PlayAnimation( float TimeDuration, ... )
@@ -616,3 +611,5 @@ bool CMySprite::SetFrame( int idAnimation, int FrameIdx )
 	this->setDisplayFrame(frame);
 	return true;
 }
+
+

@@ -7,18 +7,43 @@
 
 using namespace cocos2d;
 
+#define INIT_DAMGE_TOWER		24
+#define INIT_TOWER_SPEED		0.5f
+#define INIT_TOWER_HP			100
+#define INIT_RATE_DOUBLE_DAMGE	5
+
+enum Mapcurrent {
+	human,
+	elves,
+	magi,
+	dwarf,
+	darkelves,
+	undead,
+	devils,
+	max_map,
+};
+
+
 struct SLevelInfomation
 {
-	int m_iLevel;
-	int m_iHighScore;
-	bool m_bIsPass;
-	int m_NumOfStar;
+	int m_iMapCurrent;
+	int m_iLevelCurrent;
+	int m_iCoin;
+	int m_iLevelTower;
+	int m_iDameTowerCurrent;
+	float m_fTowerSpeed;
+	int m_iTowerHp;
+	int m_iRateDoubleDamge;
 	SLevelInfomation()
 	{
-		this->m_iLevel = -1;
-		m_iHighScore = 0;
-		m_bIsPass = false;
-		m_NumOfStar = 0;
+		m_iMapCurrent = human;
+		m_iLevelCurrent = 1;
+		m_iCoin = 0;
+		m_iLevelTower = 1;
+		m_iDameTowerCurrent = INIT_DAMGE_TOWER;
+		m_fTowerSpeed = INIT_TOWER_SPEED;
+		m_iTowerHp = INIT_TOWER_HP;
+		m_iRateDoubleDamge = INIT_RATE_DOUBLE_DAMGE;
 	}
 };
 class CLevelManager{
@@ -40,17 +65,13 @@ public:
 	/************************************************************************/
 	bool LoadLevelFromFile(const char* pszPath);
 	bool SaveLevelToFile(const char* pszPath);
-	SLevelInfomation* GetLevelInformation(int idx);
+	SLevelInfomation* GetLevelInformation();
 	SLevelInfomation* GetListLevel(int& NumOfLevel);
 	bool ResetLevel(const char* pszPath, int iNumOfLevel);
 	bool ResetLevel(const char* pszPath);
-	bool SetLevelInfo(int idLevel, int NumOfStar, int HightScore, bool IsPass);
-	int GetNumOfStar(int idLevel);
-	int GetHighScore(int idLevel);
-	bool GetIsPass(int idLevel);
-	bool SetHighScore(int idLevel, int highScore);
-	bool SetNumStar(int idLevel, int numStar);
-	void SetPassable(int idLevel, bool isPass);
+	bool SetLevelInfo(int iMapCurrent, int iLevelCurrent, int iCoin, int iLevelTower, int iDameTowerCurrent, float fTowerSpeed, int iTowerHp, int iRateDoubleDamge);
+	
+	
 	bool CreateFileFirstGame(const char* pc_FileName, int iNumOfLevel);
 };
 #endif

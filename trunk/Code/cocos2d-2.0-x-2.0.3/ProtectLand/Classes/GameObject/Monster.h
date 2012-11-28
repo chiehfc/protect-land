@@ -10,7 +10,7 @@ class CMonster: public CCSprite{
 private:
 	//CCPointArray * m_arrPath;
 public:
-	CMySprite * m_sprite, *m_spriteAttack, *m_spriteDie;
+	CMySprite * m_sprite;
 	CC_SYNTHESIZE(TypeMonster , m_iType, Type);
 	CC_SYNTHESIZE(int, m_iHp, HP);
 	CC_SYNTHESIZE(float, m_Speed, Speed);
@@ -34,5 +34,7 @@ public:
 	void monsterDie();
 	void removeMonster();
 	void hitMonster();
+
+	CCRect getRectCurrentOfMonsters();  //lay rect cua frame hien tai
 };
 #endif
