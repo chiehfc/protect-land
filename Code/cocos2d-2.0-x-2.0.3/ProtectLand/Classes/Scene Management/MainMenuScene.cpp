@@ -241,7 +241,7 @@ void CMainMenuScene::PopupYesCallback( CCObject* pSender )
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
 		CAudioManager::instance()->playEff(SOUND_CLICK_1);
-	CGamePlay::setLevel(-1);
+
 	CGamePlay::destroy();
 	CCDirector::sharedDirector()->end();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

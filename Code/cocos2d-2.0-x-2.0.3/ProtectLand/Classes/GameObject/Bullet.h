@@ -17,13 +17,17 @@ class Bullet: public cocos2d::CCSprite
 {
 private:	
 	CC_SYNTHESIZE(int, m_iType, Type);
+	//CC_SYNTHESIZE(CCRect, m_initRectSprite, InitRectSprite);
 	//CC_SYNTHESIZE(CCSprite*, m_pSprite, Sprite);
 public:
+	
+	CCRect getRectCurrentOfBullet();  //lay rect cua frame hien tai
 	CCSprite *m_sprite;
 	Bullet(int type,CCSprite* p);
 	Bullet();
 	bool init(CCSprite * p);
-	void onExit();
+	virtual void onExit();
+	virtual void draw();
 	~Bullet();
 };
 

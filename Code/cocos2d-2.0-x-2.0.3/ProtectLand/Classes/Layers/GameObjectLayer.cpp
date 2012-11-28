@@ -9,11 +9,8 @@
 #include "WinScene.h"
 #include "AudioManager.h"
 #include "Bullet.h"
+#include "DebugConfig.h"
 
-#if DEBUG_MODE
-#include "MemoryManager.h"
-#include "MemoryOperators.h"
-#endif
 
 enum {
 	kTagTileMap = 1,
@@ -23,7 +20,6 @@ enum {
 	kTagBitmapAtlas2 = 2,
 	kTagBitmapAtlas3 = 3,
 };
-//#define DEBUGMODE 1
 USING_NS_CC;
 
 //DEBUG
@@ -36,28 +32,19 @@ bool CGameObjectLayer::init()
 {
 	if(!CCLayer::init())
 	{  
-#ifdef DEBUGMODE
-		CCLOG("GameObjectLayer Init Parent fail..........................");
-#endif // DEBUGMODE
-
 		return false;
 	}	
-#ifdef DEBUGMODE
-	CCLOG("GameObjectLayer Init..........................");
-#endif // DEBUGMODE
+
 
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	//init value
 	{
-		oneMonster =false;
+		oneMonster = false;
 		m_checkLose = false;
 		m_time = 0;
 		m_arrMonster = new CCArray;
 		m_arrBullet = new CCArray;
-		m_index = -1;
-
-		
-		
+		m_index = -1;	
 
 	}
 
@@ -123,29 +110,26 @@ bool CGameObjectLayer::init()
 
 		m_pBaseTower=CCSprite::spriteWithFile("Tower\\Data\\tower_11.png");
 		m_pBaseTower->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
-		m_typeBullet=FIRE_BULLET;
-		m_levelBullet=BULLET_LEVEL_1;
 		this->addChild(m_pBaseTower);
 		m_pTowerItem=new CMySprite("Tower\\tower.sprite");
 		m_pTowerItem->setPosition(ccp(LOCATION_X_TOWER+10,LOCATION_Y_TOWER+20));
 		this->addChild(m_pTowerItem);
-		m_pTowerItem->PlayAnimation(FIRE_TOWER,0.4f, true, false);
-		
-		
-		m_timeSkill=0;
-		m_isClickSkill=false;
-		m_isClickChangeBullet=false;
-		m_fSpeed=1000;
-		m_isFullEmergy=true;
-		m_fTimeRetireBullet=0;
-		m_TimeDelayBullet=0.5;
-		
+		m_pTowerItem->PlayAnimation(FIRE_TOWER, 0.4f, true, false);
+		m_timeSkill = 0;
+		m_isClickSkill = false;
+		m_isClickChangeBullet = false;
+		m_fSpeed = 1000;
+		m_isFullEmergy = true;
+		m_fTimeRetireBullet = 0;
+		m_TimeDelayBullet = CLevelManager::GetInstance()->GetLevelInformation()->m_fTowerSpeed;
+		m_levelBullet = CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower;
 	}		
 
 	
 	// TEST
 	// them layskill nhan du kien touch
 	addStarSkill();
+
 
 	
 
@@ -160,13 +144,14 @@ void CGameObjectLayer::update(float dt)
 {
 	//CCLOG("%f",m_fTimeRetireBullet);
 
-	m_fTimeRetireBullet+=dt;
+	m_fTimeRetireBullet += dt;
 	if(m_bIsTouching){
 		if(m_fTimeRetireBullet>m_TimeDelayBullet){
 			addBullets(m_pCurrentPoint);
 			m_fTimeRetireBullet=0;
 		}
 	}
+
 	if(!oneMonster){
 		if(m_time >4 && m_time <4.1){
 			creatMonster();
@@ -174,7 +159,7 @@ void CGameObjectLayer::update(float dt)
 		}
 	}
 	//attackTower();
-	//attackMonster();
+	attackMonster();
 	m_time = m_time + dt;
 
 
@@ -197,6 +182,15 @@ void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
 
 bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 {
+	//TEST insert demo skill
+	for (int i=0; i<3; i++)
+	{
+		CMySprite* pSprite = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
+		pSprite->setPosition(ccp(pTouch->getLocation().x + i*200.0f, pTouch->getLocation().y + 100.0f));
+		pSprite->setScale(2.5f);
+		this->addChild(pSprite);
+		pSprite->PlayAnimation(0, 3.0f, 1, false);
+	}
 
 	if(CCDirector::sharedDirector()->isPaused()) return false;
 	if(m_bIsTouching)
@@ -205,11 +199,8 @@ bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 	}
 	else
 	{
-
-
 		m_bIsTouching = true;
 		m_pCurrentPoint = pTouch->getLocation();
-	
 	}
 	return true;
 }
@@ -220,7 +211,7 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 	{
 		m_bIscol = false;
 		m_pCurrentPoint=pTouch->getLocation();
-		
+
 	}
 }
 
@@ -237,7 +228,23 @@ void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 
 void CGameObjectLayer::draw()
 {
-
+#if DEBUG_DRAW_RECT_ENABLE
+	ccDrawColor4F(0.0f, 1.0f, 0.0f, 1.0f);
+	CCObject *it = new CMonster;
+	CCObject *jt = new Bullet;
+	CCARRAY_FOREACH(m_arrMonster,it){
+		CMonster *monsterD = (CMonster*) it;
+		CCRect monsterRect = getRectMonsterFire(monsterD);
+		ccDrawRect(monsterRect.origin, ccpAdd(monsterRect.origin, ccp(monsterRect.size.width, monsterRect.size.height)));
+	}
+	CCARRAY_FOREACH(m_arrBullet,jt){
+		Bullet *bulletD = (Bullet*)jt;
+		CCRect bulletRect = getRectBulletFire(bulletD);			
+		ccDrawColor4F(0.0f, 1.0f, 0.0f, 1.0f);
+		ccDrawRect(bulletRect.origin, ccpAdd(bulletRect.origin, ccp(bulletRect.size.width, bulletRect.size.height)));
+	}	
+	ccDrawColor4F(1.0f, 1.0f, 1.0f, 1.0f);
+#endif	
 }
 
 void CGameObjectLayer::menuReplayMenuCallback( CCObject* pSender )
@@ -248,7 +255,6 @@ void CGameObjectLayer::menuReplayMenuCallback( CCObject* pSender )
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_FRONTSPRITE_LAYER);
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_GAME_OBJECT_LAYER);
 	CGamePlay::destroy();
-	CGamePlay::setLevel(CGamePlay::getLevel());
 	CCScene *gamePlay = CGamePlay::scene();
 	CCDirector::sharedDirector()->replaceScene(gamePlay);
 }
@@ -291,8 +297,6 @@ void CGameObjectLayer::menuMuteMenuCallback( CCObject* pSender )
 	}
 }
 
-
-
 void CGameObjectLayer::onExit()
 {
 
@@ -316,11 +320,24 @@ void CGameObjectLayer::playSound( CCNode* sender, void* data )
 
 void CGameObjectLayer::delayWinScene( float dt )
 {
-	CGamePlay::checkWin();
+	
 }
+//void CGameObjectLayer::changeBullet()
+//{	
+//	m_isClickChangeBullet=true;
+//	if(m_iCurrentBullet==FIRE_BULLET) {
+//		m_iCurrentBullet=WATER_BULLET;
+//	}
+//	else{
+//		if(m_iCurrentBullet==WATER_BULLET)
+//			m_iCurrentBullet=FIRE_BULLET;
+//	}
+//	
+//}
+
 void CGameObjectLayer::addBullets(CCPoint &centerPoint)
 {	
-	CCLOG("Shoot: %f",m_fTimeRetireBullet);
+	//CCLOG("Shoot: %f",m_fTimeRetireBullet);
 	float angle = -caculateAngle(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER),centerPoint);
 	int a=2;
 	float dx,dy;
@@ -419,7 +436,6 @@ float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
 	return angle;
 }
 
-
 CCPoint CGameObjectLayer::getDestination(float X,float Y)
 {
 	CCSize size= CCDirector::sharedDirector()->getWinSize();
@@ -513,11 +529,9 @@ bool CGameObjectLayer::isSelectSkill(CCPoint *p)
 }
 
 void  CGameObjectLayer::addStarSkill(){
-	CCLOG("Click Skill");
+	//CCLOG("Click Skill");
 	if(CCDirector::sharedDirector()->isPaused()) return;
 	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	//this->setTouchEnabled(false);
-	//CCDirector::sharedDirector()->pause();
 	CCLayerColor *PBlurLayer = CCLayerColor::create();
 	PBlurLayer->setOpacityModifyRGB(true);
 	PBlurLayer->setColor(ccc3(0,0,0));
@@ -529,17 +543,7 @@ void  CGameObjectLayer::addStarSkill(){
 
 }
 void CGameObjectLayer::loadMap(){
-	CCSize size = CCDirector::sharedDirector()->getWinSize();
-	
-	CCSprite* pSprite = CCSprite::create("Background\\background_package_level_1.png");
-	//pSprite->getContentSize().width;
-	pSprite->setScaleX((float)size.width/pSprite->getContentSize().width);
-	pSprite->setScaleY((float)size.height/pSprite->getContentSize().height);
-	// position the sprite on the center of the screen
-	pSprite->setPosition( ccp(size.width/2, size.height/2) );
-
-	// add the sprite as a child to this layer
-	this->addChild(pSprite, 0);
+	CCSize size = CCDirector::sharedDirector()->getWinSize();	
 
 }
 
@@ -564,8 +568,7 @@ void CGameObjectLayer::attackTower(){
 				jt->getContentSize().width,jt->getContentSize().height);
 			if(CCRect::CCRectIntersectsRect(towerRect,monsterRect)){
 				monsterToDele = jt;
-				actionKillMonster( monsterToDele );
-				//break;
+				actionKillMonster( monsterToDele );				
 			}
 		}
 	}
@@ -597,19 +600,20 @@ void CGameObjectLayer::attackMonster()
 	//_projectiles = dynamic_cast<CCSprite*>(it);
 	CCARRAY_FOREACH(m_arrMonster,it){
 		CMonster *monsterD = (CMonster*) it;
-		CCRect monsterRect = CCRectMake(monsterD->getPosition().x - monsterD->m_sprite->getContentSize().width*0.2/2,monsterD->getPosition().y-monsterD->m_sprite->getContentSize().height*0.2/2,monsterD->m_sprite->getContentSize().width*0.2,monsterD->m_sprite->getContentSize().height*0.2);
+		CCRect monsterRect = getRectMonsterFire(monsterD);
+		
 		CCArray *bulletsToDelete = new CCArray;
 		CCARRAY_FOREACH(m_arrBullet,jt){
 			Bullet *bulletD = (Bullet*)jt;
-			CCRect bulletRect = CCRectMake(bulletD->getPosition().x- bulletD->m_sprite->getContentSize().width*30.0/128.0/2,bulletD->getPosition().y-bulletD->m_sprite->getContentSize().height*30.0/128.0/2,bulletD->m_sprite->getContentSize().width*30.0/128.0,bulletD->m_sprite->getContentSize().height*30.0/128.0);
-			if(CCRect::CCRectIntersectsRect(monsterRect,bulletRect)){
+			CCRect bulletRect = getRectBulletFire(bulletD);				
+			if(CCRect::CCRectIntersectsRect(monsterRect, bulletRect)){
 				bulletsToDelete->addObject(bulletD);
 			}
 		}
 		CCARRAY_FOREACH(bulletsToDelete,jt){
 			Bullet *bulletD= (Bullet*)jt;
 			m_arrBullet->removeObject(bulletD);
-			this->removeChild(bulletD,true);
+			this->removeChild(bulletD, true);
 		}
 		if(bulletsToDelete->count() > 0)
 		{
@@ -623,4 +627,81 @@ void CGameObjectLayer::attackMonster()
 		this->removeChild(monsterD,true);
 	}
 	monsterToDelete->release();
+}
+
+cocos2d::CCRect CGameObjectLayer::getRectBulletFire( Bullet* pBullet )
+{
+	
+	float angle = - (pBullet->getRotation());
+	CCLOG("Angle = %f", angle);
+	float orginX = pBullet->getPosition().x ;
+	float orginY = pBullet->getPosition().y ;
+	float orginWidth = pBullet->m_sprite->getContentSize().width;
+	float orginHeight = pBullet->m_sprite->getContentSize().height;
+	float asixX, asixY, width, height;
+	if (angle >45.0f)
+	{
+		asixX = orginX ;
+		asixY = orginY ;
+		width = orginWidth/4.0f;
+		height = orginHeight;
+		return CCRectMake(asixX, asixY, width, height);
+	}
+	if ( angle > 30.0f )
+	{
+		asixX = orginX ;
+		asixY = orginY ;
+		width = orginWidth/2.0f - 5.0f;
+		height = orginHeight - 5.0f;
+		return CCRectMake(asixX, asixY, width, height);
+	}
+	if ( angle > 10.0f )
+	{
+		asixX = orginX ;
+		asixY = orginY - orginHeight/2.0f + 10.0f;
+		width = orginWidth/2.0f;
+		height = orginHeight - 10.0f;
+		return CCRectMake(asixX, asixY, width, height);
+	}
+	if (angle >= 0.0f )
+	{
+		asixX = orginX ;
+		asixY = orginY - orginHeight/2.0f + 5.0f;
+		width = orginWidth/2.0f;
+		height = orginHeight - 10.0f;
+		return CCRectMake(asixX, asixY, width, height);
+	}
+	if (angle < -45.0f)
+	{
+		asixX = orginX  ;
+		asixY = orginY - orginHeight/2 - 10.0f;
+		width = orginWidth/4.0f;
+		height = orginHeight;
+		return CCRectMake(asixX, asixY, width, height);
+	}
+	if (angle < -30.0f)
+	{
+		asixX = orginX ;
+		asixY = orginY - orginHeight/2 - 5.0f;
+		width = orginWidth/2.0f - 5.0f;
+		height = orginHeight - 10.0f;
+		return CCRectMake(asixX, asixY, width, height);
+	}
+	if (angle < 0.0f)
+	{
+		asixX = orginX ;
+		asixY = orginY - orginHeight/2.0f - 5.0f ;
+		width = orginWidth/2.0f;
+		height = orginHeight - 5.0f;
+		return CCRectMake(asixX, asixY, width, height);
+	}				
+	
+}
+
+cocos2d::CCRect CGameObjectLayer::getRectMonsterFire( CMonster* pMonster )
+{
+	return CCRectMake(pMonster->getPosition().x + 28.0f - pMonster->m_sprite->getContentSize().width/2.0f, 
+		pMonster->getPosition().y - pMonster->m_sprite->getContentSize().height/2 + 5.0f,
+		pMonster->m_sprite->getContentSize().width,
+		pMonster->m_sprite->getContentSize().height - 5.0f);
 }

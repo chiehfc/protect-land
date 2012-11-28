@@ -18,14 +18,6 @@ class CGamePlay: public cocos2d::CCScene
 public:
 
 	virtual bool	init(); 
-	static void		initGameState();
-	static void		addValue(int ID, int value);
-	static int		getValue(int ID);
-	static bool		checkWin();
-	static eStar	checkStars();
-	static void		setLevel(int level);
-	static CLevel*	getCurrentLevel();
-	static int      getLevel();
 	static void		setEnableMenu(bool value);
 
 	/************************************************************************/
@@ -33,24 +25,12 @@ public:
 	/* pScene, pMenuLayer, pMainLayer are autorelease                       */
 	/************************************************************************/
 	static cocos2d::CCScene* pScene;
-	//static cocos2d::CCLayer* pSpriteLayer;
 	static cocos2d::CCLayer* pMenuLayer;
-	//static cocos2d::CCLayer* pPhysicsLayer;
 	static cocos2d::CCLayer* pBackgroundLayer;
-	//static cocos2d::CCLayer* pFrontSpriteLayer;
 	static cocos2d::CCLayer* pGameObjectLayer;
 	static cocos2d::CCLayer* pSkillLayer;
 
 	static CLevel* m_pCurrentLevel;
-	static int  m_iLevel;
-	static int  s_iScore;
-	static int  s_iNumWoods;
-	static int  s_iNumKillThiefTimes;
-	static int  s_iWinScores;
-	static int  s_iBonus;
-	static int  s_i1StarScores;
-	static int  s_i2StarScores;
-	static int  s_i3StarScores;
 	static bool s_bisRunning;   
 
 	static cocos2d::CCScene* scene();	

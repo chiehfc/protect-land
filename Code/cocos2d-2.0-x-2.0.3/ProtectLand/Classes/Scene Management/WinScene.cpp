@@ -145,59 +145,8 @@ bool CWinScene::init()
 	return true;
 }
 void CWinScene::update(float dt)
-{	
+{
 	
-	if(countSocre == CGamePlay::getValue(SCORE) && countBonus == CGamePlay::getValue(BONUS))
-	{
-		
-		char bufTotal[50] = "";
-		sprintf(bufTotal, " %d", CGamePlay::getValue(SCORE) + CGamePlay::getValue(BONUS));
-		this->m_pLabelTotal->setString(bufTotal);
-		m_pLabelTotal->setVisible(true);
-		if(isPlayedWin == true) return;
-		CAudioManager::instance()->stopAllEff();
-		switch (numStar)
-		{
-			case 0:
-				CAudioManager::instance()->playEff(SOUND_WIN_1);
-				break;
-			case 1:
-				CAudioManager::instance()->playEff(SOUND_WIN_1);
-				break;
-			case 2:
-				CAudioManager::instance()->playEff(SOUND_WIN_2);
-				break;
-			case 3:
-				CAudioManager::instance()->playEff(SOUND_WIN_2);
-				break;
-		}
-		isPlayedWin = true;
-	}
-	else
-	{	
-		
-		if (countSocre <= CGamePlay::getValue(SCORE))
-		{
-			char bufScore[50] = "";
-			//this->m_pLabelScorce->setString(bufScore);
-			countSocre += 2;
-			if (countSocre > CGamePlay::getValue(SCORE)) countSocre = CGamePlay::getValue(SCORE);	
-			sprintf(bufScore, " %d", countSocre);
-			this->m_pLabelScorce->setString(bufScore);
-		}
-		if (countBonus <= CGamePlay::getValue(BONUS))
-		{
-			char bufBonus[20] = "";
-			//this->m_pLabelBonus->setString(bufBonus);
-			countBonus++;
-			if (countBonus > CGamePlay::getValue(BONUS)) countBonus = CGamePlay::getValue(BONUS);
-			sprintf(bufBonus, " %d", countBonus);
-			this->m_pLabelBonus->setString(bufBonus);
-		}	
-		if(isPlayedScoreCount == true) return;
-		CAudioManager::instance()->playEff(SOUND_SCORE_COUNT, true);
-		isPlayedScoreCount = true;
-	}
 }
 void CWinScene::render(){
 
@@ -220,7 +169,7 @@ void CWinScene::menuNextCallback( CCObject* pSender )
 {
 	CAudioManager::instance()->playEff(SOUND_CLICK_1);
 	CGamePlay::destroy();
-	CGamePlay::setLevel(CGamePlay::getLevel() + 1);
+	
 	CCScene *gameplayScene = CGamePlay::scene();
 	CCScene* pScene = CCTransitionSlideInR::create(0.7f, gameplayScene);
 	if (pScene)
@@ -234,7 +183,6 @@ void CWinScene::menuRestartCallback( CCObject* pSender )
 {
 	CAudioManager::instance()->playEff(SOUND_CLICK_1);
 	CGamePlay::destroy();
-	CGamePlay::setLevel(CGamePlay::getLevel());
 	CCScene *gamePlay = CGamePlay::scene();
 	CCDirector::sharedDirector()->replaceScene(gamePlay);
 }

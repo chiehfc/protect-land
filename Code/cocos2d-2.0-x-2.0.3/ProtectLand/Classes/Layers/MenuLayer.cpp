@@ -34,22 +34,13 @@ bool CMenuLayer::init()
 	//Skip Button
 	{
 		CCMenuItemImage *pSkipItem;
-			if (CLevelManager::GetInstance()->GetIsPass((CGamePlay::getLevel() + 1)%9))
-			{
+			
 				pSkipItem = CCMenuItemImage::create(
 					"SkipLevelSub.png",
 					"SkipLevelSubSelected.png",
 					this,
 					menu_selector(CMenuLayer::menuSkipLevelCallback));
-			}
-			else 
-			{
-				pSkipItem = CCMenuItemImage::create(
-					"SkipLevelSub.png",
-					"SkipLevelSubSelected.png",
-					this,NULL);
-				pSkipItem->setOpacity(130);
-			}
+				
 			pSkipItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
 			pSkipItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
 			pSkipItem->setPosition( ccp(size.width/2, size.height/2 + size.height*40/HEIGHT_SCREEN_STANDARD));
@@ -115,19 +106,7 @@ void CMenuLayer::menuLevelSelectCallback(CCObject* pSender)
 }
 void CMenuLayer::menuSkipLevelCallback(CCObject* pSender)
 {
-	CAudioManager::instance()->stopAllEff();
-	CAudioManager::instance()->stopBGMusic();
-	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
-	CCDirector::sharedDirector()->resume();
-	CGamePlay::destroy();
-	CGamePlay::setLevel(CGamePlay::getLevel() + 1);
-	CCScene *gameplayScene = CGamePlay::scene();
-	CCScene* pScene = CCTransitionCrossFade::create(0.7f, gameplayScene);
-	if (pScene)
-	{
-		CCDirector::sharedDirector()->replaceScene(pScene);
-	}
+	
 }
 void CMenuLayer::menuMainMenuCallback(CCObject* pSender)
 {

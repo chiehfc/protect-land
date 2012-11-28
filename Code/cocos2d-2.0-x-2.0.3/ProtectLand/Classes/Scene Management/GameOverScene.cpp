@@ -110,7 +110,6 @@ void CGameOverScene::menuRestartCallback( CCObject* pSender )
 {
 	CCDirector::sharedDirector()->resume();
 	CGamePlay::destroy();
-	CGamePlay::setLevel(CGamePlay::getLevel());
 	CCScene *gamePlay = CGamePlay::scene();
 	CCDirector::sharedDirector()->replaceScene(gamePlay);
 }

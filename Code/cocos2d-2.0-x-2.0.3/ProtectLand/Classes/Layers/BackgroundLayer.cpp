@@ -9,11 +9,10 @@ bool CBackgroundLayer::init()
 		return false;
 	}	
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
-	CCSprite* pSprite = CCSprite::create("GLBG.png");
-	pSprite->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pSprite->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
+	CCSprite* pSprite = CCSprite::create("Background\\background_package_level_1.png");
 	pSprite->setPosition( ccp(size.width/2, size.height/2) );
 	this->addChild(pSprite, 0);
+	return true;
 }
 
 void CBackgroundLayer::update(float dt)

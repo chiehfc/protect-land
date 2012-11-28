@@ -31,14 +31,14 @@
 
     MODULES
     {
-        MD	0x1007	MD_IMAGE	0	891	93	114	51	"lv4"
-        MD	0x1006	MD_IMAGE	0	587	94	161	49	"lv3"
-        MD	0x1005	MD_IMAGE	0	358	86	111	63	"lv2"
-        MD	0x1004	MD_IMAGE	0	47	80	191	80	"lv1"
+        MD	0x1007	MD_IMAGE	0	908	102	83	31	"lv4"
+        MD	0x1006	MD_IMAGE	0	614	102	109	32	"lv3"
+        MD	0x1005	MD_IMAGE	0	385	100	63	29	"lv2"
+        MD	0x1004	MD_IMAGE	0	82	101	117	32	"lv1"
         MD	0x1003	MD_IMAGE	0	887	24	116	30	"lv4"
-        MD	0x1002	MD_IMAGE	0	558	10	190	57	"lv3"
+        MD	0x1002	MD_IMAGE	0	579	17	150	40	"lv3"
         MD	0x1001	MD_IMAGE	0	341	23	124	32	"lv2"
-        MD	0x1000	MD_IMAGE	0	102	21	105	35	"lv1"
+        MD	0x1000	MD_IMAGE	0	118	25	68	26	"lv1"
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,56 +52,56 @@
     {
         0x2007
         RC	-40	-17	37	13
-        FM	0x1000	-52	-17
+        FM	0x1000	0	0
     }
 
     FRAME "SPR_BULLET_FIRE_LV2" // Index = 1, FModules = 1
     {
         0x2006
         RC	0	0	124	32
-        FM	0x1001	-62	-16
+        FM	0x1001	0	0
     }
 
     FRAME "SPR_BULLET_FIRE_LV3" // Index = 2, FModules = 1
     {
         0x2005
         RC	-50	-17	72	15
-        FM	0x1002	-121	-29
+        FM	0x1002	0	0
     }
 
     FRAME "SPR_BULLET_FIRE_LV4" // Index = 3, FModules = 1
     {
         0x2004
         RC	-58	-15	58	15
-        FM	0x1003	-58	-15
+        FM	0x1003	0	0
     }
 
     FRAME "SPR_BULLET_WATER_LV1" // Index = 4, FModules = 1
     {
         0x2003
         RC	-53	-22	50	13
-        FM	0x1004	-95	-40
+        FM	0x1004	0	0
     }
 
     FRAME "SPR_BULLET_WATER_LV2" // Index = 5, FModules = 1
     {
         0x2002
         RC	-42	-19	41	17
-        FM	0x1005	-55	-31
+        FM	0x1005	0	0
     }
 
     FRAME "SPR_BULLET_WATER_LV3" // Index = 6, FModules = 1
     {
         0x2001
         RC	-58	-13	59	13
-        FM	0x1006	-80	-24
+        FM	0x1006	0	0
     }
 
     FRAME "SPR_BULLET_WATER_LV4" // Index = 7, FModules = 1
     {
         0x2000
         RC	-43	-14	46	13
-        FM	0x1007	-57	-25
+        FM	0x1007	0	0
     }
 
     SPRITE_END

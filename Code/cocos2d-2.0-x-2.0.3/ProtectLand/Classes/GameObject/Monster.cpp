@@ -24,7 +24,7 @@ CMonster::CMonster(){
 void CMonster::moveMonster(){
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	//addChild(m_spriteAttack);
-	m_sprite->PlayAnimation(0,getSpeed()/10.0f,10,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackTower)));
+	m_sprite->PlayAnimation(0,getSpeed()/10.0f, 10, false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackTower)));
 	runAction(CCMoveBy::create(getSpeed(),ccp(-s.width*3/4,0)));
 	//m_sprite->PlayAnimationToPosition(-s.width*3/4,0,getSpeed(),2,0.8f,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackTower)));
 }
@@ -97,15 +97,12 @@ void CMonster::onExit()
 
 void CMonster::attackTower(CCNode* sender)
 {
-	//this->removeChild(m_sprite,false);
-	//addChild(m_spriteAttack);
-	//m_spriteAttack->setPosition(ccp(0,0));
-	m_sprite->PlayAnimation(1,1.0f,100,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackDone)));
+	m_sprite->PlayAnimation(1, 1.0f, 100, false, CCCallFuncN::actionWithTarget(this, callfuncN_selector(CMonster::attackDone)));
 }
 
 void CMonster::attackDone( CCNode* sender )
 {
-	this->removeChild(m_spriteAttack,true);
+	
 }
 
 void CMonster::monsterDie()
@@ -125,7 +122,14 @@ void CMonster::removeMonster()
 
 void CMonster::draw()
 {
-	ccDrawColor4F(1.0f, 0.0f, 0.0f, 1.0f);
-	//ccDrawRect();
-	ccDrawColor4F(1.0f, 1.0f, 1.0f, 1.0f);
+	/*ccDrawColor4F(1.0f, 0.0f, 0.0f, 1.0f);
+	CCRect rect = getRectCurrentOfMonsters();
+	ccDrawRect(rect.origin, ccpAdd(rect.origin, ccp(rect.size.width, rect.size.height)));
+	ccDrawColor4F(1.0f, 1.0f, 1.0f, 1.0f);*/
+}
+
+cocos2d::CCRect CMonster::getRectCurrentOfMonsters()
+{
+	//set rect for check collison
+	return CCRectMake(m_sprite->getPosition().x - m_sprite->getContentSize().width/2.0f, m_sprite->getPosition().y - m_sprite->getContentSize().height/2.0f, m_sprite->getContentSize().width, m_sprite->getContentSize().height);
 }
