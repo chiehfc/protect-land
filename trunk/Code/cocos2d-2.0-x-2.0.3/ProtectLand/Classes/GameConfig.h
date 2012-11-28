@@ -388,8 +388,7 @@ SKILL
 /*
 TOWER
 */
-#define FIRE_TOWER 0
-#define WATER_TOWER 1
+
 #define LOCATION_X_TOWER 82
 #define LOCATION_Y_TOWER 335
 

@@ -123,12 +123,15 @@ bool CGameObjectLayer::init()
 
 		m_pBaseTower=CCSprite::spriteWithFile("Tower\\Data\\tower_11.png");
 		m_pBaseTower->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
-		m_iCurrentBullet=FIRE_BULLET;
+		m_typeBullet=FIRE_BULLET;
+		m_levelBullet=BULLET_LEVEL_1;
 		this->addChild(m_pBaseTower);
 		m_pTowerItem=new CMySprite("Tower\\tower.sprite");
 		m_pTowerItem->setPosition(ccp(LOCATION_X_TOWER+10,LOCATION_Y_TOWER+20));
 		this->addChild(m_pTowerItem);
 		m_pTowerItem->PlayAnimation(FIRE_TOWER,0.4f, true, false);
+		
+		
 		m_timeSkill=0;
 		m_isClickSkill=false;
 		m_isClickChangeBullet=false;
@@ -136,13 +139,13 @@ bool CGameObjectLayer::init()
 		m_isFullEmergy=true;
 		m_fTimeRetireBullet=0;
 		m_TimeDelayBullet=0.5;
-		m_levelBullet=BULLET_LEVEL_2;
+		
 	}		
 
 	
 	// TEST
 	// them layskill nhan du kien touch
-	//addStarSkill();
+	addStarSkill();
 
 	
 
@@ -206,15 +209,7 @@ bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 
 		m_bIsTouching = true;
 		m_pCurrentPoint = pTouch->getLocation();
-		/*
-		if(m_fTimeRetireBullet>m_TimeDelayBullet){
-		addBullets(pTouch->getLocation());
-		m_fTimeRetireBullet=0;
-		}
-		*/
-
-
-
+	
 	}
 	return true;
 }
@@ -225,15 +220,7 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 	{
 		m_bIscol = false;
 		m_pCurrentPoint=pTouch->getLocation();
-		/*
-		if(m_fTimeRetireBullet>m_TimeDelayBullet){
-		//addBullets(pTouch->getLocation());
-		m_fTimeRetireBullet=0;
-		}
-		*/
-
-
-
+		
 	}
 }
 
@@ -331,21 +318,6 @@ void CGameObjectLayer::delayWinScene( float dt )
 {
 	CGamePlay::checkWin();
 }
-void CGameObjectLayer::changeBullet()
-{	
-	m_isClickChangeBullet=true;
-	if(m_iCurrentBullet==FIRE_BULLET) {
-		m_iCurrentBullet=WATER_BULLET;
-
-	}
-	else{
-		if(m_iCurrentBullet==WATER_BULLET)
-			m_iCurrentBullet=FIRE_BULLET;
-
-	}
-	
-}
-
 void CGameObjectLayer::addBullets(CCPoint &centerPoint)
 {	
 	CCLOG("Shoot: %f",m_fTimeRetireBullet);
@@ -353,8 +325,7 @@ void CGameObjectLayer::addBullets(CCPoint &centerPoint)
 	int a=2;
 	float dx,dy;
 	dx=centerPoint.x - LOCATION_X_TOWER;
-	m_levelBullet=BULLET_LEVEL_3;
-	if(angle<88 && dx>0){
+	if(angle>-88 && angle <88 &&dx>0){
 		switch(m_levelBullet){
 		case BULLET_LEVEL_1:
 			addOneBullet(centerPoint,-angle);
@@ -381,14 +352,46 @@ void CGameObjectLayer::addBullets(CCPoint &centerPoint)
 void CGameObjectLayer::addOneBullet(CCPoint &p,float angle)
 {
 	char * path="";
-	if(m_iCurrentBullet==FIRE_BULLET) path="Bullets\\data use\\bullets_01.png";
+	if(m_typeBullet==FIRE_BULLET) path="Bullets\\data use\\bullets_01.png";
 	else path="Bullets\\data use\\bullets_01.png";
+	switch(m_typeBullet){
+	case FIRE_BULLET:
+		switch(m_levelBullet){
+		case BULLET_LEVEL_1:
+			path="Bullets\\data use\\bullets_01.png";
+			break;
+		case BULLET_LEVEL_2:
+			path="Bullets\\data use\\bullets_02.png";
+			break;
+		case BULLET_LEVEL_3:
+			path="Bullets\\data use\\bullets_03.png";
+			break;
+
+		}
+		m_pTowerItem->PlayAnimation(FIRE_TOWER,0.4f, true, false);
+		break;
+	case WATER_BULLET:
+		switch(m_levelBullet){
+		case BULLET_LEVEL_1:
+			path="Bullets\\data use\\bullets_05.png";
+			break;
+		case BULLET_LEVEL_2:
+			path="Bullets\\data use\\bullets_06.png";
+			break;
+		case BULLET_LEVEL_3:
+			path="Bullets\\data use\\bullets_07.png";
+			break;
+
+		}
+		m_pTowerItem->PlayAnimation(WATER_TOWER,0.4f, true, false);
+		break;
+	}
 	CCSprite* sp = CCSprite::create(path);
 	sp->setPosition(ccp(0,0));
 	//sp->setScale(30.0/240.0);
-	Bullet *newBullet= new Bullet(m_iCurrentBullet,sp);
-	newBullet->setType(m_iCurrentBullet);
-	newBullet->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
+	Bullet *newBullet= new Bullet(m_typeBullet,sp);
+	newBullet->setType(m_typeBullet);
+	newBullet->setPosition(ccp(LOCATION_X_TOWER + 15,LOCATION_Y_TOWER+30));
 	newBullet->setRotation(angle);
 	this->addChild(newBullet);
 	m_arrBullet->addObject(newBullet);
@@ -439,12 +442,57 @@ CCPoint CGameObjectLayer::getDestination(float X,float Y)
 	return ccp(DestX,DestY);
 
 }
-void CGameObjectLayer::updateBullet()
+void CGameObjectLayer::updateBullet(int type, int level)
 {
+	m_typeBullet = type;
+	m_levelBullet = level;
+	switch(m_typeBullet){
+	case FIRE_BULLET:
+		switch(m_levelBullet){
+		case BULLET_LEVEL_1:
+			loadTower("Tower\\Data\\tower_11.png","Tower\\tower.sprite");
+			break;
+		case BULLET_LEVEL_2:
+			loadTower("Tower\\Data\\tower_12.png","Tower\\tower.sprite");
+			break;
+		case BULLET_LEVEL_3:
+			loadTower("Tower\\Data\\tower_13.png","Tower\\tower.sprite");
+			break;
+			
+		}
+		m_pTowerItem->PlayAnimation(FIRE_TOWER,0.4f, true, false);
+		break;
+	case WATER_BULLET:
+		switch(m_levelBullet){
+		case BULLET_LEVEL_1:
+			loadTower("Tower\\Data\\tower_08.png","Tower\\tower.sprite");
+			break;
+		case BULLET_LEVEL_2:
+			loadTower("Tower\\Data\\tower_09.png","Tower\\tower.sprite");
+			break;
+		case BULLET_LEVEL_3:
+			loadTower("Tower\\Data\\tower_10.png","Tower\\tower.sprite");
+			break;
 
+		}
+		m_pTowerItem->PlayAnimation(WATER_TOWER,0.4f, true, false);
+		break;
+	}
+	
 
 }
+void CGameObjectLayer::loadTower(char * base, char * item)
+{
+	this->removeChild(m_pBaseTower,true);
+	m_pBaseTower=CCSprite::spriteWithFile(base);
+	m_pBaseTower->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
+	this->addChild(m_pBaseTower);
+	this->removeChild(m_pTowerItem,true);
+	m_pTowerItem=new CMySprite(item);
+	m_pTowerItem->setPosition(ccp(LOCATION_X_TOWER + 5,LOCATION_Y_TOWER+40));
+	this->addChild(m_pTowerItem);
 
+}
 bool CGameObjectLayer::isSelectSkill(CCPoint *p)
 {
 	if(m_isFullEmergy){
