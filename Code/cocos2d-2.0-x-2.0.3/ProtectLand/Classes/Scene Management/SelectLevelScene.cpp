@@ -108,6 +108,7 @@ void CSelectLevelScene::menuNextCallBack( CCObject* pSender )
 {
 	//chuyen den skillUpgradeScene
 	CCScene * pSkillUpgradeScene = CSkillUpgradeScene::scene();
+	//CCScene *pSkillUpgradeScene = CWinScene::scene();
 	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, pSkillUpgradeScene, ccWHITE);
 	if (pScene)
 	{

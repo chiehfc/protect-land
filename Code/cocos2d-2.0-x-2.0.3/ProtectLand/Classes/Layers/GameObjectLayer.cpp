@@ -124,7 +124,7 @@ bool CGameObjectLayer::init()
 		m_fSpeed = 1000;
 		m_bIsFullEmergy = true;
 		m_fTimeRetireBullet = 0;
-		m_TimeDelayBullet = CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerSpeed;
+		m_TimeDelayBullet = 1.0f*pow(0.8,CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerSpeed);
 		m_levelBullet = CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower;
 
 		m_iCurrentEnegy = 0;  // khoi tao enegy ban dau
@@ -956,7 +956,6 @@ void CGameObjectLayer::addSkillAnimation( int typeSkill)
 void CGameObjectLayer::processWhenMonsterDie( CMonster* pMonster )
 {
 	// cong them nang luon
-	
 	m_iCurrentEnegy += pMonster->getPower();
 	//playAnimation Monster Die
 	
