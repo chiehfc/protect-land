@@ -71,7 +71,7 @@ public:
 	SLevelInfomation* GetListLevel(int& NumOfLevel);
 	bool ResetLevel(const char* pszPath, int iNumOfLevel);
 	bool ResetLevel(const char* pszPath);
-	bool SetLevelInfo(int iMapCurrent, int iLevelCurrent, int iCoin, int iLevelTower, int iDameTowerCurrent, float iTowerSpeed, int iTowerHp, int iRateDoubleDamge);
+	bool SetLevelInfo(int iMapCurrent, int iLevelCurrent, int iCoin, int iLevelTower, int iDameTowerCurrent, int iTowerSpeed, int iTowerHp, int iRateDoubleDamge);
 	
 	
 	bool CreateFileFirstGame(const char* pc_FileName, int iNumOfLevel);

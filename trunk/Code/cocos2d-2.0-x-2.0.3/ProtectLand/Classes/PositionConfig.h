@@ -10,9 +10,11 @@ TOWER
 #define LOCATION_Y_SKILL 45
 
 /*
-	397.000000 502.000000
-	563.000000 504.000000
-	722.000000 502.000000
-	876.000000 500.000000
-	*/
+* Icoin an coin tren man hinh choi
+*/
+#define LOCATION_COIN_ICON		ccp(300, 300)
+#define LOCATION_LABEL_COIN		ccp(400, 300)
+#define LOCATION_SCENE_ICON		ccp(600, 300)
+#define LOCATION_LABEL_SCENE	ccp(700, 300)
+
 #endif

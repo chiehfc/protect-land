@@ -47,8 +47,6 @@ bool CMenuLayer::init()
 			pMenu->addChild(pSkipItem);
 	}
 	
-
-
 	CCMenuItemImage *pMainMenu = CCMenuItemImage::create(
 		"LevelSelectSub.png",
 		"LevelSelectSubSelected.png",
@@ -106,7 +104,20 @@ void CMenuLayer::menuLevelSelectCallback(CCObject* pSender)
 }
 void CMenuLayer::menuSkipLevelCallback(CCObject* pSender)
 {
-	
+	CAudioManager::instance()->stopAllEff();
+	CAudioManager::instance()->stopBGMusic();
+	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
+	CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CCDirector::sharedDirector()->resume();
+	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_COLOR_LAYER);
+	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_MENU_LAYER);
+	CGamePlay::destroy();
+	CCScene *pWinScene = CWinScene::scene();
+	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, pWinScene, ccWHITE);
+	if (pScene)
+	{
+		CCDirector::sharedDirector()->replaceScene(pScene);
+	}
 }
 void CMenuLayer::menuMainMenuCallback(CCObject* pSender)
 {
