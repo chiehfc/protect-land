@@ -112,7 +112,7 @@ void CMenuLayer::menuSkipLevelCallback(CCObject* pSender)
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_COLOR_LAYER);
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_MENU_LAYER);
 	CGamePlay::destroy();
-	CCScene *pWinScene = CWinScene::scene();
+	CCScene *pWinScene = CWinScene::scene(1,2);
 	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, pWinScene, ccWHITE);
 	if (pScene)
 	{
