@@ -116,16 +116,7 @@ void CSkillUpgradeScene::addLabel(CCLabelBMFont **pLabel, ccColor3B &color, int 
 	
 	(*pLabel)->setAnchorPoint(ccp(0, 1));
 	(*pLabel)->setPosition( position);
-//	(*pLabel)->setString(str);
 	this->addChild(*pLabel, 2);
-	/*
-	char bufBonus[20] = "";
-	//this->m_pLabelBonus->setString(bufBonus);
-	countBonus++;
-	if (countBonus > CGamePlay::getValue(BONUS)) countBonus = CGamePlay::getValue(BONUS);
-	sprintf(bufBonus, " %d", countBonus);
-	this->m_pLabelBonus->setString(bufBonus);
-	*/
 	
 }
 

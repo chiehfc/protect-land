@@ -145,13 +145,19 @@ bool CGameObjectLayer::init()
 		pSceneSorite->setPosition(LOCATION_SCENE_ICON);
 		this->addChild(pSceneSorite);
 
-		m_pLabelCoinCollect = CCLabelBMFont::create("aaa", "fonts/myFont.fnt", 50);
-		//m_pLabelBonus->setScale(0.7f);
+		m_pLabelCoinCollect = CCLabelBMFont::create("0", "fonts/myFont.fnt", 50);
 		m_pLabelCoinCollect->setColor(ccc3(177, 89, 76));
+		m_pLabelCoinCollect->setScale(1.5f);
 		m_pLabelCoinCollect->setPosition(LOCATION_LABEL_COIN);
 		this->addChild(m_pLabelCoinCollect, zLabel);
 
-		m_pLabelStageCurrent = CCLabelBMFont::create(" 0", "fonts/myFont.fnt", 35);
+		char strTemp[20] = "";
+		sprintf(strTemp, "%d/5", CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelCurrent);
+		m_pLabelStageCurrent = CCLabelBMFont::create(strTemp, "fonts/myFont.fnt", 35);
+		m_pLabelStageCurrent->setScale(1.5f);
+		m_pLabelStageCurrent->setColor(ccc3(177, 89, 76));
+		m_pLabelStageCurrent->setPosition(LOCATION_LABEL_SCENE);
+		this->addChild(m_pLabelStageCurrent, zLabel);
 	}
 	
 	CAudioManager::instance()->stopAllEff();
@@ -173,6 +179,7 @@ void CGameObjectLayer::update(float dt)
 			m_fTimeRetireBullet=0;
 		}
 	}
+	processLabelCoin();
 	creatMonster();
 	attackMonster();
 	m_time = m_time + dt;
@@ -536,6 +543,7 @@ void  CGameObjectLayer::addStarSkill(){
 	CGamePlay::pScene->addChild(PBlurLayer, ZORDER_GAMEPLAY_COLOR_LAYER, TAG_GAMEPLAY_COLOR_LAYER);
 	
 }
+
 void CGameObjectLayer::loadMap(){
 	
 
@@ -794,6 +802,8 @@ void CGameObjectLayer::addMonsterToDelete( CMonster * monster, int damage )
 {
 	monster->setDelayTimeDie(m_time);
 	monster->monsterDie(damage);
+	//cong tien them khi quai bi kill
+	CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin += monster->getCoin();
 	m_arrMonster->removeObject(monster);
 	m_arrMonsterToDelete->addObject(monster);
 }
@@ -934,4 +944,9 @@ void CGameObjectLayer::hurtMonster( CMonster *monster, int damage )
 	monster->hitMonster(damage);
 }
 
-
+void CGameObjectLayer::processLabelCoin()
+{
+	char bufTem[20] = "";
+	sprintf(bufTem, "%d", CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin);
+	m_pLabelCoinCollect->setString(bufTem);
+}

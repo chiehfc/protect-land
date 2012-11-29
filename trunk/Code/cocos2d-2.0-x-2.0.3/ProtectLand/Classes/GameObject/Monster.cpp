@@ -1,5 +1,6 @@
 #include "Monster.h"
 #include "cocos2d.h"
+#include "PositionConfig.h"
 //#include "GameObjectLayer.h"
 
 CMonster::CMonster(TypeMonster type, MonsterLevel level, int height){	
@@ -203,11 +204,10 @@ void CMonster::collectCoin( CCNode* sender )
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	m_sprite->setVisible(false);
 	//m_spriteCoin->runAction(CCSequence::create(
-		//CCMoveBy::create(1.0f,ccp(s.width/7-getPosition().x,s.height*6/7-getPosition().y)),
+	m_spriteCoin->PlayAnimationToPosition(LOCATION_COIN_ICON.x-getPosition().x, LOCATION_COIN_ICON.y-getPosition().y, 1.0f, 0, 0.2f, false, CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::collectDone)));
 		//CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::collectDone)),
 		//NULL));
 	//m_spriteCoin->PlayAnimationToPosition(s.width/7-getPosition().x,s.height*6/7-getPosition().y,1.0f,0.2f,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::collectDone)));
-	m_spriteCoin->PlayAnimationToPosition(s.width/7-getPosition().x,s.height*6/7-getPosition().y,TIME_COIN,0,0.2f,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::collectDone)));
 }
 
 void CMonster::collectDone( CCNode * sender )

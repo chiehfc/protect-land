@@ -12,9 +12,9 @@ TOWER
 /*
 * Icoin an coin tren man hinh choi
 */
-#define LOCATION_COIN_ICON		ccp(300, 300)
-#define LOCATION_LABEL_COIN		ccp(400, 300)
-#define LOCATION_SCENE_ICON		ccp(600, 300)
-#define LOCATION_LABEL_SCENE	ccp(700, 300)
+#define LOCATION_COIN_ICON		ccp(200, 670)
+#define LOCATION_LABEL_COIN		ccp(250, 670)
+#define LOCATION_SCENE_ICON		ccp(400, 670)
+#define LOCATION_LABEL_SCENE	ccp(460, 670)
 
 #endif
