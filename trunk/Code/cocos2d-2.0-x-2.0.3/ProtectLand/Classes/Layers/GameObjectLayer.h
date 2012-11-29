@@ -2,7 +2,7 @@
 #define __GAMEOBJECTLAYER_H__
 #include <vector>
 #include "cocos2d.h"
-
+#include "PositionConfig.h"
 
 #include "Utils.h"
 #include "IncludeHelper.h"
@@ -20,6 +20,8 @@ enum {
 	kTagWaterNode = 13,
 	kTagCoconutNode = 14,
 };
+
+#define MAX_ENEGY 10
 
 class CThief;
 class CBeet;
@@ -57,12 +59,8 @@ private:
 	int m_levelBullet;
 	//Skill
 	CCSprite *m_pSkill;
-	float m_timeSkill;
-	bool m_isClickSkill;
-	bool m_isFullEmergy;
 	//vector<Bullet *> *m_vBullet;
-	CCArray *m_arrBullet;
-	
+	CCArray *m_arrBullet;	
 	float length;
 	//Physic
 
@@ -93,13 +91,16 @@ private:
 	int m_index;
 	CTower *m_tower;
 	bool m_checkLose;
+	//Monster
+	bool oneMonster;
+	void processWhenMonsterDie(CMonster* pMonster);
 	
 	
 	
 	void addOneBullet(CCPoint &p,float angle);
 	void addBullets(CCPoint &centerPoint);
 	void loadTower(char * base, char * item);
-	bool isSelectSkill(CCPoint *p);
+	bool isClickSkill(CCPoint &p);
 	CCPoint getDestination(float X,float Y);
 	void updateBullet(int type, int level);
 	float caculateAngle(CCPoint v,CCPoint v1);
@@ -146,9 +147,13 @@ public:
 
 
 	//connect with skill layer
+	bool m_bIsFullEmergy; // true if afford emergy to exe skill
+	int m_iCurrentEnegy;  // enegy hien tai, moi lan kill quai cong len
+	bool m_bToggle;
 	bool m_bIsFinshChooseSkill; //check khi skill da chon xong ben Skill layer
 	int m_iTypeSkillReturn;  // loai skill se hien len
 	void addSkillAnimation(int typeSkill);  //ham thuc hien them animation skill vao layer
+
 
 	CREATE_FUNC(CGameObjectLayer);
 };
