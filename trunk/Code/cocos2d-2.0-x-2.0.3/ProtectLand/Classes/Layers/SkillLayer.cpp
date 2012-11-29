@@ -193,6 +193,7 @@ void CSkillLayer::removeLayer()
 {
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_SKILL_LAYER);
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_COLOR_LAYER);
-	//CGamePlay::
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(CGamePlay::pGameObjectLayer, TOUCH_PRIORITY_MAIN_LAYER , true);
+	CGamePlay::pGameObjectLayer->setTouchEnabled(true);
 }
 
