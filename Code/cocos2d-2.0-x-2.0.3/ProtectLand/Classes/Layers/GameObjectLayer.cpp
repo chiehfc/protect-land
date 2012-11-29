@@ -1,10 +1,10 @@
 #include "GameObjectLayer.h"
 #include "GameConfig.h"
 #include "MySprite.h"
-#include "GameConfig.h"
 #include "GamePlay.h"
 #include "MenuLayer.h"
 #include "SkillLayer.h"
+#include "PositionConfig.h"
 
 #include "WinScene.h"
 #include "AudioManager.h"
@@ -114,14 +114,19 @@ bool CGameObjectLayer::init()
 		m_pTowerItem->setPosition(ccp(LOCATION_X_TOWER+10,LOCATION_Y_TOWER+20));
 		this->addChild(m_pTowerItem);
 		m_pTowerItem->PlayAnimation(FIRE_TOWER, 0.4f, true, false);
-		m_timeSkill = 0;
-		m_isClickSkill = false;
+		m_pSkill = CCSprite::spriteWithFile("Skill\\Skill1.png");
+		m_pSkill->setPosition(ccp(LOCATION_X_SKILL,LOCATION_Y_SKILL));
+		this->addChild(m_pSkill);
+		
 		m_isClickChangeBullet = false;
 		m_fSpeed = 1000;
-		m_isFullEmergy = true;
+		m_bIsFullEmergy = true;
 		m_fTimeRetireBullet = 0;
 		m_TimeDelayBullet = CLevelManager::GetInstance()->GetLevelInformation()->m_fTowerSpeed;
 		m_levelBullet = CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower;
+
+		m_iCurrentEnegy = 0;  // khoi tao enegy ban dau
+		m_bToggle=false;
 	}		
 
 	
@@ -175,6 +180,15 @@ void CGameObjectLayer::update(float dt)
 		addSkillAnimation(m_iTypeSkillReturn);
 		m_bIsFinshChooseSkill = false;
 	}
+
+	if(m_bToggle){
+		this->removeChild(m_pSkill,true);
+		m_pSkill = CCSprite::spriteWithFile("Skill\\Skill1_2.png");
+		m_pSkill->setPosition(ccp(LOCATION_X_SKILL,LOCATION_Y_SKILL));
+		this->addChild(m_pSkill);
+		m_bToggle=false;
+	}
+	
 }
 
 void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
@@ -194,7 +208,7 @@ void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
 
 bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 {	
-
+	CCLOG("%f %f",pTouch->getLocation().x,pTouch->getLocation().y);
 	if(CCDirector::sharedDirector()->isPaused()) return false;
 	if(m_bIsTouching)
 	{
@@ -205,6 +219,13 @@ bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 		m_bIsTouching = true;
 		m_pCurrentPoint = pTouch->getLocation();
 	}
+	if(m_bIsFullEmergy && isClickSkill(pTouch->getLocation()))
+	{
+		m_bIsTouching=false;
+		addStarSkill();
+		
+	}
+
 	return true;
 }
 
@@ -430,7 +451,7 @@ float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
 
 CCPoint CGameObjectLayer::getDestination(float X,float Y)
 {
-	CCSize size= CCDirector::sharedDirector()->getWinSize();
+	
 	float t;
 	if(X-LOCATION_X_TOWER!= 0) t= 50/(X-LOCATION_X_TOWER);
 	else t= 50/(Y-LOCATION_Y_TOWER);
@@ -501,22 +522,10 @@ void CGameObjectLayer::loadTower(char * base, char * item)
 	this->addChild(m_pTowerItem);
 
 }
-bool CGameObjectLayer::isSelectSkill(CCPoint *p)
+bool CGameObjectLayer::isClickSkill(CCPoint &p)
 {
-	if(m_isFullEmergy){
-		CCSize size = CCDirector::sharedDirector()->getWinSize();
-		int xLeft=size.width/2.0 + AREA_SHOOT_BULLET_WIDTH/2 +10;
-		int xRight=xLeft+60;
-		int yMin= 10;
-		int yMax= yMin+60;
-		int realX = p->x;
-		int realY = p->y;
-		if(realY>= yMin && realY<=yMax && realX>=xLeft && realX<=xRight){
-			return true;
-		}
-		return false;
-	}
-	return false;
+	
+	return ((p.x>=LOCATION_X_SKILL - 30) && (p.x<= LOCATION_X_SKILL + 30) && (p.y>= LOCATION_Y_SKILL-30) && (p.y <= LOCATION_Y_SKILL+30));
 
 }
 
@@ -535,7 +544,7 @@ void  CGameObjectLayer::addStarSkill(){
 
 }
 void CGameObjectLayer::loadMap(){
-	CCSize size = CCDirector::sharedDirector()->getWinSize();	
+	
 
 }
 
@@ -635,8 +644,11 @@ void CGameObjectLayer::attackMonster()
 		}
 		bulletsToDelete->release();
 	}
+	
+	//Xoa nhung monster thuoc array monsterToDelete
 	CCARRAY_FOREACH(monsterToDelete,it){
 		CMonster* monsterD = (CMonster*)it;
+		processWhenMonsterDie(monsterD);
 		m_arrMonster->removeObject(monsterD);
 		this->removeChild(monsterD,true);
 	}
@@ -921,4 +933,20 @@ void CGameObjectLayer::addSkillAnimation( int typeSkill)
 		this->addChild(pSprite);
 		pSprite->PlayAnimation(0, 3.0f, 1, false);
 	}
+}
+
+void CGameObjectLayer::processWhenMonsterDie( CMonster* pMonster )
+{
+	// cong them nang luon
+	
+	m_iCurrentEnegy += pMonster->getPower();
+	//playAnimation Monster Die
+	
+	if(m_iCurrentEnegy >= MAX_ENEGY )
+	{
+		m_bIsFullEmergy = true;
+		m_bToggle=true;
+	}
+	
+
 }

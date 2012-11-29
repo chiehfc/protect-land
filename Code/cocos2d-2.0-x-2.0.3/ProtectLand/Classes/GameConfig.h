@@ -224,7 +224,7 @@ enum eStar
 /************************************************************************/
 
 #define TOUCH_PRIORITY_MAIN_LAYER 0
-#define TOUCH_PRIORITY_WOOD	      1
+
 
 
 
@@ -378,9 +378,10 @@ enum eStar
 
 /*
 DEFINE	AREA SHOOT SIZE
-*/
+
 #define AREA_SHOOT_BULLET_WIDTH 240
 #define AREA_SHOOT_BULLET_HEIGHT 128
+*/
 
 /*
 SKILL
@@ -390,11 +391,8 @@ SKILL
 TOWER
 */
 
-#define LOCATION_X_TOWER 82
-#define LOCATION_Y_TOWER 335
 
 
-#define MAX_LENGTH_MOVE 300 
 
 /*
 MONSTER

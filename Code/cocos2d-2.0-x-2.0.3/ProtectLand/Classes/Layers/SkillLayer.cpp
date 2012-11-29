@@ -25,14 +25,15 @@ bool CSkillLayer::init()
 	}
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 10 , true);
 	initVar();
-	addSphere(m_sprite1,"Skill\\SphereYellow.png",CENTRAL_X1,CENTRAL_Y1);
-	addSphere(m_sprite2,"Skill\\SphereOrange.png",CENTRAL_X2,CENTRAL_Y2);
-	addSphere(m_sprite3,"Skill\\SphereRed.png",CENTRAL_X3,CENTRAL_Y3);
-	addSphere(m_sprite4,"Skill\\SphereGreen.png",CENTRAL_X4,CENTRAL_Y4);
-	addSphere(m_sprite5,"Skill\\SphereBlue.png",CENTRAL_X5,CENTRAL_Y5);
+	addSphere(m_sprite1,"Skill\\Skill-Kim.png",CENTRAL_X1,CENTRAL_Y1);
+	addSphere(m_sprite2,"Skill\\Skill-Tho.png",CENTRAL_X2,CENTRAL_Y2);
+	addSphere(m_sprite3,"Skill\\Skill-Hoa.png",CENTRAL_X3,CENTRAL_Y3);
+	addSphere(m_sprite4,"Skill\\Skill-Moc.png",CENTRAL_X4,CENTRAL_Y4);
+	addSphere(m_sprite5,"Skill\\Skill-Thuy.png",CENTRAL_X5,CENTRAL_Y5);
 	resultSkill=-1;
 	m_timer=0;
-	
+
+	this->setTouchEnabled(true);
 	return true;
 }	
 void CSkillLayer::addSphere(CCSprite *m_sprite,char *path,int x,int y)
@@ -102,8 +103,8 @@ void CSkillLayer::update(float dt)
 
 void CSkillLayer::onEnter()
 {
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
-	this->setTouchEnabled(true);
+	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 10, true);
 }
 void CSkillLayer::initVar()
 {
