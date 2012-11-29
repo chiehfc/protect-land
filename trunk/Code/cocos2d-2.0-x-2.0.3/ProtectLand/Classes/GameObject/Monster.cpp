@@ -1,9 +1,10 @@
 #include "Monster.h"
 #include "cocos2d.h"
 #include "PositionConfig.h"
+#include "LevelManager.h"
 //#include "GameObjectLayer.h"
 
-CMonster::CMonster(TypeMonster type, MonsterLevel level, int height){	
+CMonster::CMonster(TypeMonster type, MonsterLevel level, int height){
 	timeMove = 0.0f;
 	check1 = false;
 	check2 = false;
@@ -120,11 +121,12 @@ void CMonster::onExit()
 }
 
 void CMonster::moveMonster(){
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	timeMove = timeMove + getSpeed()/10.0f;
-	if(timeMove>getSpeed()+0.5f){
+	if(getPosition().x<s.width/3.1f){
 		typeMove = ATTACK;
 	}
-	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	//CCSize s = CCDirector::sharedDirector()->getWinSize();
 	runAction(CCMoveBy::create(getSpeed()/10.0f,ccp(-s.width*3/45.0f,0)));
 	m_sprite->PlayAnimation(0,getSpeed()/10.0f, 1, false, CCCallFuncN::actionWithTarget(this, callfuncN_selector(CMonster::monsterAction)));
 }
@@ -150,7 +152,8 @@ void CMonster::monsterDie(int damage)
 
 void CMonster::hitMonster(int damage)
 {
-	if(timeMove>getSpeed()+0.5f){
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	if(this->getPosition().x < s.width/3.1f){
 		typeMove = ATTACK;
 	}else{
 		typeMove = MOVE;
@@ -213,6 +216,7 @@ void CMonster::collectCoin( CCNode* sender )
 void CMonster::collectDone( CCNode * sender )
 {
 	m_spriteCoin->setVisible(false);
+	CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin += getCoin();
 }
 
 void CMonster::numberDamageIn(int damage)

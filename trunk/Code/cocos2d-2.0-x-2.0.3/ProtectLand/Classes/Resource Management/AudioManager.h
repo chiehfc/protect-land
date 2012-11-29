@@ -4,6 +4,7 @@
 
 #include "SimpleAudioEngine.h"
 #include "GameConfig.h"
+#include "SoundConfig.h"
 
 class CAudioManager
 {

@@ -9,6 +9,10 @@ TOWER
 #define LOCATION_X_SKILL 298
 #define LOCATION_Y_SKILL 45
 
+//HP Tower
+#define LOCATION_X_HP_TOWER 82
+#define LOCATION_Y_HP_TOWER 250
+
 /*
 * Icoin an coin tren man hinh choi
 */
