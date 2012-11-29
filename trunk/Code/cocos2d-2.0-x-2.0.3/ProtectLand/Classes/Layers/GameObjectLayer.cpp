@@ -101,6 +101,7 @@ bool CGameObjectLayer::init()
 
 	//=======INIT VALUE=======//
 	{
+		m_bIsFinshChooseSkill = false; // gan gia tri ban dau la false, tuc chua them skill
 		m_bIscol = false;
 		m_bIsTouching = false;
 		this->m_pObject = NULL;
@@ -162,7 +163,7 @@ void CGameObjectLayer::update(float dt)
 	attackMonster();
 	m_time = m_time + dt;
 
-
+	if ()
 }
 
 void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
@@ -181,16 +182,7 @@ void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
 }
 
 bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
-{
-	//TEST insert demo skill
-	for (int i=0; i<3; i++)
-	{
-		CMySprite* pSprite = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
-		pSprite->setPosition(ccp(pTouch->getLocation().x + i*200.0f, pTouch->getLocation().y + 100.0f));
-		pSprite->setScale(2.5f);
-		this->addChild(pSprite);
-		pSprite->PlayAnimation(0, 3.0f, 1, false);
-	}
+{	
 
 	if(CCDirector::sharedDirector()->isPaused()) return false;
 	if(m_bIsTouching)
@@ -322,18 +314,7 @@ void CGameObjectLayer::delayWinScene( float dt )
 {
 	
 }
-//void CGameObjectLayer::changeBullet()
-//{	
-//	m_isClickChangeBullet=true;
-//	if(m_iCurrentBullet==FIRE_BULLET) {
-//		m_iCurrentBullet=WATER_BULLET;
-//	}
-//	else{
-//		if(m_iCurrentBullet==WATER_BULLET)
-//			m_iCurrentBullet=FIRE_BULLET;
-//	}
-//	
-//}
+
 
 void CGameObjectLayer::addBullets(CCPoint &centerPoint)
 {	
@@ -704,4 +685,17 @@ cocos2d::CCRect CGameObjectLayer::getRectMonsterFire( CMonster* pMonster )
 		pMonster->getPosition().y - pMonster->m_sprite->getContentSize().height/2 + 5.0f,
 		pMonster->m_sprite->getContentSize().width,
 		pMonster->m_sprite->getContentSize().height - 5.0f);
+}
+
+void CGameObjectLayer::addSkillAnimation( int typeSkill )
+{
+	//TEST insert demo skill
+	for (int i=0; i<3; i++)
+	{
+		CMySprite* pSprite = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
+		pSprite->setPosition(ccp(pTouch->getLocation().x + i*200.0f, pTouch->getLocation().y + 100.0f));
+		pSprite->setScale(2.5f);
+		this->addChild(pSprite);
+		pSprite->PlayAnimation(0, 3.0f, 1, false);
+	}
 }
