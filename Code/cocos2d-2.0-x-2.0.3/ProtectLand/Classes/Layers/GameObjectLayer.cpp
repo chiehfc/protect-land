@@ -104,7 +104,7 @@ bool CGameObjectLayer::init()
 		m_bIsTouching = false;
 		this->m_pObject = NULL;
 		this->pMoveSprite = NULL;		
-		//set enable click in game menu
+
 		this->pMenu->setEnabled(true);
 
 		m_pBaseTower=CCSprite::spriteWithFile("Tower\\Data\\tower_11.png");
@@ -182,6 +182,7 @@ void CGameObjectLayer::update(float dt)
 	processLabelCoin();
 	creatMonster();
 	attackMonster();
+	attackTower();
 	m_time = m_time + dt;
 
 	if (m_bIsFinshChooseSkill)
@@ -250,8 +251,12 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 {	
 	if(m_bIsTouching){
+
 		m_bIsTouching = false;	
+
 	}
+
+
 }
 
 void CGameObjectLayer::draw()
@@ -365,6 +370,7 @@ void CGameObjectLayer::addBullets(CCPoint &centerPoint)
 			addOneBullet(centerPoint,-angle);
 			break;
 		case BULLET_LEVEL_2:
+
 			dy= dx*tan((angle+a)/(180/PI));
 			addOneBullet(ccp(centerPoint.x, LOCATION_Y_TOWER + dy),-(angle+a/2));
 			dy= dx*tan((angle-a)/(180/PI));
@@ -443,6 +449,7 @@ void CGameObjectLayer::addOneBullet(CCPoint &p,float angle)
 
 float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
 {
+
 	float dx=v1.x - v.x;
 	float dy=v1.y - v.y;
 
@@ -453,6 +460,7 @@ float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
 
 CCPoint CGameObjectLayer::getDestination(float X,float Y)
 {
+	
 	float t;
 	if(X-LOCATION_X_TOWER!= 0) t= 50/(X-LOCATION_X_TOWER);
 	else t= 50/(Y-LOCATION_Y_TOWER);
@@ -578,22 +586,12 @@ void CGameObjectLayer::creatMonster(){
 }
 
 void CGameObjectLayer::attackTower(){
-	if(!m_checkLose){
-		bool check =false;
-		CCRect towerRect = CCRectMake(m_tower->getPosition().x - m_tower->m_sprite->getContentSize().width/2,
-			m_tower->getPosition().y - m_tower->m_sprite->getContentSize().height/2,
-			m_tower->m_sprite->getContentSize().width,m_tower->m_sprite->getContentSize().height);
+	if (towerHp>0)
+	{
 		CCObject *it = new CMonster;
-		CMonster *monsterToDele = new CMonster;
 		CCARRAY_FOREACH(m_arrMonster,it){
-			CMonster*jt = (CMonster*)it;
-			CCRect monsterRect = CCRectMake(jt->getPosition().x - jt->getContentSize().width/2,
-				jt->getPosition().y-jt->getContentSize().height/2,
-				jt->getContentSize().width,jt->getContentSize().height);
-			if(CCRect::CCRectIntersectsRect(towerRect,monsterRect)){
-				monsterToDele = jt;
-				actionKillMonster( monsterToDele );				
-			}
+			CMonster * monsterD = (CMonster *)it;
+			towerHp = towerHp - monsterD->attackTowerWithDamage(m_time);
 		}
 	}
 }
@@ -617,13 +615,34 @@ void CGameObjectLayer::actionDestroyTower()
 
 void CGameObjectLayer::attackMonster()
 {
-	if (towerHp>0)
-	{
-		CCObject *it = new CMonster;
-		CCARRAY_FOREACH(m_arrMonster,it){
-			CMonster * monsterD = (CMonster *)it;
-			towerHp = towerHp - monsterD->attackTowerWithDamage(m_time);
+	//CCArray *monsterToDelete = new CCArray;
+	//for(CCSprite *it in _projectiles){
+	CCObject *it = new CMonster;
+	CCObject *jt = new Bullet;
+	//_projectiles = dynamic_cast<CCSprite*>(it);
+	CCARRAY_FOREACH(m_arrMonster,it){
+		CMonster *monsterD = (CMonster*) it;
+		CCRect monsterRect = getRectMonsterFire(monsterD);
+		
+		CCArray *bulletsToDelete = new CCArray;
+		CCARRAY_FOREACH(m_arrBullet,jt){
+			Bullet *bulletD = (Bullet*)jt;
+			CCRect bulletRect = getRectBulletFire(bulletD);				
+			if(CCRect::CCRectIntersectsRect(monsterRect, bulletRect)){
+				bulletsToDelete->addObject(bulletD);
+			}
 		}
+		CCARRAY_FOREACH(bulletsToDelete,jt){
+			Bullet *bulletD= (Bullet*)jt;
+			m_arrBullet->removeObject(bulletD);
+			this->removeChild(bulletD, true);
+		}
+		if(bulletsToDelete->count() > 0)
+		{
+			//monsterToDelete->addObject(monsterD);
+			hitMonster(monsterD, CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
+		}
+		bulletsToDelete->release();
 	}
 }
 
