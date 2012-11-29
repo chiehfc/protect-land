@@ -45,7 +45,9 @@ bool CGameObjectLayer::init()
 		m_arrMonster = new CCArray;
 		m_arrMonsterToDelete = new CCArray;
 		m_arrBullet = new CCArray;
-		m_index = -1;	
+		m_index = -1;
+		setCheckWin(false);
+		setCoinBonus(0);
 		initMap();
 	}
 	
@@ -133,10 +135,13 @@ bool CGameObjectLayer::init()
 	towerHp = CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp;
 	m_activeHP = CCSprite::spriteWithFile("HPbar\\activeHP.png");
 	m_inactiveHP = CCSprite::spriteWithFile("HPbar\\inactiveHP.png");
-	m_activeHP->setPosition(ccp(LOCATION_X_HP_TOWER,LOCATION_Y_HP_TOWER));
-	m_inactiveHP->setPosition(ccp(LOCATION_X_HP_TOWER,LOCATION_Y_HP_TOWER));
-	m_inactiveHP->setScale(1.0f/5.0f);
+	m_inactiveHP->setScaleX(1.0f/4.2f);
+	m_inactiveHP->setScaleY(1.0f/5.0f);
 	m_activeHP->setScale(1.0f/4.0f);
+	m_activeHP->setPosition(ccp(LOCATION_X_ACTIVE_HP_TOWER,LOCATION_Y_HP_TOWER));
+	m_inactiveHP->setPosition(ccp(LOCATION_X_ACTIVE_HP_TOWER,LOCATION_Y_HP_TOWER));
+	m_activeHP->setAnchorPoint(ccp(0,0));
+	m_inactiveHP->setAnchorPoint(ccp(0,0));
 	this->addChild(m_inactiveHP);
 	this->addChild(m_activeHP);
 	
@@ -602,7 +607,14 @@ void CGameObjectLayer::attackTower(){
 		CCObject *it = new CMonster;
 		CCARRAY_FOREACH(m_arrMonster,it){
 			CMonster * monsterD = (CMonster *)it;
+			//m_activeHP->setScaleX((towerHp - monsterD->attackTowerWithDamage(m_time))/towerHp);
 			towerHp = towerHp - monsterD->attackTowerWithDamage(m_time);
+			if (towerHp>0)
+			{
+				m_activeHP->setScaleX(towerHp/(4.0f*CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp));
+			}else{
+				this->removeChild(m_activeHP,false);
+			}
 		}
 	}
 }
@@ -830,6 +842,7 @@ int CGameObjectLayer::randomPosition(int firstPos, int secondPos)
 
 void CGameObjectLayer::addMonsterToDelete( CMonster * monster, int damage )
 {
+	setCoinBonus(getCoinBonus()+monster->getCointBonus());
 	monster->setDelayTimeDie(m_time);
 	monster->monsterDie(damage);
 	//cong tien them khi quai bi kill

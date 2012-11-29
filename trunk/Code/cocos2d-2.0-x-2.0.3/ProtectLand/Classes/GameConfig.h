@@ -432,6 +432,11 @@ MONSTER
 #define LEVEL2_MONSTER_COIN 7
 #define LEVEL3_MONSTER_COIN 9
 
+//coin Bonus
+#define LEVEL1_MONSTER_COIN_BONUS 1
+#define LEVEL2_MONSTER_COIN_BONUS 2
+#define LEVEL3_MONSTER_COIN_BONUS 3
+
 //type
 enum TypeMonster
 {
