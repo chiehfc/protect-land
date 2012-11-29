@@ -154,7 +154,7 @@ public:
 	//icon and label in game stage
 	CCLabelBMFont* m_pLabelCoinCollect;  // so coin co duoc
 	CCLabelBMFont* m_pLabelStageCurrent; // level hien tia cua stage
-
+	void processLabelCoin(); //ham xu ly thay doi cho label coin trong ham update
 	//phan tower
 	int towerHp;
 
