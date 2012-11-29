@@ -13,14 +13,11 @@
 #define CENTRAL_Y5 386
 #define RADIUS_SPHERE 60
 
-CSkillLayer::CSkillLayer()
-{
-	init();
-}
+
 bool CSkillLayer::init()
 {
 	if (!CCLayer::init())
-	{
+	{		
 		return false;
 	}
 	//CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 10 , true);
@@ -30,10 +27,10 @@ bool CSkillLayer::init()
 	addSphere(m_sprite3,"Skill\\Skill-Hoa.png",CENTRAL_X3,CENTRAL_Y3);
 	addSphere(m_sprite4,"Skill\\Skill-Moc.png",CENTRAL_X4,CENTRAL_Y4);
 	addSphere(m_sprite5,"Skill\\Skill-Thuy.png",CENTRAL_X5,CENTRAL_Y5);
-	resultSkill=-1;
-	m_timer=0;
-
+	resultSkill = -1;
+	m_timer = 0;
 	this->setTouchEnabled(true);
+	scheduleUpdate();
 	return true;
 }	
 void CSkillLayer::addSphere(CCSprite *m_sprite,char *path,int x,int y)
@@ -57,17 +54,10 @@ void CSkillLayer::onExit()
 	CCLayer::onExit();
 }
 
-
-
-CSkillLayer::~CSkillLayer()
-{
-
-}
 bool CSkillLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 {
-	stt=0;
-	if(CCDirector::sharedDirector()->isPaused()) return false;
-	CCLOG("%f %f",pTouch->getLocation().x,pTouch->getLocation().y);
+	stt = 0;
+	//CCLOG("%f %f",pTouch->getLocation().x,pTouch->getLocation().y);
 	if(stt<6){	
 		checkClick(pTouch->getLocation());
 	}
@@ -103,9 +93,11 @@ void CSkillLayer::update(float dt)
 
 void CSkillLayer::onEnter()
 {
-	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
-	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, 10, true);
+	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(CGamePlay::pSkillLayer, 0, false);
+	CGamePlay::pGameObjectLayer->setTouchEnabled(false);
+	CGamePlay::pSkillLayer->setTouchEnabled(true);
 }
+
 void CSkillLayer::initVar()
 {
 	m_timer=0;

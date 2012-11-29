@@ -19,9 +19,11 @@ CCScene* CGamePlay::scene()
 		// 'scene' is an autorelease object
 		CGamePlay::pScene		    = CGamePlay::create();
 		// 'layer' is an autorelease object
+		
 		CGamePlay::pBackgroundLayer = CBackgroundLayer::create();
+		
 		CGamePlay::pGameObjectLayer = CGameObjectLayer::create();
-    	// add layer as a child to scene
+		    	// add layer as a child to scene
 		CGamePlay::pScene->addChild(CGamePlay::pBackgroundLayer, ZODER_GAMEPLAY_BACKGROUND_LAYER, TAG_GAMEPLAY_BACKGROUND_LAYER);
 		CGamePlay::pScene->addChild(CGamePlay::pGameObjectLayer, ZODER_GAMEPLAY_GAME_OBJECT_LAYER, TAG_GAMEPLAY_GAME_OBJECT_LAYER);			
 

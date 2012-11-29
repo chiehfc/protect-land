@@ -12,6 +12,7 @@
 #include "GameOverScene.h"
 #include "GameObjectLayer.h"
 #include "LevelManager.h"
+#include "SkillUpgradeScene.h"
 class CGamePlay: public cocos2d::CCScene
 {
 
