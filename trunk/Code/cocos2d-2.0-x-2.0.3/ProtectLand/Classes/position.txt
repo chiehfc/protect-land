@@ -1,0 +1,8 @@
+protectlane.png: 	x = 410.50		y = 74.50
+About.png: 		x = 180.00		y = 623.00
+Play.png:		x = 280.00		y = 233.00
+Option.png: 		x = 40.00		y = 408.00
+Exit.png:		x = 380.00		y = 623.00
+Help.png: 		x = 480.00		y = 408.00
+towerfire.png: 		x = 280.00		y = 458.50
+fire.png:		x = 289.00		y = 414.00
