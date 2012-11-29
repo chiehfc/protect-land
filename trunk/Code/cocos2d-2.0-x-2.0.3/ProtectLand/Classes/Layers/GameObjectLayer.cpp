@@ -115,7 +115,7 @@ bool CGameObjectLayer::init()
 		this->addChild(m_pTowerItem);
 		m_pTowerItem->PlayAnimation(FIRE_TOWER, 0.4f, true, false);
 		m_pSkill = CCSprite::spriteWithFile("Skill\\Skill1.png");
-		m_pSkill->setPosition(ccp(LOCATION_X_SKILL,LOCATION_Y_SKILL));
+		m_pSkill->setPosition(ccp(LOCATION_X_SKILL, LOCATION_Y_SKILL));
 		this->addChild(m_pSkill);
 		
 		m_isClickChangeBullet = false;
@@ -127,16 +127,8 @@ bool CGameObjectLayer::init()
 
 		m_iCurrentEnegy = 0;  // khoi tao enegy ban dau
 		m_bToggle=false;
-	}		
-
+	}
 	
-	// TEST
-	// them layskill nhan du kien touch
-	//addStarSkill();
-
-
-	
-
 	CAudioManager::instance()->stopAllEff();
 	CAudioManager::instance()->stopBGMusic();
 	CAudioManager::instance()->playBGMusic(SOUND_GAMEPLAY_BAGROUND_1, true);
@@ -157,7 +149,6 @@ void CGameObjectLayer::update(float dt)
 		}
 	}
 	creatMonster();
-	//if(time)
 	if(!check){
 		if (m_time>5)
 		{
@@ -221,9 +212,8 @@ bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 	}
 	if(m_bIsFullEmergy && isClickSkill(pTouch->getLocation()))
 	{
-		m_bIsTouching=false;
-		addStarSkill();
-		
+		m_bIsTouching = false;
+		addStarSkill();		
 	}
 
 	return true;
@@ -532,16 +522,15 @@ bool CGameObjectLayer::isClickSkill(CCPoint &p)
 void  CGameObjectLayer::addStarSkill(){
 	//CCLOG("Click Skill");
 	if(CCDirector::sharedDirector()->isPaused()) return;
-	CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
+	//CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
 	CCLayerColor *PBlurLayer = CCLayerColor::create();
 	PBlurLayer->setOpacityModifyRGB(true);
 	PBlurLayer->setColor(ccc3(0,0,0));
-	PBlurLayer->setOpacity(150);
+	PBlurLayer->setOpacity(150);	
 	CGamePlay::pSkillLayer = CSkillLayer::create();
 	CGamePlay::pScene->addChild(CGamePlay::pSkillLayer, ZODER_GAMEPLAY_SKILL_LAYER, TAG_GAMEPLAY_SKILL_LAYER);
 	CGamePlay::pScene->addChild(PBlurLayer, ZORDER_GAMEPLAY_COLOR_LAYER, TAG_GAMEPLAY_COLOR_LAYER);
-
-
+	
 }
 void CGameObjectLayer::loadMap(){
 	
@@ -683,7 +672,7 @@ void CGameObjectLayer::appearInOneRow()
 		MonsterLevel level = (MonsterLevel)randomLevelMonster();
 		int height = randomPosition((int)s.height/4, (int)s.height*3/4);
 		CMonster * monster = new CMonster(type,level,height);
-		this->addChild(monster);
+		this->addChild(monster, zBulletAndMonster);
 		m_arrMonster->addObject(monster);
 		timeForOneRow = timeForOneRow + timeBetween;
 	}
@@ -704,7 +693,7 @@ void CGameObjectLayer::appearInTwoRows()
 			//height1 = randomPosition();
 		//}
 		CMonster * monster1 = new CMonster(type1,level1,height1);
-		this->addChild(monster1);
+		this->addChild(monster1, zBulletAndMonster);
 		m_arrMonster->addObject(monster1);
 
 
@@ -713,7 +702,7 @@ void CGameObjectLayer::appearInTwoRows()
 		MonsterLevel level2 = (MonsterLevel)randomLevelMonster();
 		int height2 = (int)s.height-height1;
 		CMonster * monster2 = new CMonster(type2,level2,height2);
-		this->addChild(monster2);
+		this->addChild(monster2, zBulletAndMonster);
 		m_arrMonster->addObject(monster2);
 
 		timeForOneRow = timeForOneRow + timeBetween;
@@ -731,7 +720,7 @@ void CGameObjectLayer::appearInThreeRows()
 		MonsterLevel level1 = (MonsterLevel)randomLevelMonster();
 		int height1 = randomPosition((int)s.height/2+50,(int)s.height*3/4);
 		CMonster * monster1 = new CMonster(type1,level1,height1);
-		this->addChild(monster1);
+		this->addChild(monster1, zBulletAndMonster);
 		m_arrMonster->addObject(monster1);
 
 
@@ -747,11 +736,11 @@ void CGameObjectLayer::appearInThreeRows()
 		MonsterLevel level3 = (MonsterLevel)randomLevelMonster();
 		int height3 = randomPosition(height2+20,height1-20);
 		CMonster * monster3 = new CMonster(type3,level3,height3);
-		this->addChild(monster3);
+		this->addChild(monster3, zBulletAndMonster);
 		m_arrMonster->addObject(monster3);
 
 		//add second monster
-		this->addChild(monster2);
+		this->addChild(monster2, zBulletAndMonster);
 		m_arrMonster->addObject(monster2);
 
 		timeForOneRow = timeForOneRow + timeBetween;
@@ -770,7 +759,7 @@ void CGameObjectLayer::appearInMixture()
 					MonsterLevel level = (MonsterLevel)randomLevelMonster();
 					int height = i;
 					CMonster * monster = new CMonster(type,level,height);
-					this->addChild(monster);
+					this->addChild(monster, zBulletAndMonster);
 					m_arrMonster->addObject(monster);
 					timeForMixtureTime = m_time;
 				}else{
@@ -778,7 +767,7 @@ void CGameObjectLayer::appearInMixture()
 					MonsterLevel level = (MonsterLevel)randomLevelMonster();
 					int height = i+10;
 					CMonster * monster = new CMonster(type,level,height);
-					this->addChild(monster);
+					this->addChild(monster, zBulletAndMonster);
 					m_arrMonster->addObject(monster);
 				}
 			}
@@ -930,7 +919,7 @@ void CGameObjectLayer::addSkillAnimation( int typeSkill)
 		CMySprite* pSprite = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
 		pSprite->setPosition(ccp(size.width/2.0f + i*200.0f, size.height/2.0f + 100.0f));
 		pSprite->setScale(2.5f);
-		this->addChild(pSprite);
+		this->addChild(pSprite, zSkill);
 		pSprite->PlayAnimation(0, 3.0f, 1, false);
 	}
 }
@@ -950,3 +939,5 @@ void CGameObjectLayer::processWhenMonsterDie( CMonster* pMonster )
 	
 
 }
+
+

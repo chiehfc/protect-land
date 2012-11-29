@@ -23,8 +23,6 @@ private:
 	//bool arr_isTouched[5];
 	int arr_PointTouched[6];
 public:
-	CSkillLayer();
-	~CSkillLayer();
 	virtual bool init();
 	virtual void onEnter();
 	void addSphere(CCSprite *m_sprite,char *path,int x,int y);

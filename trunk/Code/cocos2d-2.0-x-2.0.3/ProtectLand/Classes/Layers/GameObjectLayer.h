@@ -12,14 +12,9 @@
 #include "Monster.h"
 #include "Tower.h"
 #include "SkillLayer.h"
+#include "ZOrderAddChildConfig.h"
 USING_NS_CC;
 
-enum {
-	kTagParentNode = 11,
-	kTagStaticNode = 12,
-	kTagWaterNode = 13,
-	kTagCoconutNode = 14,
-};
 
 #define MAX_ENEGY 10
 
@@ -105,7 +100,7 @@ private:
 	void updateBullet(int type, int level);
 	float caculateAngle(CCPoint v,CCPoint v1);
 	void removeStarSkill();
-	void addStarSkill();
+	void addStarSkill();  // them layer Skill
 	
 
 	void spriteMoveDone( CCNode* sender );
@@ -152,7 +147,7 @@ public:
 	bool m_bToggle;
 	bool m_bIsFinshChooseSkill; //check khi skill da chon xong ben Skill layer
 	int m_iTypeSkillReturn;  // loai skill se hien len
-	void addSkillAnimation(int typeSkill);  //ham thuc hien them animation skill vao layer
+	void addSkillAnimation(int typeSkill);  //ham thuc hien them animation skill vao GameObjectlayer
 
 
 	CREATE_FUNC(CGameObjectLayer);
