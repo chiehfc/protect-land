@@ -3,6 +3,7 @@
 #include "SkillUpgradeScene.h"
 #include "AudioManager.h"
 #include "IncludeHelper.h"
+#include "PositionConfig.h"
 #include "MainConfig.h"
 USING_NS_CC;
 
@@ -54,21 +55,21 @@ bool CSelectLevelScene::init()
 
 	//create button Back
 	CCMenuItemImage *pBack = CCMenuItemImage::create(
-		"BackNormal.png",
-		"BackSelected.png",
+		"Button\\back_down.png",
+		"Button\\back_up.png",
 		this,
 		menu_selector(CSelectLevelScene::menuBackCallBack));	
-	pBack->setPosition( ccp(  pBack->getContentSize().width/2.0f + 15,  pBack->getContentSize().height/2 + 15)) ;
+	pBack->setPosition(LOCATION_BUTTON_BACK_SLS) ;
 	pMenu->addChild(pBack);
 	
 
 	//create button Next
 	CCMenuItemImage *pNext = CCMenuItemImage::create(
-		"BackNormal.png",
-		"BackSelected.png",
+		"Button\\next_down.png",
+		"Button\\next_up.png",
 		this,
 		menu_selector(CSelectLevelScene::menuNextCallBack));	
-	pNext->setPosition( ccp(sizeScr.width - pNext->getContentSize().width/2 - 15,  pNext->getContentSize().height/2 + 15)) ;
+	pNext->setPosition(LOCATION_BUTTON_NEXT_SLS) ;
 	pMenu->addChild(pNext);
 
 	//add Menu vao layer
@@ -76,13 +77,7 @@ bool CSelectLevelScene::init()
 
 
 
-	//// add "HelloWorld" splash screen"
-	//CCSprite* pSprite = CCSprite::create("MenuSelectBG.png");	
-	//// position the sprite on the center of the screen
-	//pSprite->setPosition( ccp(sizeScr.width/2, sizeScr.height/2) );
-
-	//// add the sprite as a child to this layer
-	//this->addChild(pSprite, 0);
+	
 	this->schedule(schedule_selector(CSelectLevelScene::update));
 	return true;
 }

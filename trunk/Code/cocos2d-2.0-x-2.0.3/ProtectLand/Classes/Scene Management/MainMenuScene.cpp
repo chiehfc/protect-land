@@ -1,4 +1,5 @@
 #include "MainMenuScene.h"
+#include "PositionConfig.h"
 
 CCScene* CMainMenuScene::scene()
 {
@@ -29,85 +30,80 @@ bool CMainMenuScene::init()
 	//New game menu item
 	if((!CAudioManager::instance()->isBGMusicPlaying()) && CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
 		CAudioManager::instance()->playBGMusic(SOUND_BACKGROUND_MAIN, true);
-
-	CCMenuItemImage *pPlayItem = CCMenuItemImage::create(
-		"StartNormal.png",
-		"StartSelected.png",
-		this,
-		menu_selector(CMainMenuScene::menuNewgameCallback));
-
-	pPlayItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pPlayItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
-
-	pPlayItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width*330/WIDTH_SCREEN_STANDARD , CCDirector::sharedDirector()->getWinSize().height*300/HEIGHT_SCREEN_STANDARD) );
-
-	//// create menu, it's an autorelease object
-	m_pMenu = CCMenu::create(pPlayItem, NULL);
+	//create menu
+	m_pMenu = CCMenu::create(NULL, NULL);
 	m_pMenu->setPosition( CCPointZero );
-	//
-	////Continue menu item
-	CCMenuItemImage *pContinueItem = CCMenuItemImage::create(
-		"QuitNormal.png",
-		"QuitSelected.png",
-		this,
-		menu_selector(CMainMenuScene::menuCloseCallback));
 
-	pContinueItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pContinueItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
+	//Button play
+	{
+		CCMenuItemImage *pPlayButton = CCMenuItemImage::create(
+			"MainMenuScene\\play1.png",
+			"MainMenuScene\\play2.png",
+			this,
+			menu_selector(CMainMenuScene::menuNewgameCallback));
+		pPlayButton->setPosition(LOCATION_BUTTON_PLAY);
+		m_pMenu->addChild(pPlayButton);
+	}
 
-	pContinueItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width*650/WIDTH_SCREEN_STANDARD, CCDirector::sharedDirector()->getWinSize().height*150/HEIGHT_SCREEN_STANDARD));
-	m_pMenu->addChild(pContinueItem);
-	//
-	////About menu item
-	CCMenuItemImage *pAboutItem = CCMenuItemImage::create(
-		"AboutNormal.png",
-		"AboutSelected.png",
-		this,
-		menu_selector(CMainMenuScene::menuAboutCallback));
+	////Button Exit
+	{
+		CCMenuItemImage *pExitButton = CCMenuItemImage::create(
+			"MainMenuScene\\exit1.png",
+			"MainMenuScene\\exit2.png",
+			this,
+			menu_selector(CMainMenuScene::menuCloseCallback));
+		pExitButton->setPosition(LOCATION_BUTTON_EXIT);
+		m_pMenu->addChild(pExitButton);
+	}
+	
+	//BUtton About
+	{
+		CCMenuItemImage *pAboutButton = CCMenuItemImage::create(
+			"MainMenuScene\\about1.png",
+			"MainMenuScene\\about2.png",
+			this,
+			menu_selector(CMainMenuScene::menuAboutCallback));
+		pAboutButton->setPosition(LOCATION_BUTTON_ABOUT);
+		m_pMenu->addChild(pAboutButton);
+	}
 
-	pAboutItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pAboutItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
+	//Button Option
+	{
+		CCMenuItemImage *pOptionsButton = CCMenuItemImage::create(
+			"MainMenuScene\\option1.png",
+			"MainMenuScene\\option2.png",
+			this,
+			menu_selector(CMainMenuScene::menuOptionsCallback));
+		pOptionsButton->setPosition(LOCATION_BUTTON_OPTION);
+		m_pMenu->addChild(pOptionsButton);
+	}
 
-	pAboutItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width*400/WIDTH_SCREEN_STANDARD, CCDirector::sharedDirector()->getWinSize().height*180/HEIGHT_SCREEN_STANDARD));
-	m_pMenu->addChild(pAboutItem);
-
-
-
-	CCMenuItemImage *pOptionsItem = CCMenuItemImage::create(
-		"OptionNormal.png",
-		"OptionSelected.png",
-		this,
-		menu_selector(CMainMenuScene::menuOptionsCallback));
-
-	pOptionsItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pOptionsItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
-
-	pOptionsItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width*570/WIDTH_SCREEN_STANDARD, CCDirector::sharedDirector()->getWinSize().height*280/HEIGHT_SCREEN_STANDARD));
-	m_pMenu->addChild(pOptionsItem);
-	//
-	/*
-	CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
-		this,
-		menu_selector(CMainMenuScene::menuCloseCallback));
-	pCloseItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20) );
-	pMenu->addChild(pCloseItem);
-	*/
-	//
+	//Button Help
+	{
+		CCMenuItemImage *pHelpButton = CCMenuItemImage::create(
+			"MainMenuScene\\help1.png",
+			"MainMenuScene\\help2.png",
+			this,
+			menu_selector(CMainMenuScene::menuHelpCallback));
+		pHelpButton->setPosition(LOCATION_BUTTON_HELP);
+		m_pMenu->addChild(pHelpButton);
+	}
+	
 	this->addChild(m_pMenu, 1);
 
 
 
-	// add "HelloWorld" splash screen"
-	CCSprite* pSprite = CCSprite::create("MainMenuBG.png");
-	pSprite->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pSprite->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
-	// position the sprite on the center of the screen
+	//Background
+	CCSprite* pSprite = CCSprite::create("MainMenuScene\\protectlane.png");
 	pSprite->setPosition( ccp(size.width/2, size.height/2) );
-
-	// add the sprite as a child to this layer
 	this->addChild(pSprite, 0);
+
+	//Animation Fire
+	CMySprite* pAnimFire=new CMySprite("Tower\\tower.sprite");
+	pAnimFire->setPosition(LOCATION_ANIM_FIRE);
+	this->addChild(pAnimFire);
+	pAnimFire->PlayAnimation(FIRE_TOWER, 0.4f, true, false);
+
 
 	/************************************************************************/
 	/* Pop up Menu                                                          */
@@ -155,11 +151,6 @@ bool CMainMenuScene::init()
 	return true;
 }
 
-//
-//void CMainMenuScene::exit()
-//{
-//	this->removeAllChildrenWithCleanup(true);
-//}
 
 void CMainMenuScene::menuAboutCallback(CCObject* pSender)
 {
@@ -176,15 +167,6 @@ void CMainMenuScene::menuAboutCallback(CCObject* pSender)
 	
 }
 
-void CMainMenuScene::menuContinueCallback(CCObject* pSender)
-{
-	//Error
-	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_BUTTON);
-	CCScene *loadingScene = CLoadingScene::scene(MODE_CONTINUE);
-	CCDirector::sharedDirector()->replaceScene(loadingScene);
-}
-
 void CMainMenuScene::menuHelpCallback(CCObject* pSender)
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
@@ -198,6 +180,7 @@ void CMainMenuScene::menuHelpCallback(CCObject* pSender)
 		CCDirector::sharedDirector()->replaceScene(pScene);
 	}
 }
+
 
 void CMainMenuScene::menuNewgameCallback(CCObject* pSender)
 {
