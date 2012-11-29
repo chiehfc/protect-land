@@ -131,6 +131,14 @@ bool CGameObjectLayer::init()
 
 	// init tower:
 	towerHp = CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp;
+	m_activeHP = CCSprite::spriteWithFile("HPbar\\activeHP.png");
+	m_inactiveHP = CCSprite::spriteWithFile("HPbar\\inactiveHP.png");
+	m_activeHP->setPosition(ccp(LOCATION_X_HP_TOWER,LOCATION_Y_HP_TOWER));
+	m_inactiveHP->setPosition(ccp(LOCATION_X_HP_TOWER,LOCATION_Y_HP_TOWER));
+	m_inactiveHP->setScale(1.0f/5.0f);
+	m_activeHP->setScale(1.0f/4.0f);
+	this->addChild(m_inactiveHP);
+	this->addChild(m_activeHP);
 	
 	//add label coin and scene
 	{
@@ -822,7 +830,7 @@ void CGameObjectLayer::addMonsterToDelete( CMonster * monster, int damage )
 	monster->setDelayTimeDie(m_time);
 	monster->monsterDie(damage);
 	//cong tien them khi quai bi kill
-	CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin += monster->getCoin();
+	//CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin += monster->getCoin();
 	m_arrMonster->removeObject(monster);
 	m_arrMonsterToDelete->addObject(monster);
 }

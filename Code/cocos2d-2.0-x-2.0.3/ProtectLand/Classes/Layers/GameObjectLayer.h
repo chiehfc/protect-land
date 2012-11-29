@@ -157,6 +157,7 @@ public:
 	void processLabelCoin(); //ham xu ly thay doi cho label coin trong ham update
 	//phan tower
 	CC_SYNTHESIZE(int, towerHp, TowerHP);
+	CCSprite *m_activeHP, *m_inactiveHP;
 
 	CREATE_FUNC(CGameObjectLayer);
 };

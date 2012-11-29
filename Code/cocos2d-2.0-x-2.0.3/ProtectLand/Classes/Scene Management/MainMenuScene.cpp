@@ -28,7 +28,7 @@ bool CMainMenuScene::init()
 	// add a "close" icon to exit the progress. it's an autorelease object
 	//New game menu item
 	if((!CAudioManager::instance()->isBGMusicPlaying()) && CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playBGMusic(SOUND_MAINMENU, true);
+		CAudioManager::instance()->playBGMusic(SOUND_BACKGROUND_MAIN, true);
 
 	CCMenuItemImage *pPlayItem = CCMenuItemImage::create(
 		"StartNormal.png",
@@ -164,7 +164,7 @@ bool CMainMenuScene::init()
 void CMainMenuScene::menuAboutCallback(CCObject* pSender)
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-	CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	/*CCScene* aboutscene = CAboutScene::scene();
 	CCDirector::sharedDirector()->replaceScene(aboutscene);*/
 	CCScene* aboutscene = CAboutScene::scene();
@@ -180,7 +180,7 @@ void CMainMenuScene::menuContinueCallback(CCObject* pSender)
 {
 	//Error
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+		CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene *loadingScene = CLoadingScene::scene(MODE_CONTINUE);
 	CCDirector::sharedDirector()->replaceScene(loadingScene);
 }
@@ -188,7 +188,7 @@ void CMainMenuScene::menuContinueCallback(CCObject* pSender)
 void CMainMenuScene::menuHelpCallback(CCObject* pSender)
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+		CAudioManager::instance()->playEff(SOUND_BUTTON);
 	/*CCScene* helpscene = CHelpScene::scene();
 	CCDirector::sharedDirector()->replaceScene(helpscene);*/
 	CCScene* helpscene = CHelpScene::scene();	
@@ -203,7 +203,7 @@ void CMainMenuScene::menuNewgameCallback(CCObject* pSender)
 {
     //Error
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene *loadingScene = CLoadingScene::scene(MODE_NEWGAME);
 	CCDirector::sharedDirector()->replaceScene(loadingScene);
 
@@ -211,7 +211,7 @@ void CMainMenuScene::menuNewgameCallback(CCObject* pSender)
 
 void CMainMenuScene::menuCloseCallback(CCObject* pSender)
 {
-	CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	EnablePopupMenu(true);
 	
 }
@@ -219,7 +219,7 @@ void CMainMenuScene::menuCloseCallback(CCObject* pSender)
 void CMainMenuScene::menuOptionsCallback( CCObject* pSender )
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+		CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene* optionscene = COptionScene::scene();	
 	CCScene* pScene = CCTransitionCrossFade::create(TRANSITION_DURATION, optionscene);
 	if (pScene)
@@ -240,7 +240,7 @@ void CMainMenuScene::EnablePopupMenu( bool value )
 void CMainMenuScene::PopupYesCallback( CCObject* pSender )
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+		CAudioManager::instance()->playEff(SOUND_BUTTON);
 
 	CGamePlay::destroy();
 	CCDirector::sharedDirector()->end();
@@ -251,6 +251,7 @@ void CMainMenuScene::PopupYesCallback( CCObject* pSender )
 
 void CMainMenuScene::PopupNoCallback( CCObject* pSender )
 {
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	EnablePopupMenu(false);
 }
 
