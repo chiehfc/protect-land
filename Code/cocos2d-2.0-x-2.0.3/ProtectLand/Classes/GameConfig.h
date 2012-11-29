@@ -407,6 +407,7 @@ MONSTER
 #define LEVEL2_FIRE_MONSTER_TEXTURE ""
 #define LEVEL3_WATER_MONSTER_TEXTURE ""
 #define LEVEL3_FIRE_MONSTER_TEXTURE ""
+#define COIN "Coin/coin.sprite"
 
 //hp
 #define LEVEL1_MONSTER_HP 2
@@ -448,6 +449,15 @@ enum MonsterLevel
 	LEVEL2_MONSTER,
 	LEVEL3_MONSTER,
 	LEVEL_MAX,
+};
+
+enum typeMove
+{
+	MOVE,
+	ATTACK,
+	HIT,
+	DIE,
+	MAX,
 };
 
 #endif

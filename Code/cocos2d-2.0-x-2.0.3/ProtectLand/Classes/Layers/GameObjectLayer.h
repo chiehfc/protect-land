@@ -67,18 +67,32 @@ private:
 	//Physic
 
 	
-	
+	//thong so truyen vao cua map:
+	float timeDelay; //thoi gian delay giua cac dot ra quai
+	int numOfTime; //so dot ra quai
+	int typeMonster;  //so loai quai se ra.
+	int *numOfMonsterPTime; //so luong quai moi dot
+	int *typeOfAppear;  //cach xuat hien
+	int indexTime;   //index cua dot quai xuat hien
+	float timeForOneRow;
+	void initMap();
+	void appearInOneRow();
+	void appearInTwoRows();
+	void appearInThreeRows();
+	void appearInMixture();
+	int randomLevelMonster();
+	int randomTypeMonster();
+	int randomPosition(int firstPos, int secondPos);
+	int mixtureTime;
+	float timeForMixtureTime;
 
+	//monster
 	CCArray *m_arrMonster;
-	CCPointArray *m_array1;
-	CCPointArray *m_array2;
-	CCPointArray *m_array3;
-	CCPointArray *m_array4;
+	CCArray *m_arrMonsterToDelete;
 	float m_time;
 	int m_index;
 	CTower *m_tower;
 	bool m_checkLose;
-	bool oneMonster;
 	
 	
 	
@@ -113,6 +127,11 @@ public:
 	void menuRestartCallback(CCObject* pSender);
 
 	void delayWinScene(float dt);
+
+	//add them cai de delete monster
+	void addMonsterToDelete(CMonster * monster);
+	void addDeleteMonster();
+	bool check;
 
 	virtual bool init();
 	virtual void update(float dt);
