@@ -153,12 +153,15 @@ bool CGameObjectLayer::init()
 		pSceneSorite->setPosition(LOCATION_SCENE_ICON);
 		this->addChild(pSceneSorite);
 
+		//label coin
 		m_pLabelCoinCollect = CCLabelBMFont::create("0", "fonts/myFont.fnt", 50);
 		m_pLabelCoinCollect->setColor(ccc3(177, 89, 76));
 		m_pLabelCoinCollect->setScale(1.5f);
+		m_pLabelCoinCollect->setAnchorPoint(ccp(0.0f, 0.5f));
 		m_pLabelCoinCollect->setPosition(LOCATION_LABEL_COIN);
 		this->addChild(m_pLabelCoinCollect, zLabel);
 
+		//label stage
 		char strTemp[20] = "";
 		sprintf(strTemp, "%d/5", CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelCurrent);
 		m_pLabelStageCurrent = CCLabelBMFont::create(strTemp, "fonts/myFont.fnt", 35);

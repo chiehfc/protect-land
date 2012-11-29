@@ -33,13 +33,11 @@ bool COptionScene::init()
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
 
 	CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-		"BackNormal.png",
-		"BackSelected.png",
+		"Button\\back_down.png",
+		"Button\\back_up.png",
 		this,
 		menu_selector(COptionScene::menuMainMenuCallback));
 	pCloseItem->setPosition( ccp( pCloseItem->getContentSize().width/2+15*size.width/WIDTH_SCREEN_STANDARD,  pCloseItem->getContentSize().height/2+15*size.height/HEIGHT_SCREEN_STANDARD) );
-	pCloseItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pCloseItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
 	//pCloseItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width/2, CCDirector::sharedDirector()->getWinSize().height/2) );
 
 	// create menu, it's an autorelease object
@@ -58,8 +56,6 @@ bool COptionScene::init()
 	this->addChild(pSprite, 0);
 	CCSprite* pOptionName = CCSprite::create("option_name.png");
 	CCSize sizeOptionName = pOptionName->getContentSize();
-	pOptionName->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pOptionName->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
 	pOptionName->setPosition(ccp(sizeOptionName.width/2*SCREEN_WIDTH_RATIO_PORT, size.height - sizeOptionName.height/2*SCREEN_HEIGHT_RATION_PORT));
 	this->addChild(pOptionName);
 	//////////////////////////////////////////////////////////////////////////
@@ -68,8 +64,6 @@ bool COptionScene::init()
 		"option_soundon_selected.png",
 		this,
 		menu_selector(COptionScene::soundOnCallback));
-	pSoundItemOn->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pSoundItemOn->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
 	pSoundItemOn->setPosition( ccp(size.width/2 , size.height/2) );
 	//////////////////////////////////////////////////////////////////////////
 	pSoundItemOff = CCMenuItemImage::create(
@@ -77,8 +71,6 @@ bool COptionScene::init()
 		"option_soundoff_selected.png",
 		this,
 		menu_selector(COptionScene::soundOffCallback));
-	pSoundItemOff->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pSoundItemOff->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
 	pSoundItemOff->setPosition( ccp(size.width/2 , size.height/2) );
 	
 	pMenu->addChild(pSoundItemOn);
@@ -100,8 +92,6 @@ bool COptionScene::init()
 		"option_resetlevel_selected.png",
 		this,
 		menu_selector(COptionScene::resetLevelCallback));
-	pResetLevelItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pResetLevelItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
 	pResetLevelItem->setPosition(ccp(size.width/2 , size.height/2 - pSoundItemOn->getContentSize().height/2 - pResetLevelItem->getContentSize().height/2 - 50*SCREEN_HEIGHT_RATION_PORT) );
 	pMenu->addChild(pResetLevelItem);
 
@@ -210,7 +200,7 @@ void COptionScene::PopupYesCallback( CCObject* pSender )
 	m_pBlurLayer->setVisible(false);
 	pPopupMenu->setVisible(false);
 	pPopupBackground->setVisible(false);
-	CLevelManager::GetInstance()->ResetLevel("LevelInfo.txt", 8);
+	//CLevelManager::GetInstance()->ResetLevel("LevelInfo.txt", 8);
 }
 
 void COptionScene::PopupNoCallback( CCObject* pSender )

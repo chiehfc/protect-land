@@ -245,8 +245,8 @@ enum eStar
 #define HEIGHT_SCREEN_STANDARD	480
 
 #if SCREEN_MODE_1280_800
-	#define WIDTH_SCREEN		1280
-	#define HEIGHT_SCREEN		800
+	#define WIDTH_SCREEN		1024
+	#define HEIGHT_SCREEN		700
 
 #else
 	#define WIDTH_SCREEN		800

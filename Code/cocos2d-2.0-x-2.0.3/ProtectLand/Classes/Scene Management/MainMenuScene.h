@@ -27,7 +27,6 @@ public:
 	void menuAboutCallback(CCObject* pSender);
 	void menuNewgameCallback(CCObject* pSender);
 	void menuHelpCallback(CCObject* pSender);
-	void menuContinueCallback(CCObject* pSender);
 	void menuCloseCallback(CCObject* pSender);
 	void menuOptionsCallback(CCObject* pSender);
 	void PopupYesCallback(CCObject* pSender);

@@ -26,8 +26,6 @@ bool CWinScene::init()
 	}
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
 	
-	
-
 	scheduleUpdate();
 	CAudioManager::instance()->stopBGMusic();
 	return true;
