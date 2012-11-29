@@ -77,16 +77,16 @@ bool CLevelManager::LoadLevelFromFile( const char* pszPath )
 		int iCoin = 0;
 		int iLevelTower = 1;
 		int iDameTowerCurrent = INIT_DAMGE_TOWER;
-		float fTowerSpeed = INIT_TOWER_SPEED;
+		int iTowerSpeed = 1;
 		int iTowerHp = INIT_TOWER_HP;
 		int iRateDoubleDamge = INIT_RATE_DOUBLE_DAMGE;
-		sscanf(pc_Line, "%d %d %d %d %d %f %d %d", &iMapCurrent, &iLevelCurrent, &iCoin, &iLevelTower, &iDameTowerCurrent, &fTowerSpeed, &iTowerHp, &iRateDoubleDamge);
+		sscanf(pc_Line, "%d %d %d %d %d %d %d %d", &iMapCurrent, &iLevelCurrent, &iCoin, &iLevelTower, &iDameTowerCurrent, &iTowerSpeed, &iTowerHp, &iRateDoubleDamge);
 		m_psLevelInfo->m_iMapCurrent = iMapCurrent;
 		m_psLevelInfo->m_iLevelCurrent = iLevelCurrent;
 		m_psLevelInfo->m_iCoin = iCoin;
 		m_psLevelInfo->m_iLevelTower = iLevelTower;
 		m_psLevelInfo->m_iDameTowerCurrent = iDameTowerCurrent;
-		m_psLevelInfo->m_fTowerSpeed = fTowerSpeed;
+		m_psLevelInfo->m_iTowerSpeed = iTowerSpeed;
 		m_psLevelInfo->m_iTowerHp = iTowerHp;
 		m_psLevelInfo->m_iRateDoubleDamge = iRateDoubleDamge;
 		
@@ -125,9 +125,9 @@ bool CLevelManager::SaveLevelToFile( const char* pszPath )
 	if (pFile != NULL)
 	{
 		fprintf(pFile,"%d\n",m_iNumOfLevel);	
-		fprintf(pFile, "%d %d %d %d %d %f %d %d", m_psLevelInfo->m_iMapCurrent, m_psLevelInfo->m_iLevelCurrent, 
+		fprintf(pFile, "%d %d %d %d %d %d %d %d", m_psLevelInfo->m_iMapCurrent, m_psLevelInfo->m_iLevelCurrent, 
 				m_psLevelInfo->m_iCoin, m_psLevelInfo->m_iLevelTower, m_psLevelInfo->m_iDameTowerCurrent,
-				m_psLevelInfo->m_fTowerSpeed, m_psLevelInfo->m_iTowerHp, m_psLevelInfo->m_iRateDoubleDamge);
+				m_psLevelInfo->m_iTowerSpeed, m_psLevelInfo->m_iTowerHp, m_psLevelInfo->m_iRateDoubleDamge);
 		fclose(pFile);
 	}
 
@@ -279,7 +279,7 @@ void CLevelManager::ResetLevelInfo( int NumOfLevel )
 	}*/
 }
 
-bool CLevelManager::SetLevelInfo( int iMapCurrent, int iLevelCurrent, int iCoin, int iLevelTower, int iDameTowerCurrent, float fTowerSpeed, int iTowerHp, int iRateDoubleDamge)
+bool CLevelManager::SetLevelInfo( int iMapCurrent, int iLevelCurrent, int iCoin, int iLevelTower, int iDameTowerCurrent, int iTowerSpeed, int iTowerHp, int iRateDoubleDamge)
 {
 	if ( m_psLevelInfo == NULL )
 	{
@@ -290,7 +290,7 @@ bool CLevelManager::SetLevelInfo( int iMapCurrent, int iLevelCurrent, int iCoin,
 	m_psLevelInfo->m_iCoin = iCoin;
 	m_psLevelInfo->m_iLevelTower = iLevelTower;
 	m_psLevelInfo->m_iDameTowerCurrent = iDameTowerCurrent;
-	m_psLevelInfo->m_fTowerSpeed = fTowerSpeed;
+	m_psLevelInfo->m_iTowerSpeed = iTowerSpeed;
 	m_psLevelInfo->m_iTowerHp = iTowerHp;
 	m_psLevelInfo->m_iRateDoubleDamge = iRateDoubleDamge;
 	return true;

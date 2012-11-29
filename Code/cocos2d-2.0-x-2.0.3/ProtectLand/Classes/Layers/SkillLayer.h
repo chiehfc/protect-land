@@ -20,7 +20,7 @@ private:
 	int stt;
 	int resultSkill;
 	float m_timer; //count time out
-	//bool arr_isTouched[5];
+	bool arr_isTouched[5];
 	int arr_PointTouched[6];
 public:
 	virtual bool init();

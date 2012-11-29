@@ -8,9 +8,10 @@
 using namespace cocos2d;
 
 #define INIT_DAMGE_TOWER		24
-#define INIT_TOWER_SPEED		0.5f
+#define INIT_TOWER_SPEED		1.0f
 #define INIT_TOWER_HP			100
 #define INIT_RATE_DOUBLE_DAMGE	5
+#define INIT_SHOW_LEVEL_SPEED	1
 
 enum Mapcurrent {
 	human,
@@ -31,7 +32,8 @@ struct SLevelInfomation
 	int m_iCoin;
 	int m_iLevelTower;
 	int m_iDameTowerCurrent;
-	float m_fTowerSpeed;
+	int m_iTowerSpeed;
+	int m_iShowTowerSpeed;
 	int m_iTowerHp;
 	int m_iRateDoubleDamge;
 	SLevelInfomation()
@@ -41,7 +43,7 @@ struct SLevelInfomation
 		m_iCoin = 0;
 		m_iLevelTower = 1;
 		m_iDameTowerCurrent = INIT_DAMGE_TOWER;
-		m_fTowerSpeed = INIT_TOWER_SPEED;
+		m_iTowerSpeed = 1;
 		m_iTowerHp = INIT_TOWER_HP;
 		m_iRateDoubleDamge = INIT_RATE_DOUBLE_DAMGE;
 	}
@@ -69,7 +71,7 @@ public:
 	SLevelInfomation* GetListLevel(int& NumOfLevel);
 	bool ResetLevel(const char* pszPath, int iNumOfLevel);
 	bool ResetLevel(const char* pszPath);
-	bool SetLevelInfo(int iMapCurrent, int iLevelCurrent, int iCoin, int iLevelTower, int iDameTowerCurrent, float fTowerSpeed, int iTowerHp, int iRateDoubleDamge);
+	bool SetLevelInfo(int iMapCurrent, int iLevelCurrent, int iCoin, int iLevelTower, int iDameTowerCurrent, float iTowerSpeed, int iTowerHp, int iRateDoubleDamge);
 	
 	
 	bool CreateFileFirstGame(const char* pc_FileName, int iNumOfLevel);
