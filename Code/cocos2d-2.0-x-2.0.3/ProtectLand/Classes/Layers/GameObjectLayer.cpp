@@ -537,7 +537,7 @@ void  CGameObjectLayer::addStarSkill(){
 	PBlurLayer->setColor(ccc3(0,0,0));
 	PBlurLayer->setOpacity(150);
 	CGamePlay::pSkillLayer = CSkillLayer::create();
-	CGamePlay::pScene->addChild(CGamePlay::pSkillLayer, ZODER_GAMEPLAY_MENU_LAYER, TAG_GAMEPLAY_MENU_LAYER);
+	CGamePlay::pScene->addChild(CGamePlay::pSkillLayer, ZODER_GAMEPLAY_SKILL_LAYER, TAG_GAMEPLAY_SKILL_LAYER);
 	CGamePlay::pScene->addChild(PBlurLayer, ZORDER_GAMEPLAY_COLOR_LAYER, TAG_GAMEPLAY_COLOR_LAYER);
 
 

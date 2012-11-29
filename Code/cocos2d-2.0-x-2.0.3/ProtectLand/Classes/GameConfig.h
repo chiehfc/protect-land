@@ -35,6 +35,7 @@
 #define  TAG_WOOD_MASS					119
 #define  TAG_SPRITE_COCONUT_2			120
 #define  TAG_SPRITE_STITCH_WIN			121
+#define  TAG_GAMEPLAY_SKILL_LAYER		122
 /************************************************************************/
 /* Zoder Definitions                                                    */
 /************************************************************************/
@@ -44,6 +45,7 @@
 #define ZORDER_GAMEPLAY_COLOR_LAYER      3
 #define ZODER_GAMEPLAY_MENU_LAYER        4
 #define ZODER_GAMEPLAY_WIN_LAYER         5
+#define ZODER_GAMEPLAY_SKILL_LAYER		 7
 #define ZODER_GAMEOVER_SCENE			 6
 
 
