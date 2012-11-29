@@ -6,6 +6,13 @@
 #include "LevelManager.h"
 #define SCALE_BACKROUND 1.2
 #define SCALE_ITEM 1.5
+
+#define WALL_ITEM 1
+#define LEVEL_ITEM 2
+#define SPEED_ITEM 3
+#define DAMAGE_ITEM 4
+#define RATEDAMAGE_ITEM 5
+
 #define HP_UPDATE 10 
 #define LEVEL_UPDATE 1 
 #define SPEED_UPDATE 1 
@@ -57,17 +64,18 @@ protected:
 	CCLabelBMFont *m_lable1;
 	CCLabelBMFont *m_lable2;
 	CCLabelBMFont *m_lable3;
-	CCLabelBMFont *m_lable4;
+	CCLabelBMFont *m_lable4;//current valu
 	CCLabelBMFont *m_lable5;
-	CCLabelBMFont *m_lable6;
-	CCLabelBMFont *m_lable7;
-	CCLabelBMFont *m_lable8;
+	CCLabelBMFont *m_lable6;//next value
+	CCLabelBMFont *m_lable7;//coin to buy
+	CCLabelBMFont *m_lable8;//current coin
 	char *str[6];
 	float m_fTowerSpeed;
 	int m_iDameTowerCurrent;
 	int m_iLevelTower;
 	int m_iRateDoubleDamge;
 	int m_iCoinToBuy;
+	int m_iCurentItemSelect;
 public:
 	// Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
 	virtual bool init(); 
