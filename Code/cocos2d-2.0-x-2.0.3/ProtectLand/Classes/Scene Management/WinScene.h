@@ -31,7 +31,7 @@ public:
 	virtual void render();
 	virtual void exit();
 	// there's no 'id' in cpp, so we recommand to return the exactly class pointer
-	static cocos2d::CCScene* scene();
+	static cocos2d::CCScene* scene(int coinBonus, int HpTowerRemind);
 	
 	void addStar(eStar star);
 	// a selector callback
@@ -42,6 +42,10 @@ public:
 	void particeStar(CCNode* sender);
 	void StitchMoveDone(CCNode* sender);
 
+	//so mau hien tai con lia cua tower
+	int m_iHpTowerRemind;
+	//so coin bonus theo so quai giet duoc
+	int m_iCoinBonus;
 	// implement the "static node()" method manually
 	CREATE_FUNC(CWinScene);
 };

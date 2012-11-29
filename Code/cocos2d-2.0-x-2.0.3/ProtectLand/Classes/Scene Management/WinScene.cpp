@@ -1,7 +1,8 @@
 #include "WinScene.h"
 USING_NS_CC;
 
-CCScene* CWinScene::scene()
+
+cocos2d::CCScene* CWinScene::scene( int coinBonus, int HpTowerRemind )
 {
 	// 'scene' is an autorelease object
 	CCScene *scene = CCScene::create();
@@ -9,6 +10,8 @@ CCScene* CWinScene::scene()
 	// 'layer' is an autorelease object
 	CWinScene *layer = CWinScene::create();	
 	// add layer as a child to scene
+	layer->m_iCoinBonus = coinBonus;
+	layer->m_iHpTowerRemind = HpTowerRemind;
 	scene->addChild(layer);
 
 	// return the scene
