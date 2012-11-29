@@ -156,7 +156,7 @@ public:
 	CCLabelBMFont* m_pLabelStageCurrent; // level hien tia cua stage
 	void processLabelCoin(); //ham xu ly thay doi cho label coin trong ham update
 	//phan tower
-	int towerHp;
+	CC_SYNTHESIZE(int, towerHp, TowerHP);
 
 	CREATE_FUNC(CGameObjectLayer);
 };

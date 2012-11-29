@@ -1,5 +1,6 @@
 #include "AudioManager.h"
 #include "IncludeHelper.h"
+#include "SoundConfig.h"
 CAudioManager* CAudioManager::m_instance = 0;
 CAudioManager* CAudioManager::instance()
 {
@@ -139,59 +140,92 @@ void CAudioManager::AudioChoice(int AudioID)
 {
 	switch(AudioID)
 	{
-	case SOUND_WIN_1:
-		m_pszFilePath = "Sounds/Win1.ogg";
+	case SOUND_BACKGROUND_ACADEMY:
+		m_pszFilePath = "SoundBackground/academy_bg.mp3";
 		break;
-	case SOUND_WIN_2:
-		m_pszFilePath = "Sounds/Win2.ogg";
+	case SOUND_BACKGROUND_BOSS:
+		m_pszFilePath = "SoundBackground/boss_bg.mp3";
 		break;
-	case SOUND_WATER_1:
-		m_pszFilePath = "Sounds/Water1.ogg";
+	case SOUND_BACKGROUND_DARKELF:
+		m_pszFilePath = "SoundBackground/darkelf_bg.mp3";
 		break;
-	case SOUND_WATER_2:
-		m_pszFilePath = "Sounds/Water2.ogg";
+	case SOUND_BACKGROUND_DEVIL:
+		m_pszFilePath = "SoundBackground/devil_bg.mp3";
 		break;
-	case SOUND_WATER_3:
-		m_pszFilePath = "Sounds/Water3.ogg";
+	case SOUND_BACKGROUND_DWARF:
+		m_pszFilePath = "SoundBackground/dwarf_bg.mp3";
 		break;
-	case SOUND_SCORE_COUNT:
-		m_pszFilePath = "Sounds/Score_Count1.ogg" ;
+	case SOUND_BACKGROUND_ELF:
+		m_pszFilePath = "SoundBackground/elf_bg.mp3" ;
 		break;
-	case SOUND_ALARM_WATER_DROP_1:
-		m_pszFilePath = "Sounds/Alarm_Water_Drop.ogg";
+	case SOUND_BACKGROUND_FAIL:
+		m_pszFilePath = "SoundBackground/fail.mp3";
 		break;
-	case SOUND_CLICK_1:
-		m_pszFilePath = "Sounds/click.ogg";
+	case SOUND_BACKGROUND_HUMAN:
+		m_pszFilePath = "SoundBackground/human_bg.mp3";
 		break;
-	case SOUND_BACKGROUND:
-		m_pszFilePath = "Sounds/BgMusic.ogg";
+	case SOUND_BACKGROUND_MAIN:
+		m_pszFilePath = "SoundBackground/main_bg.mp3";
 		break;
-	case SOUND_STAR_1:
-		m_pszFilePath = "Sounds/star_1.ogg";
+	case SOUND_BACKGROUND_SUCCEED:
+		m_pszFilePath = "SoundBackground/succeed.mp3";
 		break;
-	case SOUND_STAR_2:
-		m_pszFilePath = "Sounds/star_2.ogg";
+	case SOUND_BACKGROUND_UNDEAD:
+		m_pszFilePath = "SoundBackground/undead_bg.mp3";
 		break;
-	case SOUND_STAR_3:
-		m_pszFilePath = "Sounds/star_3.ogg";
+	case SOUND_BUTTON:
+		m_pszFilePath = "SoundEffect/01_button.mp3";
 		break;
-	case SOUND_GAMEPLAY_BAGROUND_1:
-		m_pszFilePath = "Sounds/GamePlayBackGround_1.ogg";
+	case SOUND_EQUIP_UPGRADE:
+		m_pszFilePath = "SoundEffect/02_equip_or_upgrade.mp3";
 		break;
-	case SOUND_ENABLE_BUTTON:
-		m_pszFilePath = "Sounds/EnableButton.ogg";
+	case SOUND_NORMAL_TOWER:
+		m_pszFilePath = "SoundEffect/03_normal_tower.mp3";
 		break;
-	case SOUND_ANT_MOVE:
-		m_pszFilePath = "Sounds/AntMove.ogg";
+	case SOUND_FIRE_TOWER:
+		m_pszFilePath = "SoundEffect/04_fire_tower.mp3";
 		break;
-	case SOUND_ANT_DEAD:
-		m_pszFilePath = "Sounds/AntDead.ogg";
+	case SOUND_ICE_TOWER:
+		m_pszFilePath = "SoundEffect/05_ice_tower.mp3";
 		break;
-	case SOUND_INTRO:
-		m_pszFilePath = "Sounds/Sound564.ogg";
+	case SOUND_ELECT_TOWER:
+		m_pszFilePath = "SoundEffect/06_elect_tower.mp3";
 		break;
-	case SOUND_MAINMENU:
-		m_pszFilePath = "Sounds/Sound647.ogg";
+	case SOUND_BOSS_ALERT:
+		m_pszFilePath = "SoundEffect/07_boss_alert.mp3";
+		break;
+	case SOUND_MONSTER_ALERT:
+		m_pszFilePath = "SoundEffect/08_monster_alert.mp3";
+		break;
+	case SOUND_WALL_BEHIT:
+		m_pszFilePath = "SoundEffect/09_wall_behit.mp3";
+		break;
+	case SOUND_WALL_BEHIT_BLAST:
+		m_pszFilePath = "SoundEffect/09_wall_behit_blast.mp3";
+		break;
+	case SOUND_MONSTER_BEHIT:
+		m_pszFilePath = "SoundEffect/10_monster_behit.mp3";
+		break;
+	case SOUND_FIRE_MAGIC:
+		m_pszFilePath = "SoundEffect/11_fire_magic.mp3";
+		break;
+	case SOUND_ICE_MAGIC:
+		m_pszFilePath = "SoundEffect/12_ice_magic.mp3";
+		break;
+	case SOUND_WIND_MAGIC:
+		m_pszFilePath = "SoundEffect/13_wind_magic.mp3";
+		break;
+	case SOUND_SUPER_MAGIC:
+		m_pszFilePath = "SoundEffect/14_super_magic.mp3";
+		break;
+	case SOUND_MAGIC_WAIT_FINISH:
+		m_pszFilePath = "SoundEffect/15_magic_wait_finish.mp3";
+		break;
+	case SOUND_MAIN_LOGO_EFFECT_FLY:
+		m_pszFilePath = "SoundEffect/17_main_logo_effect_fly.mp3";
+		break;
+	case SOUND_MAIN_LOGO_EFFECT_HIT:
+		m_pszFilePath = "SoundEffect/17_main_logo_effect_hit.mp3";
 		break;
 	default:
 		m_pszFilePath = "";
@@ -202,23 +236,35 @@ void CAudioManager::AudioChoice(int AudioID)
 void CAudioManager::initAudio()
 {
 	m_Sound = SOUND_BG_EFF;
-	m_SManager->preloadEffect("Sounds/Win1.ogg");
-	m_SManager->preloadEffect("Sounds/Win2.ogg");
-	m_SManager->preloadEffect("Sounds/Water1.ogg");
-	m_SManager->preloadEffect("Sounds/Water2.ogg");
-	m_SManager->preloadEffect("Sounds/Water3.ogg");
-	m_SManager->preloadEffect("Sounds/Score_Count1.ogg");
-	m_SManager->preloadEffect("Sounds/click.ogg");
-	m_SManager->preloadEffect("Sounds/star_1.ogg");
-	m_SManager->preloadEffect("Sounds/star_2.ogg");
-	m_SManager->preloadEffect("Sounds/star_3.ogg");
-	m_SManager->preloadEffect("Sounds/AntMove.ogg");
-	m_SManager->preloadEffect("Sounds/AntDead.ogg");
-	m_SManager->preloadEffect("Sounds/EnableButton.ogg");
-	m_SManager->preloadEffect("Sounds/Alarm_Water_Drop.ogg");
-	m_SManager->preloadBackgroundMusic("Sounds/BgMusic.ogg");
-	m_SManager->preloadBackgroundMusic("Sounds/Sound564.ogg");
-	m_SManager->preloadBackgroundMusic("Sounds/Sound647.ogg");
+	m_SManager->preloadBackgroundMusic("SoundBackground/academy_bg.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/boss_bg.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/darkelf_bg.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/devil_bg.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/dwarf_bg.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/elf_bg.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/fail.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/human_bg.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/main_bg.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/succeed.mp3");
+	m_SManager->preloadBackgroundMusic("SoundBackground/undead_bg.mp3");
+	m_SManager->preloadEffect("SoundEffect/01_button.mp3");
+	m_SManager->preloadEffect("SoundEffect/02_equip_or_upgrade.mp3");
+	m_SManager->preloadEffect("SoundEffect/03_normal_tower.mp3");
+	m_SManager->preloadEffect("SoundEffect/04_fire_tower.mp3");
+	m_SManager->preloadEffect("SoundEffect/05_ice_tower.mp3");
+	m_SManager->preloadEffect("SoundEffect/06_elect_tower.mp3");
+	m_SManager->preloadEffect("SoundEffect/08_monster_alert.mp3");
+	m_SManager->preloadEffect("SoundEffect/09_wall_behit.mp3");
+	m_SManager->preloadEffect("SoundEffect/09_wall_behit_blast.mp3");
+	m_SManager->preloadEffect("SoundEffect/10_monster_behit.mp3");
+	m_SManager->preloadEffect("SoundEffect/11_fire_magic.mp3");
+	m_SManager->preloadEffect("SoundEffect/12_ice_magic.mp3");
+	m_SManager->preloadEffect("SoundEffect/13_wind_magic.mp3");
+	m_SManager->preloadEffect("SoundEffect/14_super_magic.mp3");
+	m_SManager->preloadEffect("SoundEffect/15_magic_wait_finish.mp3");
+	m_SManager->preloadEffect("SoundEffect/17_main_logo_effect_fly.mp3");
+	m_SManager->preloadEffect("SoundEffect/17_main_logo_effect_hit.mp3");
+	
 }
 void CAudioManager::DestroyInstance()
 {
