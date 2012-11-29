@@ -13,6 +13,7 @@ using namespace cocos2d;
 #define INIT_RATE_DOUBLE_DAMGE	5
 #define INIT_SHOW_LEVEL_SPEED	1
 
+
 enum Mapcurrent {
 	human,
 	elves,
@@ -33,7 +34,6 @@ struct SLevelInfomation
 	int m_iLevelTower;
 	int m_iDameTowerCurrent;
 	int m_iTowerSpeed;
-	int m_iShowTowerSpeed;
 	int m_iTowerHp;
 	int m_iRateDoubleDamge;
 	SLevelInfomation()
