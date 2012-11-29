@@ -91,7 +91,13 @@ void CSkillLayer::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 }
 void CSkillLayer::update(float dt)
 {
-
+	m_timer+=dt;
+	if(m_timer>MAX_TIME_EXE_SKILL)
+	{
+		calculateSkill();
+		initVar();
+		removeLayer();
+	}
 }
 
 void CSkillLayer::onEnter()
@@ -101,6 +107,7 @@ void CSkillLayer::onEnter()
 }
 void CSkillLayer::initVar()
 {
+	m_timer=0;
 	stt=0;
 	for(int i=0;i<5;i++){
 		//arr_isTouched[i]=false;
@@ -190,9 +197,12 @@ void CSkillLayer::calculateSkill()
 }
 void CSkillLayer::removeLayer()
 {
+	((CGameObjectLayer*)CGamePlay::pGameObjectLayer)->m_bIsFinshChooseSkill = true;
+	((CGameObjectLayer*)CGamePlay::pGameObjectLayer)->m_iTypeSkillReturn=getResultSkill();
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_SKILL_LAYER);
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_COLOR_LAYER);
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(CGamePlay::pGameObjectLayer, TOUCH_PRIORITY_MAIN_LAYER , true);
 	CGamePlay::pGameObjectLayer->setTouchEnabled(true);
+
 }
 

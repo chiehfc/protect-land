@@ -36,7 +36,7 @@ bool CGameObjectLayer::init()
 	}	
 
 
-	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	size = CCDirector::sharedDirector()->getWinSize();
 	//init value
 	{
 		oneMonster = false;
@@ -47,8 +47,7 @@ bool CGameObjectLayer::init()
 		m_index = -1;	
 
 	}
-
-	CCSize size = CCDirector::sharedDirector()->getWinSize();	
+	
 	loadMap();
 
 
@@ -60,7 +59,7 @@ bool CGameObjectLayer::init()
 			"PauseGameSelected.png",
 			this,
 			menu_selector(CGameObjectLayer::menuSubMenuCallback));
-		pSubMenu->setPosition( ccp(s.width -70 , s.height -40) );
+		pSubMenu->setPosition( ccp(size.width -70 , size.height -40) );
 		this->pMenu = CCMenu::create(pSubMenu, NULL);
 		this->pMenu->setPosition( CCPointZero );	
 
@@ -69,7 +68,7 @@ bool CGameObjectLayer::init()
 			"ReplaySelected.png",
 			this,
 			menu_selector(CGameObjectLayer::menuReplayMenuCallback));
-		pReplay->setPosition( ccp(s.width -140, s.height -40) );
+		pReplay->setPosition( ccp(size.width -140, size.height -40) );
 		this->pMenu->addChild(pReplay);
 
 		const char* music;
@@ -86,7 +85,7 @@ bool CGameObjectLayer::init()
 			menu_selector(CGameObjectLayer::menuMuteMenuCallback));
 		/*pMute->setScaleX((float)size.width/WIDTH_SCREEN);
 		pMute->setScaleY((float)size.height/HEIGHT_SCREEN);*/
-		pMute->setPosition( ccp(s.width -210, s.height -40) );
+		pMute->setPosition( ccp(size.width -210, size.height -40) );
 		this->pMenu->addChild(pMute);
 		eAstate = MUSIC_ON;
 	}
@@ -163,7 +162,11 @@ void CGameObjectLayer::update(float dt)
 	attackMonster();
 	m_time = m_time + dt;
 
-	if ()
+	if (m_bIsFinshChooseSkill)
+	{
+		addSkillAnimation(m_iTypeSkillReturn);
+		m_bIsFinshChooseSkill = false;
+	}
 }
 
 void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
@@ -687,13 +690,13 @@ cocos2d::CCRect CGameObjectLayer::getRectMonsterFire( CMonster* pMonster )
 		pMonster->m_sprite->getContentSize().height - 5.0f);
 }
 
-void CGameObjectLayer::addSkillAnimation( int typeSkill )
+void CGameObjectLayer::addSkillAnimation( int typeSkill)
 {
 	//TEST insert demo skill
 	for (int i=0; i<3; i++)
 	{
 		CMySprite* pSprite = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
-		pSprite->setPosition(ccp(pTouch->getLocation().x + i*200.0f, pTouch->getLocation().y + 100.0f));
+		pSprite->setPosition(ccp(size.width/2.0f + i*200.0f, size.height/2.0f + 100.0f));
 		pSprite->setScale(2.5f);
 		this->addChild(pSprite);
 		pSprite->PlayAnimation(0, 3.0f, 1, false);
