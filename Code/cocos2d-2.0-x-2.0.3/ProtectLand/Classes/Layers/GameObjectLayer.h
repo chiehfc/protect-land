@@ -124,6 +124,11 @@ public:
 	CCRect getRectMonsterFire(CMonster* pMonster); //get Rect cuar monster truyen vao
 
 
+	//connect with skill layer
+	bool m_bIsFinshChooseSkill; //check khi skill da chon xong ben Skill layer
+	int m_iTypeSkillReturn;  // loai skill se hien len
+	void addSkillAnimation(int typeSkill);  //ham thuc hien them animation skill vao layer
+
 	CREATE_FUNC(CGameObjectLayer);
 };
 

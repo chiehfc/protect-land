@@ -41,7 +41,6 @@ void CSkillLayer::addSphere(CCSprite *m_sprite,char *path,int x,int y)
 	//m_pCSkillLayer->setScale(0.5);
 	m_sprite->setPosition(ccp(x,y));
 	addChild(m_sprite);
-
 }
 
 bool CSkillLayer::inAreaSphere(int x, int y, CCPoint &p)
@@ -161,7 +160,7 @@ int CSkillLayer::pow(int x,int n)
 }
 int CSkillLayer::getResultSkill()
 {
-	int temp=resultSkill;
+	int temp = resultSkill;
 	resultSkill=-1;
 	return temp;
 }
