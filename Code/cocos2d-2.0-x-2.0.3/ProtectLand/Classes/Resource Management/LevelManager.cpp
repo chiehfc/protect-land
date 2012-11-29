@@ -74,7 +74,7 @@ bool CLevelManager::LoadLevelFromFile( const char* pszPath )
 		currentOffset = ReadLine(psContentFile, pc_Line, currentOffset);
 		int iMapCurrent = human;
 		int iLevelCurrent = 1;
-		int iCoin = 0;
+		int iCoin = 100;
 		int iLevelTower = 1;
 		int iDameTowerCurrent = INIT_DAMGE_TOWER;
 		int iTowerSpeed = 1;
@@ -84,6 +84,7 @@ bool CLevelManager::LoadLevelFromFile( const char* pszPath )
 		m_psLevelInfo->m_iMapCurrent = iMapCurrent;
 		m_psLevelInfo->m_iLevelCurrent = iLevelCurrent;
 		m_psLevelInfo->m_iCoin = iCoin;
+
 		m_psLevelInfo->m_iLevelTower = iLevelTower;
 		m_psLevelInfo->m_iDameTowerCurrent = iDameTowerCurrent;
 		m_psLevelInfo->m_iTowerSpeed = iTowerSpeed;

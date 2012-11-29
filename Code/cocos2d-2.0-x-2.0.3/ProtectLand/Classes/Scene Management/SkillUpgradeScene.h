@@ -8,25 +8,36 @@
 #define SCALE_ITEM 1.5
 #define HP_UPDATE 10 
 #define LEVEL_UPDATE 1 
+#define SPEED_UPDATE 1 
+#define DAMAGE_UPDATE 10 
+#define RATEDAMAGE_UPDATE 2 
+
 #define LOCATION_WALL_ITEM ccp(380, 520)
 #define LOCATION_SPEED_ITEM ccp(210, 382)
 #define LOCATION_LEVEL_ITEM ccp(550, 382)
-#define LOCATION_RATEDAME_ITEM ccp(210, 258)
-#define LOCATION_DAME_ITEM ccp(550, 258)
+#define LOCATION_RATEDAME_ITEM ccp(550, 258)
+#define LOCATION_DAME_ITEM ccp(210, 258)
 #define LOCATION_NAME_LABEL ccp(712, 500)
 #define LOCATION_DETAIL_LABEL ccp(712, 462)
-#define LOCATION_CURRENT_LABEL ccp(712, 365)
-#define LOCATION_CURRENTVALUE_LABEL ccp(822, 365)
-#define LOCATION_NEXT_LABEL ccp(712, 335)
-#define LOCATION_NEXTVALUE_LABEL ccp(822, 335)
+#define LOCATION_CURRENT_LABEL ccp(713, 403)
+#define LOCATION_CURRENTVALUE_LABEL ccp(822, 403)
+#define LOCATION_NEXT_LABEL ccp(712, 352)
+#define LOCATION_NEXTVALUE_LABEL ccp(822, 352)
 #define LOCATION_BACKGROUND ccp(size.width/2.0, size.height/2.0 +40)
 #define LOCATION_LINE ccp(700, size.height/2.0 +40)
+#define LOCATION_COIN ccp(900, 29) 
+#define LOCATION_COIN2 ccp(736, 286)
+#define LOCATION_BUY ccp(819, 230)
+#define LOCATION_BUY2 ccp(817, 230)
+#define LOCATION_COIN_LABEL ccp(851, 50)
+#define LOCATION_COIN2_LABEL ccp(771, 306)
 using namespace cocos2d;
 
 class CSkillUpgradeScene : public cocos2d::CCLayer
 {
 
 protected:
+	CCSprite * temp;
 	CCMenu* pMenu;	
 	CCSize size;
 	CCSprite * m_pBackground;
@@ -36,20 +47,27 @@ protected:
 	CCMenuItemImage *m_pLevel;
 	CCMenuItemImage *m_pDamage;	
 	CCMenuItemImage *m_pRateDamage;
+	CCMenuItemImage *m_pBuy;
 	CCSprite *m_pLine;
 	CCSprite *m_pBorder;
 	CCSprite *m_pLogoSelect;
+	CCSprite *m_pCoin;
+	CCSprite *m_pCoin2;
+	CCSprite *m_pBuyBorder;
 	CCLabelBMFont *m_lable1;
 	CCLabelBMFont *m_lable2;
 	CCLabelBMFont *m_lable3;
 	CCLabelBMFont *m_lable4;
 	CCLabelBMFont *m_lable5;
 	CCLabelBMFont *m_lable6;
+	CCLabelBMFont *m_lable7;
+	CCLabelBMFont *m_lable8;
 	char *str[6];
 	float m_fTowerSpeed;
 	int m_iDameTowerCurrent;
 	int m_iLevelTower;
 	int m_iRateDoubleDamge;
+	int m_iCoinToBuy;
 public:
 	// Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
 	virtual bool init(); 
@@ -65,7 +83,7 @@ public:
 	void menuPlayCallBack(CCObject* pSender);
 	// implement the "static node()" method manually
 	CREATE_FUNC(CSkillUpgradeScene);
-	void addSpire(CCSprite **m_sprite, char* path, CCPoint &position, float scale);
+	void addSpire(CCSprite **m_sprite, char* path, CCPoint &position, float scaleX,float scaleY);
 	void setButton(CCMenuItemImage *m_button,CCPoint &position, float scale );
 	void addLabel(CCLabelBMFont **pLabel, ccColor3B &color, int width, CCPoint &position, char* str,float scale);
 	void createLabelAndItem();
@@ -75,7 +93,7 @@ public:
 	void buttonSpeedCallback(CCObject* pSender);
 	void buttonDamageCallback(CCObject* pSender);
 	void buttonRateCallback(CCObject* pSender);
-
+	void buttonBuyCallback(CCObject* pSender);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
