@@ -20,9 +20,6 @@ private:
 	cocos2d::CCLabelBMFont* m_pLabelScorce;
 	cocos2d::CCLabelBMFont* m_pLabelBonus;
 	cocos2d::CCLabelBMFont* m_pLabelTotal;
-	int * star_1_id;
-	int * star_2_id;
-	int * star_3_id;
 	CMySprite* m_pStitchFun;
 	/*cocos2d::CCLabelTTF* m_pLabelScorce;
 	cocos2d::CCLabelTTF* m_pLabelBonus;
@@ -34,7 +31,7 @@ public:
 	virtual void render();
 	virtual void exit();
 	// there's no 'id' in cpp, so we recommand to return the exactly class pointer
-	static cocos2d::CCScene* scene(eStar star);
+	static cocos2d::CCScene* scene();
 	
 	void addStar(eStar star);
 	// a selector callback

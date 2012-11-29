@@ -186,12 +186,12 @@ void CSkillUpgradeScene::createLabelAndItem()
 	addSpire(&m_pBorder,"SkillScreen\\border_item.png",LOCATION_RATEDAME_ITEM,SCALE_ITEM);
 	pMenu->setPosition(ccp(0,0));
 	this->addChild(pMenu);
-	addLabel(&m_lable1,ccc3(255,255,0),200,LOCATION_NAME_LABEL,"Wall Protect",1.0);
-	addLabel(&m_lable2,ccc3(255,255,255),250,LOCATION_DETAIL_LABEL,"Can cause double the damage at certain probability",0.7);
-	addLabel(&m_lable3,ccc3(255,126,0),100,LOCATION_CURRENT_LABEL,"Current Probability:",0.7);
-	addLabel(&m_lable4,ccc3(0,255,0),100,LOCATION_CURRENTVALUE_LABEL,"24:",0.7);
-	addLabel(&m_lable5,ccc3(255,126,0),100,LOCATION_NEXT_LABEL,"Next level:",0.7);
-	addLabel(&m_lable6,ccc3(0,255,0),100,LOCATION_NEXTVALUE_LABEL,"45:",0.7);
+	addLabel(&m_lable1, ccc3(255, 255, 0), 200, LOCATION_NAME_LABEL,"Wall Protect", 1.0);
+	addLabel(&m_lable2, ccc3(255, 255, 255), 250, LOCATION_DETAIL_LABEL,"Can cause double the damage at certain probability", 0.7);
+	addLabel(&m_lable3, ccc3(255, 126, 0),100,LOCATION_CURRENT_LABEL,"Current Probability:", 0.7);
+	addLabel(&m_lable4, ccc3(0, 255, 0),100,LOCATION_CURRENTVALUE_LABEL,"24:", 0.7);
+	addLabel(&m_lable5, ccc3(255, 126, 0),100,LOCATION_NEXT_LABEL,"Next level:", 0.7);
+	addLabel(&m_lable6, ccc3(0, 255, 0), 100, LOCATION_NEXTVALUE_LABEL, "45:", 0.7);
 	char buf1[20] = "";
 	sprintf(buf1, " %d", CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp);
 	char buf2[20] = "";

@@ -104,7 +104,7 @@ bool CGameObjectLayer::init()
 		m_bIsTouching = false;
 		this->m_pObject = NULL;
 		this->pMoveSprite = NULL;		
-
+		//set enable click in game menu
 		this->pMenu->setEnabled(true);
 
 		m_pBaseTower=CCSprite::spriteWithFile("Tower\\Data\\tower_11.png");
@@ -127,6 +127,28 @@ bool CGameObjectLayer::init()
 
 		m_iCurrentEnegy = 0;  // khoi tao enegy ban dau
 		m_bToggle=false;
+	}
+	
+	//add label coin and scene
+	{
+		//icon Coin
+		CCSprite* pCoinSorite = CCSprite::spriteWithFile("PlayScene\\coin.png");
+		pCoinSorite->setPosition(LOCATION_COIN_ICON);
+		this->addChild(pCoinSorite);
+		char * pNameIconScene[7] = {"PlayScene\\human.png",  "PlayScene\\elf.png", "PlayScene\\magi_icon.png", 
+									"PlayScene\\dwarf.png", "PlayScene\\darkelf.png", "PlayScene\\undead.png", "PlayScene\\devil.png"};
+		//icon Stage
+		CCSprite* pSceneSorite = CCSprite::spriteWithFile(pNameIconScene[CLevelManager::GetInstance()->GetLevelInformation()->m_iMapCurrent -1]);
+		pSceneSorite->setPosition(LOCATION_SCENE_ICON);
+		this->addChild(pSceneSorite);
+
+		m_pLabelCoinCollect = CCLabelBMFont::create("aaa", "fonts/myFont.fnt", 50);
+		//m_pLabelBonus->setScale(0.7f);
+		m_pLabelCoinCollect->setColor(ccc3(177, 89, 76));
+		m_pLabelCoinCollect->setPosition(LOCATION_LABEL_COIN);
+		this->addChild(m_pLabelCoinCollect, zLabel);
+
+		m_pLabelStageCurrent = CCLabelBMFont::create(" 0", "fonts/myFont.fnt", 35);
 	}
 	
 	CAudioManager::instance()->stopAllEff();
@@ -218,12 +240,8 @@ void CGameObjectLayer::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 void CGameObjectLayer::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 {	
 	if(m_bIsTouching){
-
 		m_bIsTouching = false;	
-
 	}
-
-
 }
 
 void CGameObjectLayer::draw()
@@ -337,7 +355,6 @@ void CGameObjectLayer::addBullets(CCPoint &centerPoint)
 			addOneBullet(centerPoint,-angle);
 			break;
 		case BULLET_LEVEL_2:
-
 			dy= dx*tan((angle+a)/(180/PI));
 			addOneBullet(ccp(centerPoint.x, LOCATION_Y_TOWER + dy),-(angle+a/2));
 			dy= dx*tan((angle-a)/(180/PI));
@@ -416,7 +433,6 @@ void CGameObjectLayer::addOneBullet(CCPoint &p,float angle)
 
 float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
 {
-
 	float dx=v1.x - v.x;
 	float dy=v1.y - v.y;
 
@@ -427,7 +443,6 @@ float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
 
 CCPoint CGameObjectLayer::getDestination(float X,float Y)
 {
-	
 	float t;
 	if(X-LOCATION_X_TOWER!= 0) t= 50/(X-LOCATION_X_TOWER);
 	else t= 50/(Y-LOCATION_Y_TOWER);
