@@ -149,20 +149,6 @@ void CGameObjectLayer::update(float dt)
 		}
 	}
 	creatMonster();
-	if(!check){
-		if (m_time>5)
-		{
-			CCObject *it = new CMonster();
-			CCARRAY_FOREACH(m_arrMonster,it){
-				CMonster *monsterD = (CMonster*)it;
-				addMonsterToDelete(monsterD);
-				check = true;
-				break;
-
-			}
-		}
-	}
-	//attackTower();
 	attackMonster();
 	m_time = m_time + dt;
 
@@ -605,7 +591,7 @@ void CGameObjectLayer::actionDestroyTower()
 
 void CGameObjectLayer::attackMonster()
 {
-	CCArray *monsterToDelete = new CCArray;
+	//CCArray *monsterToDelete = new CCArray;
 	//for(CCSprite *it in _projectiles){
 	CCObject *it = new CMonster;
 	CCObject *jt = new Bullet;
@@ -629,19 +615,21 @@ void CGameObjectLayer::attackMonster()
 		}
 		if(bulletsToDelete->count() > 0)
 		{
-			monsterToDelete->addObject(monsterD);
+			//monsterToDelete->addObject(monsterD);
+			hitMonster(monsterD);
 		}
 		bulletsToDelete->release();
 	}
-	
+/*CCARRAY_FOREACH(monsterToDelete,it){
+
 	//Xoa nhung monster thuoc array monsterToDelete
 	CCARRAY_FOREACH(monsterToDelete,it){
-		CMonster* monsterD = (CMonster*)it;
+CMonster* monsterD = (CMonster*)it;
 		processWhenMonsterDie(monsterD);
 		m_arrMonster->removeObject(monsterD);
 		this->removeChild(monsterD,true);
 	}
-	monsterToDelete->release();
+	monsterToDelete->release();*/
 }
 
 void CGameObjectLayer::initMap()
@@ -818,7 +806,8 @@ int CGameObjectLayer::randomPosition(int firstPos, int secondPos)
 void CGameObjectLayer::addMonsterToDelete( CMonster * monster )
 {
 	monster->setDelayTimeDie(m_time);
-	monster->monsterDie();
+	monster->monsterDie(CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
+	m_arrMonster->removeObject(monster);
 	m_arrMonsterToDelete->addObject(monster);
 }
 
@@ -828,7 +817,7 @@ void CGameObjectLayer::addDeleteMonster()
 	CCARRAY_FOREACH(m_arrMonsterToDelete,it){
 		CMonster *monsterD = (CMonster*) it;
 		if(monsterD->getDelayTimeDie()+10.0f<=m_time){
-			m_arrMonster->removeObject(monsterD);
+			//m_arrMonster->removeObject(monsterD);
 			this->removeChild(monsterD,false);
 		}
 	}
@@ -941,3 +930,19 @@ void CGameObjectLayer::processWhenMonsterDie( CMonster* pMonster )
 }
 
 
+
+void CGameObjectLayer::hitMonster( CMonster * monster )
+{
+	if(monster->getHP() > CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent){
+		hurtMonster(monster);
+	}else {
+	//CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent;
+		addMonsterToDelete(monster);
+	}
+}
+
+void CGameObjectLayer::hurtMonster( CMonster *monster )
+{
+	monster->setHP(monster->getHP()-CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
+	monster->hitMonster(CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
+}

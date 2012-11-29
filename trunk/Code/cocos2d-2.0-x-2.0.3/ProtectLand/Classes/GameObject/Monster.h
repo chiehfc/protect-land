@@ -14,6 +14,9 @@ public:
 	CMySprite * m_spriteCoin;
 	float timeMove;
 	typeMove typeMove;
+	CCLabelTTF * bloothOut1,*bloothOut2, *bloothOut3;
+	bool check1, check2, check3;
+	int index;
 	CC_SYNTHESIZE(float, m_delayTimeDie,DelayTimeDie);
 	CC_SYNTHESIZE(TypeMonster , m_iType, Type);
 	CC_SYNTHESIZE(int, m_iHp, HP);
@@ -23,6 +26,8 @@ public:
 	CC_SYNTHESIZE(int, m_power, Power);
 	CC_SYNTHESIZE(float, pos,Pos);
 	CC_SYNTHESIZE(int, m_coin, Coin);
+	//CC_SYNTHESIZE(char *, m_text, text);
+	//CC_SYNTHESIZE(CCLabelTTF *, m_bloothOut, bloothOut);
 
 
 	CMonster(TypeMonster type, MonsterLevel level, int height);
@@ -35,14 +40,20 @@ public:
 	void moveMonster();
 	void attackTower();
 	void attackDone(CCNode* sender);
-	void monsterDie();
+	void monsterDie(int damage);
 	void removeMonster();
-	void hitMonster();
+	void hitMonster(int damage);
 
 	CCRect getRectCurrentOfMonsters();  //lay rect cua frame hien tai
 	void monsterAction(CCNode* sender);
 	void coinAppear();
 	void collectCoin(CCNode* sender);
 	void collectDone(CCNode * sender);
+
+	//tru mau tren dau quai.
+	void numberDamageIn(int damage);
+	void hurtDone1(CCNode* sender);
+	void hurtDone2(CCNode* sender);
+	void hurtDone3(CCNode* sender);
 };
 #endif
