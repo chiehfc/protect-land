@@ -408,9 +408,9 @@ MONSTER
 #define COIN "Coin/coin.sprite"
 
 //hp
-#define LEVEL1_MONSTER_HP 2
-#define LEVEL2_MONSTER_HP 4
-#define LEVEL3_MONSTER_HP 6
+#define LEVEL1_MONSTER_HP 60
+#define LEVEL2_MONSTER_HP 80
+#define LEVEL3_MONSTER_HP 100
 
 //speed
 #define LEVEL1_MONSTER_SPEED 6

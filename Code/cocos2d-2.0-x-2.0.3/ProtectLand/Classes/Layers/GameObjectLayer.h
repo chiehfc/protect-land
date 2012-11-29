@@ -125,8 +125,10 @@ public:
 	void delayWinScene(float dt);
 
 	//add them cai de delete monster
-	void addMonsterToDelete(CMonster * monster);
-	void addDeleteMonster();
+	void addMonsterToDelete(CMonster * monster); //them vao danh sach xoa quai
+	void addDeleteMonster(); //xoa quai sau mot thoi gian delay
+	void hitMonster(CMonster * monster); //them vao luc quai bi attack
+	void hurtMonster(CMonster *monster); //khi bi thuong
 	bool check;
 
 	virtual bool init();
