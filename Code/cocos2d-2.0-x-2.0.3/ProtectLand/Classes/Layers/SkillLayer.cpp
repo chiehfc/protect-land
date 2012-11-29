@@ -95,6 +95,7 @@ void CSkillLayer::onEnter()
 {
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(CGamePlay::pSkillLayer, 0, false);
 	CGamePlay::pGameObjectLayer->setTouchEnabled(false);
+	CGamePlay::setEnableMenu(false);
 	CGamePlay::pSkillLayer->setTouchEnabled(true);
 }
 
@@ -196,6 +197,7 @@ void CSkillLayer::removeLayer()
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_COLOR_LAYER);
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(CGamePlay::pGameObjectLayer, TOUCH_PRIORITY_MAIN_LAYER , true);
 	CGamePlay::pGameObjectLayer->setTouchEnabled(true);
+	CGamePlay::setEnableMenu(true);
 
 }
 
