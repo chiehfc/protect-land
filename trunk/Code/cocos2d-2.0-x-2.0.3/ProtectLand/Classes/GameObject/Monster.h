@@ -26,6 +26,9 @@ public:
 	CC_SYNTHESIZE(int, m_power, Power);
 	CC_SYNTHESIZE(float, pos,Pos);
 	CC_SYNTHESIZE(int, m_coin, Coin);
+	CC_SYNTHESIZE(float, m_timeAttackDelay, TimeAttackDelay);
+	CC_SYNTHESIZE(float, m_currentTime, CurrentTime);
+	CC_SYNTHESIZE(int, m_numOfAttack, NumOfAttack);
 	//CC_SYNTHESIZE(char *, m_text, text);
 	//CC_SYNTHESIZE(CCLabelTTF *, m_bloothOut, bloothOut);
 
@@ -55,5 +58,6 @@ public:
 	void hurtDone1(CCNode* sender);
 	void hurtDone2(CCNode* sender);
 	void hurtDone3(CCNode* sender);
+	int attackTowerWithDamage(float m_time);
 };
 #endif

@@ -128,6 +128,9 @@ bool CGameObjectLayer::init()
 		m_iCurrentEnegy = 0;  // khoi tao enegy ban dau
 		m_bToggle=false;
 	}
+
+	// init tower:
+	towerHp = CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp;
 	
 	//add label coin and scene
 	{
@@ -606,45 +609,14 @@ void CGameObjectLayer::actionDestroyTower()
 
 void CGameObjectLayer::attackMonster()
 {
-	//CCArray *monsterToDelete = new CCArray;
-	//for(CCSprite *it in _projectiles){
-	CCObject *it = new CMonster;
-	CCObject *jt = new Bullet;
-	//_projectiles = dynamic_cast<CCSprite*>(it);
-	CCARRAY_FOREACH(m_arrMonster,it){
-		CMonster *monsterD = (CMonster*) it;
-		CCRect monsterRect = getRectMonsterFire(monsterD);
-		
-		CCArray *bulletsToDelete = new CCArray;
-		CCARRAY_FOREACH(m_arrBullet,jt){
-			Bullet *bulletD = (Bullet*)jt;
-			CCRect bulletRect = getRectBulletFire(bulletD);				
-			if(CCRect::CCRectIntersectsRect(monsterRect, bulletRect)){
-				bulletsToDelete->addObject(bulletD);
-			}
+	if (towerHp>0)
+	{
+		CCObject *it = new CMonster;
+		CCARRAY_FOREACH(m_arrMonster,it){
+			CMonster * monsterD = (CMonster *)it;
+			towerHp = towerHp - monsterD->attackTowerWithDamage(m_time);
 		}
-		CCARRAY_FOREACH(bulletsToDelete,jt){
-			Bullet *bulletD= (Bullet*)jt;
-			m_arrBullet->removeObject(bulletD);
-			this->removeChild(bulletD, true);
-		}
-		if(bulletsToDelete->count() > 0)
-		{
-			//monsterToDelete->addObject(monsterD);
-			hitMonster(monsterD);
-		}
-		bulletsToDelete->release();
 	}
-/*CCARRAY_FOREACH(monsterToDelete,it){
-
-	//Xoa nhung monster thuoc array monsterToDelete
-	CCARRAY_FOREACH(monsterToDelete,it){
-CMonster* monsterD = (CMonster*)it;
-		processWhenMonsterDie(monsterD);
-		m_arrMonster->removeObject(monsterD);
-		this->removeChild(monsterD,true);
-	}
-	monsterToDelete->release();*/
 }
 
 void CGameObjectLayer::initMap()
@@ -756,7 +728,7 @@ void CGameObjectLayer::appearInMixture()
 	int numOfMonster = (int)numOfMonsterPTime[indexTime]/2;
 	if(m_time>=timeForMixtureTime){
 		if(mixtureTime<2){
-			for(int i = (int)s.height/4;i<=(int)s.height*3/4;i=i+(int)s.height/(numOfMonster*2)){
+			for(int i = (int)s.height*3/4;i>=(int)s.height/4;i=i-(int)s.height/(numOfMonster*2)){
 				if(mixtureTime==0){
 					TypeMonster type = (TypeMonster)randomTypeMonster();
 					MonsterLevel level = (MonsterLevel)randomLevelMonster();
@@ -818,10 +790,10 @@ int CGameObjectLayer::randomPosition(int firstPos, int secondPos)
 	return actualDuration;
 }
 
-void CGameObjectLayer::addMonsterToDelete( CMonster * monster )
+void CGameObjectLayer::addMonsterToDelete( CMonster * monster, int damage )
 {
 	monster->setDelayTimeDie(m_time);
-	monster->monsterDie(CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
+	monster->monsterDie(damage);
 	m_arrMonster->removeObject(monster);
 	m_arrMonsterToDelete->addObject(monster);
 }
@@ -946,18 +918,20 @@ void CGameObjectLayer::processWhenMonsterDie( CMonster* pMonster )
 
 
 
-void CGameObjectLayer::hitMonster( CMonster * monster )
+void CGameObjectLayer::hitMonster( CMonster * monster, int damage )
 {
-	if(monster->getHP() > CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent){
-		hurtMonster(monster);
+	if(monster->getHP() > damage){
+		hurtMonster(monster, damage);
 	}else {
 	//CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent;
-		addMonsterToDelete(monster);
+		addMonsterToDelete(monster, damage);
 	}
 }
 
-void CGameObjectLayer::hurtMonster( CMonster *monster )
+void CGameObjectLayer::hurtMonster( CMonster *monster, int damage )
 {
 	monster->setHP(monster->getHP()-CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
-	monster->hitMonster(CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
+	monster->hitMonster(damage);
 }
+
+
