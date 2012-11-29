@@ -29,6 +29,7 @@ public:
 	CC_SYNTHESIZE(float, m_timeAttackDelay, TimeAttackDelay);
 	CC_SYNTHESIZE(float, m_currentTime, CurrentTime);
 	CC_SYNTHESIZE(int, m_numOfAttack, NumOfAttack);
+	CC_SYNTHESIZE(int, m_coinBonus, CointBonus);
 	//CC_SYNTHESIZE(char *, m_text, text);
 	//CC_SYNTHESIZE(CCLabelTTF *, m_bloothOut, bloothOut);
 

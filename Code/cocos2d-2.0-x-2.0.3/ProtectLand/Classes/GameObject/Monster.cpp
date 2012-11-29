@@ -49,6 +49,7 @@ bool CMonster::init()
 	}
 	switch(getLevel()){
 	case LEVEL1_MONSTER:
+		setCointBonus(LEVEL1_MONSTER_COIN_BONUS);
 		setHP(LEVEL1_MONSTER_HP);
 		setSpeed(LEVEL1_MONSTER_SPEED);
 		setDamage(LEVEL1_MONSTER_DAMAGE);
@@ -61,6 +62,7 @@ bool CMonster::init()
 		}
 		break;
 	case LEVEL2_MONSTER:
+		setCointBonus(LEVEL2_MONSTER_COIN_BONUS);
 		setHP(LEVEL2_MONSTER_HP);
 		setSpeed(LEVEL2_MONSTER_SPEED);
 		setDamage(LEVEL2_MONSTER_DAMAGE);
@@ -73,6 +75,7 @@ bool CMonster::init()
 		}
 		break;
 	case LEVEL3_MONSTER:
+		setCointBonus(LEVEL3_MONSTER_COIN_BONUS);
 		setHP(LEVEL3_MONSTER_HP);
 		setSpeed(LEVEL3_MONSTER_SPEED);
 		setDamage(LEVEL3_MONSTER_DAMAGE);

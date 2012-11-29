@@ -159,6 +159,10 @@ public:
 	CC_SYNTHESIZE(int, towerHp, TowerHP);
 	CCSprite *m_activeHP, *m_inactiveHP;
 
+	CC_SYNTHESIZE(bool, m_checkWin, CheckWin);//check xem win man nay chua
+
+	CC_SYNTHESIZE(int, m_coinBonus, CoinBonus);
+
 	CREATE_FUNC(CGameObjectLayer);
 };
 
