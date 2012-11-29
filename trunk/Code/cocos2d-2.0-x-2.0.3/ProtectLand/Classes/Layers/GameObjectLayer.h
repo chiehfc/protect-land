@@ -29,6 +29,8 @@ class CTarget;
 class CGameObjectLayer: public cocos2d::CCLayer
 {
 private:
+
+	CCSize	size; 
 	//Sprite layer
 
 	CCArray* 	m_pSpriteList;

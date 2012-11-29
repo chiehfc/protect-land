@@ -385,8 +385,7 @@ DEFINE	AREA SHOOT SIZE
 /*
 SKILL
 */
-#define NUM_SKILL 1
-#define MAX_TIME_EXE_SKILL 2
+
 /*
 TOWER
 */

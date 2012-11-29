@@ -8,6 +8,7 @@ USING_NS_CC;
 #define SKILL_2 2 // kill all fire monster
 #define SKILL_3 3 // kill all water monster
 #define SKILL_4 4 // kill all monster
+#define MAX_TIME_EXE_SKILL 2
 class CSkillLayer: public cocos2d::CCLayer
 {
 private:	
@@ -18,7 +19,7 @@ private:
 	CCSprite *m_sprite5;
 	int stt;
 	int resultSkill;
-	float m_timer;
+	float m_timer; //count time out
 	//bool arr_isTouched[5];
 	int arr_PointTouched[6];
 public:
