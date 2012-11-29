@@ -125,10 +125,10 @@ public:
 	void delayWinScene(float dt);
 
 	//add them cai de delete monster
-	void addMonsterToDelete(CMonster * monster); //them vao danh sach xoa quai
+	void addMonsterToDelete(CMonster * monster, int damage); //them vao danh sach xoa quai
 	void addDeleteMonster(); //xoa quai sau mot thoi gian delay
-	void hitMonster(CMonster * monster); //them vao luc quai bi attack
-	void hurtMonster(CMonster *monster); //khi bi thuong
+	void hitMonster(CMonster * monster, int damage); //them vao luc quai bi attack
+	void hurtMonster(CMonster *monster, int damage); //khi bi thuong
 	bool check;
 
 	virtual bool init();
@@ -154,6 +154,9 @@ public:
 	//icon and label in game stage
 	CCLabelBMFont* m_pLabelCoinCollect;  // so coin co duoc
 	CCLabelBMFont* m_pLabelStageCurrent; // level hien tia cua stage
+
+	//phan tower
+	int towerHp;
 
 	CREATE_FUNC(CGameObjectLayer);
 };

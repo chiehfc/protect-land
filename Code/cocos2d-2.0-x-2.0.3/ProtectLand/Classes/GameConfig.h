@@ -458,4 +458,12 @@ enum typeMove
 	MAX,
 };
 
+#define TIME_COIN 0.5f
+
+#define TIME_BLOOD_MOVE_SCALE 1.0f
+
+#define TIME_BLOOD_FADE 0.5f
+
+#define TIME_ATTACK_DELAY 2.0f
+
 #endif

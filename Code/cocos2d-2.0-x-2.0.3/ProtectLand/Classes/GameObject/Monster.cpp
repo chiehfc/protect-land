@@ -8,6 +8,9 @@ CMonster::CMonster(TypeMonster type, MonsterLevel level, int height){
 	check2 = false;
 	check3 = false;
 	index = 1;
+	setTimeAttackDelay(TIME_ATTACK_DELAY);
+	setCurrentTime(0);
+	setNumOfAttack(0);
 	//settext("asd");
 	typeMove = MOVE;
 	setDelayTimeDie(0.0f);
@@ -117,7 +120,7 @@ void CMonster::onExit()
 
 void CMonster::moveMonster(){
 	timeMove = timeMove + getSpeed()/10.0f;
-	if(timeMove>getSpeed()){
+	if(timeMove>getSpeed()+0.5f){
 		typeMove = ATTACK;
 	}
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
@@ -146,11 +149,13 @@ void CMonster::monsterDie(int damage)
 
 void CMonster::hitMonster(int damage)
 {
-	if(timeMove>getSpeed()){
+	if(timeMove>getSpeed()+0.5f){
 		typeMove = ATTACK;
 	}else{
 		typeMove = MOVE;
 	}
+	m_sprite->stopAllActions();
+	stopAllActions();
 	m_sprite->PlayAnimation(2,0.3f,1,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::monsterAction)));
 	numberDamageIn(damage);
 }
@@ -202,7 +207,7 @@ void CMonster::collectCoin( CCNode* sender )
 		//CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::collectDone)),
 		//NULL));
 	//m_spriteCoin->PlayAnimationToPosition(s.width/7-getPosition().x,s.height*6/7-getPosition().y,1.0f,0.2f,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::collectDone)));
-	m_spriteCoin->PlayAnimationToPosition(s.width/7-getPosition().x,s.height*6/7-getPosition().y,1.0f,0,0.2f,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::collectDone)));
+	m_spriteCoin->PlayAnimationToPosition(s.width/7-getPosition().x,s.height*6/7-getPosition().y,TIME_COIN,0,0.2f,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::collectDone)));
 }
 
 void CMonster::collectDone( CCNode * sender )
@@ -222,9 +227,9 @@ void CMonster::numberDamageIn(int damage)
 		bloothOut1->setColor(ccRED);
 		//bloothOut->sets
 		bloothOut1->setString(text);
-		bloothOut1->runAction(CCMoveBy::create(2.0f,ccp(0,30)));
-		bloothOut1->runAction(CCScaleBy::create(2.0f,1.3f,1.3f));
-		bloothOut1->runAction(CCSequence::create(CCFadeIn::create(1.0f),CCFadeOut::create(1.0f),CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::hurtDone1)),NULL));
+		bloothOut1->runAction(CCMoveBy::create(TIME_BLOOD_MOVE_SCALE,ccp(0,30)));
+		bloothOut1->runAction(CCScaleBy::create(TIME_BLOOD_MOVE_SCALE,1.3f,1.3f));
+		bloothOut1->runAction(CCSequence::create(CCFadeIn::create(TIME_BLOOD_FADE),CCFadeOut::create(TIME_BLOOD_FADE),CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::hurtDone1)),NULL));
 	}else if(!check2){
 		//index = 3;
 		check2 = true;
@@ -234,9 +239,9 @@ void CMonster::numberDamageIn(int damage)
 		bloothOut2->setColor(ccRED);
 		//bloothOut->sets
 		bloothOut2->setString(text);
-		bloothOut2->runAction(CCMoveBy::create(2.0f,ccp(0,30)));
-		bloothOut2->runAction(CCScaleBy::create(2.0f,1.3f,1.3f));
-		bloothOut2->runAction(CCSequence::create(CCFadeIn::create(1.0f),CCFadeOut::create(1.0f),CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::hurtDone2)),NULL));
+		bloothOut2->runAction(CCMoveBy::create(TIME_BLOOD_MOVE_SCALE,ccp(0,30)));
+		bloothOut2->runAction(CCScaleBy::create(TIME_BLOOD_MOVE_SCALE,1.3f,1.3f));
+		bloothOut2->runAction(CCSequence::create(CCFadeIn::create(TIME_BLOOD_FADE),CCFadeOut::create(TIME_BLOOD_FADE),CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::hurtDone2)),NULL));
 	}else if(!check3){
 		////index = 1;
 		check3 = true;
@@ -246,9 +251,9 @@ void CMonster::numberDamageIn(int damage)
 		bloothOut3->setColor(ccRED);
 		//bloothOut->sets
 		bloothOut3->setString(text);
-		bloothOut3->runAction(CCMoveBy::create(2.0f,ccp(0,30)));
-		bloothOut3->runAction(CCScaleBy::create(2.0f,1.3f,1.3f));
-		bloothOut3->runAction(CCSequence::create(CCFadeIn::create(1.0f),CCFadeOut::create(1.0f),CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::hurtDone3)),NULL));
+		bloothOut3->runAction(CCMoveBy::create(TIME_BLOOD_MOVE_SCALE,ccp(0,30)));
+		bloothOut3->runAction(CCScaleBy::create(TIME_BLOOD_MOVE_SCALE,1.3f,1.3f));
+		bloothOut3->runAction(CCSequence::create(CCFadeIn::create(TIME_BLOOD_FADE),CCFadeOut::create(TIME_BLOOD_FADE),CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::hurtDone3)),NULL));
 	}
 }
 
@@ -274,4 +279,23 @@ void CMonster::hurtDone3( CCNode* sender )
 	bloothOut3->setVisible(false);
 	bloothOut3->runAction(CCMoveBy::create(0.1f,ccp(0,-30)));
 	bloothOut3->runAction(CCScaleBy::create(0.1f,1.0f/1.3f,1.0f/1.3f));
+}
+
+int CMonster::attackTowerWithDamage(float m_time)
+{
+	if (typeMove == ATTACK)
+	{
+		if(getNumOfAttack()==0){
+			setNumOfAttack(1);
+			setCurrentTime(m_time);
+			return getDamage();
+		}else{
+			if (m_time>=getCurrentTime()+getNumOfAttack()*getTimeAttackDelay())
+			{
+				setNumOfAttack(getNumOfAttack()+1);
+				return getDamage();
+			}
+		}
+	}
+	return 0;
 }
