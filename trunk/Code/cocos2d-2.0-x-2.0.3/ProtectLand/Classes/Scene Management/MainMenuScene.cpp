@@ -101,6 +101,7 @@ bool CMainMenuScene::init()
 	//Animation Fire
 	CMySprite* pAnimFire=new CMySprite("Tower\\tower.sprite");
 	pAnimFire->setPosition(LOCATION_ANIM_FIRE);
+	pAnimFire->setScale(1.5f);
 	this->addChild(pAnimFire);
 	pAnimFire->PlayAnimation(FIRE_TOWER, 0.4f, true, false);
 

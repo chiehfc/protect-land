@@ -281,7 +281,7 @@ void CSkillUpgradeScene::buttonLevelCallback( CCObject* pSender )
 	m_lable4->setString(buf1);
 	m_lable5->setString("Next level:");
 	m_lable6->setString(buf2);
-	sprintf(buf2,"%d",(CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower)*50);
+	sprintf(buf2,"%d",(CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower)*3*50);
 	m_lable7->setString(buf2);	
 
 

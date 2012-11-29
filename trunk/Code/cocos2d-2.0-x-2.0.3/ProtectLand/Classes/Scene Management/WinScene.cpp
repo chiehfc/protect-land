@@ -92,18 +92,21 @@ bool CWinScene::init()
 		"Button\\next_up.png",
 		this,
 		menu_selector(CWinScene::menuNextCallback));
+	pNextItem->setPosition(LOCATION_BUTTON_NEXT_SLS);
 	pMenu->addChild(pNextItem);
 	CCMenuItemImage *pResetItem = CCMenuItemImage::create(
 		"Button\\reset_down.png",
 		"Button\\reset_up.png",
 		this,
 		menu_selector(CWinScene::menuRestartCallback));
+	pResetItem->setPosition(ccp(100,100));
 	pMenu->addChild(pResetItem);
 	CCMenuItemImage *pSelecLevelItem = CCMenuItemImage::create(
 		"Button\\back_down.png",
 		"Button\\back_up.png",
 		this,
 		menu_selector(CWinScene::menuLevelSelectCallback));
+	pResetItem->setPosition(ccp(100,100));
 	pMenu->addChild(pResetItem);
 	this->addChild(pMenu);
 

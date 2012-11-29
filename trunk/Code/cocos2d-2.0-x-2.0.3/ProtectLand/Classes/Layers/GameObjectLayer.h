@@ -101,6 +101,7 @@ private:
 	float caculateAngle(CCPoint v,CCPoint v1);
 	void removeStarSkill();
 	void addStarSkill();  // them layer Skill
+	void addSkillButton();
 	
 
 	void spriteMoveDone( CCNode* sender );
