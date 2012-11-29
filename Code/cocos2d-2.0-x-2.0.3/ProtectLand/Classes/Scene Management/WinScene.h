@@ -6,32 +6,14 @@
 #include "GamePlay.h"
 #include "MySprite.h"
 #include "IncludeHelper.h"
+#include "PositionConfig.h"
 
-#define LOCATION_TITLE				ccp(250, 520)
-#define LOCATION_HP					ccp(300, 473)
-#define LOCATION_STAGE				ccp(300, 423)
-#define LOCATION_KILL				ccp(300, 362)
-#define LOCATION_TOTAL				ccp(388, 139)
-#define LOCATION_HP_VALUE			ccp(546, 473)
-#define LOCATION_HP_VALUE2			ccp(710, 473)
-#define LOCATION_STAGE_VALUE		ccp(546, 423)
-#define LOCATION_STAGE_VALUE2		ccp(710, 423)
-#define LOCATION_KILL_VALUE			ccp(546, 362)
-#define LOCATION_KILL_VALUE2		ccp(710, 362)
-#define LOCATION_TOTAL_VALUE		ccp(546, 139)
-#define LOCATION_TOTAL_VALUE2		ccp(710, 139)
-#define LOCATION_MONTER1			ccp(528, 279) //boss1
-#define LOCATION_MONTER2 			ccp(833, 554) //monter1
-#define LOCATION_MONTER3 			ccp(827, 159) //monter3
-#define LOCATION_MONTER4 			ccp(215, 525) //monter6 -1
-#define LOCATION_MONTER5 			ccp(240, 190) //monter5
+
 
 class CWinScene : public cocos2d::CCLayer
 {
 	
 private:
-	CCSprite* m_pT;
-	CCLabelBMFont *m_pLabeltemp;
 	char buf[20];
 	int countTotal;
 	int countSocre;

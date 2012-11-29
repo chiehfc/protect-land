@@ -109,6 +109,7 @@ bool CGameObjectLayer::init()
 
 		this->pMenu->setEnabled(true);
 
+		/*
 		m_pBaseTower=CCSprite::spriteWithFile("Tower\\Data\\tower_11.png");
 		m_pBaseTower->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
 		this->addChild(m_pBaseTower);
@@ -116,9 +117,7 @@ bool CGameObjectLayer::init()
 		m_pTowerItem->setPosition(ccp(LOCATION_X_TOWER+10,LOCATION_Y_TOWER+20));
 		this->addChild(m_pTowerItem);
 		m_pTowerItem->PlayAnimation(FIRE_TOWER, 0.4f, true, false);
-		m_pSkill = CCSprite::spriteWithFile("Skill\\Skill1.png");
-		m_pSkill->setPosition(ccp(LOCATION_X_SKILL, LOCATION_Y_SKILL));
-		this->addChild(m_pSkill);
+		*/
 		
 		m_isClickChangeBullet = false;
 		m_fSpeed = 1000;
@@ -126,9 +125,18 @@ bool CGameObjectLayer::init()
 		m_fTimeRetireBullet = 0;
 		m_TimeDelayBullet = 1.0f*pow(0.8,CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerSpeed);
 		m_levelBullet = CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower;
+		if(rand()%2 == 0)
+		{
+			m_typeBullet = FIRE_BULLET;
+		}
+		else {
+			m_typeBullet = WATER_BULLET;
+		}
 
 		m_iCurrentEnegy = 0;  // khoi tao enegy ban dau
 		m_bToggle=false;
+		addSkillButton();
+		updateBullet(m_typeBullet,m_levelBullet);
 	}
 
 	// init tower:
@@ -991,4 +999,42 @@ void CGameObjectLayer::processLabelCoin()
 	char bufTem[20] = "";
 	sprintf(bufTem, "%d", CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin);
 	m_pLabelCoinCollect->setString(bufTem);
+}
+
+void CGameObjectLayer::addSkillButton()
+{
+	this->removeChild(m_pSkill,true);
+	char* path="";
+	if(m_typeBullet == FIRE_BULLET)
+	{
+		switch(m_levelBullet){
+		case BULLET_LEVEL_1:
+			path = "Skill\\magic_button_fire1.png";
+			break;
+		case BULLET_LEVEL_2:
+			path = "Skill\\magic_button_fire2.png";
+			break;
+		case BULLET_LEVEL_3:
+			path = "Skill\\magic_button_fire3.png";
+			break;
+		}
+		
+	}
+	else
+	{
+		switch(m_levelBullet){
+		case BULLET_LEVEL_1:
+			path = "Skill\\magic_button_ice1.png";
+			break;
+		case BULLET_LEVEL_2:
+			path = "Skill\\magic_button_ice2.png";
+			break;
+		case BULLET_LEVEL_3:
+			path = "Skill\\magic_button_ice3.png";
+			break;
+		}
+	}
+	m_pSkill = CCSprite::spriteWithFile(path);
+	m_pSkill->setPosition(ccp(LOCATION_X_SKILL, LOCATION_Y_SKILL));
+	this->addChild(m_pSkill);
 }
