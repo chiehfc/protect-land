@@ -52,13 +52,13 @@ bool CSkillUpgradeScene::init()
 	this->setTouchEnabled(true);
 	size = CCDirector::sharedDirector()->getWinSize();
 	createLabelAndItem();
-	
+
 	return true;
-	
+
 }
 void CSkillUpgradeScene::update(float dt){
-	
-	
+
+
 }
 void CSkillUpgradeScene::render(){
 
@@ -82,15 +82,15 @@ void CSkillUpgradeScene::menuPlayCallBack( CCObject* pSender )
 
 bool CSkillUpgradeScene::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent )
 {
-	
+
 	CCLOG("ccp(%d, %d)",(int)pTouch->getLocation().x,(int)pTouch->getLocation().y);
-	
+
 	return true;
 }
 void CSkillUpgradeScene::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
 {
 	CCLOG("ccp(%d, %d)",(int)pTouch->getLocation().x,(int)pTouch->getLocation().y);
-	
+
 }
 void CSkillUpgradeScene::ccTouchEnded( CCTouch *pTouch, CCEvent *pEvent )
 {
@@ -110,26 +110,23 @@ void CSkillUpgradeScene::addSpire(CCSprite **m_sprite, char* path, CCPoint &posi
 void CSkillUpgradeScene::addLabel(CCLabelBMFont **pLabel, ccColor3B &color, int width, CCPoint &position,char* str,float scale)
 {
 	*pLabel = CCLabelBMFont::create(str, "fonts/myFont.fnt",width );
-	
+
 	(*pLabel)->setColor(color);
 	(*pLabel)->setScale(scale);
-	
+
 	(*pLabel)->setAnchorPoint(ccp(0, 1));
 	(*pLabel)->setPosition( position);
 	this->addChild(*pLabel, 2);
-	
+
 }
 
 void CSkillUpgradeScene::createLabelAndItem()
 {
 	addSpire(&m_pBackground,"SkillScreen\\background2.png",ccp(size.width/2.0f,size.height/2.0f),1.0f,1.0f);
 	addSpire(&m_pBackground,"SkillScreen\\background.png",LOCATION_BACKGROUND,SCALE_BACKROUND,SCALE_BACKROUND);
-	m_pLogoSelect = CCSprite::spriteWithFile("SkillScreen\\logo_select.png");
-	m_pLogoSelect->setScale(SCALE_ITEM);
-	m_pLogoSelect->setPosition(LOCATION_WALL_ITEM);
-	this->addChild(m_pLogoSelect,10);
-	
-	
+	addSpire(&m_pLogoSelect,"SkillScreen\\logo_select.png",LOCATION_WALL_ITEM,SCALE_ITEM,SCALE_ITEM);
+
+
 
 	CCMenu* pMenu = CCMenu::create();
 	addSpire(&m_pLine,"SkillScreen\\line.png",LOCATION_LINE,SCALE_BACKROUND,SCALE_BACKROUND);
@@ -150,7 +147,7 @@ void CSkillUpgradeScene::createLabelAndItem()
 	setButton(m_pLevel, LOCATION_LEVEL_ITEM, SCALE_ITEM);
 	pMenu->addChild(m_pLevel);
 	addSpire(&m_pBorder,"SkillScreen\\border_item.png",LOCATION_LEVEL_ITEM,SCALE_ITEM,SCALE_ITEM);
-	
+
 	m_pSpeed = CCMenuItemImage::create(
 		"SkillScreen\\speed.png",
 		"SkillScreen\\speed.png",
@@ -187,7 +184,7 @@ void CSkillUpgradeScene::createLabelAndItem()
 	m_pBuy->setScaleX(SCALE_ITEM);
 	m_pBuy->setScaleY(SCALE_ITEM*0.5);
 	pMenu->addChild(m_pBuy);
-	
+
 
 	pMenu->setPosition(ccp(0,0));
 	this->addChild(pMenu);
@@ -206,6 +203,8 @@ void CSkillUpgradeScene::createLabelAndItem()
 	addLabel(&m_lable8,ccc3(255,255,0),100,LOCATION_COIN_LABEL,buf,1.3);
 	int t1=((CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp - INIT_TOWER_HP +10)/10)*50;
 	int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
+	m_iCoinToBuy=t1;
+	m_iCurentItemSelect = WALL_ITEM;
 	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_BUY2,SCALE_ITEM,SCALE_ITEM*0.5);
 	char buf1[20] = "";
 	sprintf(buf1, " %d", CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp);
@@ -224,18 +223,22 @@ void CSkillUpgradeScene::createLabelAndItem()
 
 void CSkillUpgradeScene::setButton( CCMenuItemImage *m_button,CCPoint &position, float scale )
 {
-		m_button->setPosition(position);
-		m_button->setScale(scale);
+	m_button->setPosition(position);
+	m_button->setScale(scale);
 }
 
 void CSkillUpgradeScene::buttonWallCallback( CCObject* pSender )
 {
-	m_pLogoSelect->setPosition(LOCATION_WALL_ITEM);
+	this->removeChild(m_pBorder,true);
+	this->removeChild(m_pLogoSelect,true);
+	addSpire(&m_pLogoSelect,"SkillScreen\\logo_select.png",LOCATION_WALL_ITEM,SCALE_ITEM,SCALE_ITEM);
 	char buf[10] = "";
-	
+
 	int t1=((CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp - INIT_TOWER_HP +10)/10)*50;//num of coin to buy
 	int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
 	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_BUY2,SCALE_ITEM,SCALE_ITEM*0.5);
+	m_iCoinToBuy=t1;
+	m_iCurentItemSelect = WALL_ITEM;
 
 	m_lable1->setString("Wall Protect");
 	m_lable2->setString("Increase your HP");
@@ -252,20 +255,24 @@ void CSkillUpgradeScene::buttonWallCallback( CCObject* pSender )
 
 void CSkillUpgradeScene::buttonLevelCallback( CCObject* pSender )
 {
-	m_pLogoSelect->setPosition(LOCATION_LEVEL_ITEM);
+	this->removeChild(m_pBorder,true);
+	this->removeChild(m_pLogoSelect,true);
+	addSpire(&m_pLogoSelect,"SkillScreen\\logo_select.png",LOCATION_LEVEL_ITEM,SCALE_ITEM,SCALE_ITEM);
 	char buf1[20] = "";
 	sprintf(buf1, " %d", CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower);
 	char buf2[20] = "";
 	if(CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower>=3){
 		sprintf(buf2, "Max");
+		m_iCoinToBuy = -1;
 	}
 	else{
 		sprintf(buf2, " %d", CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower + LEVEL_UPDATE);
 		int t1=(CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower)*50;//num of coin to buy
 		int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
 		if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_BUY2,SCALE_ITEM,SCALE_ITEM*0.5);
+		m_iCoinToBuy = t1;
 	}
-	
+	m_iCurentItemSelect = LEVEL_ITEM;
 
 
 	m_lable1->setString("Level Tower");
@@ -277,17 +284,19 @@ void CSkillUpgradeScene::buttonLevelCallback( CCObject* pSender )
 	sprintf(buf2,"%d",(CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower)*50);
 	m_lable7->setString(buf2);	
 
-	
+
 }
 
 void CSkillUpgradeScene::buttonSpeedCallback( CCObject* pSender )
 {
-	m_pLogoSelect->setPosition(LOCATION_SPEED_ITEM);
+	this->removeChild(m_pBorder,true);
+	this->removeChild(m_pLogoSelect,true);
+	addSpire(&m_pLogoSelect,"SkillScreen\\logo_select.png",LOCATION_SPEED_ITEM,SCALE_ITEM,SCALE_ITEM);
 	char buf1[20] = "";
 	sprintf(buf1, " %d", CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerSpeed);
 	char buf2[20] = "";
 	sprintf(buf2, " %d", CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerSpeed + SPEED_UPDATE);
-	
+
 
 	m_lable1->setString("Speed Tower");
 	m_lable2->setString("Increase number of bullets perhap second");
@@ -301,11 +310,15 @@ void CSkillUpgradeScene::buttonSpeedCallback( CCObject* pSender )
 	int t1=(CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerSpeed)*50;//num of coin to buy
 	int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
 	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_BUY2,SCALE_ITEM,SCALE_ITEM*0.5);
+	m_iCoinToBuy = t1;
+	m_iCurentItemSelect = SPEED_ITEM;
 }
 
 void CSkillUpgradeScene::buttonDamageCallback( CCObject* pSender )
 {
-	m_pLogoSelect->setPosition(LOCATION_DAME_ITEM);
+	this->removeChild(m_pBorder,true);
+	this->removeChild(m_pLogoSelect,true);
+	addSpire(&m_pLogoSelect,"SkillScreen\\logo_select.png",LOCATION_DAME_ITEM,SCALE_ITEM,SCALE_ITEM);
 	char buf1[10] = "";
 	sprintf(buf1, " %d", CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
 	char buf2[10] = "";
@@ -322,25 +335,32 @@ void CSkillUpgradeScene::buttonDamageCallback( CCObject* pSender )
 	int t1=((CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent - INIT_DAMGE_TOWER +10)/10)*50;//num of coin to buy
 	int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
 	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_BUY2,SCALE_ITEM,SCALE_ITEM*0.5);
+	m_iCoinToBuy = t1;
+	m_iCurentItemSelect = DAMAGE_ITEM;
 }
 
 void CSkillUpgradeScene::buttonRateCallback( CCObject* pSender )
 {
-	m_pLogoSelect->setPosition(LOCATION_RATEDAME_ITEM);
+	this->removeChild(m_pBorder,true);
+	this->removeChild(m_pLogoSelect,true);
+	addSpire(&m_pLogoSelect,"SkillScreen\\logo_select.png",LOCATION_RATEDAME_ITEM,SCALE_ITEM,SCALE_ITEM);
 	char buf1[10] = "";
 	sprintf(buf1, " %d %", CLevelManager::GetInstance()->GetLevelInformation()->m_iRateDoubleDamge);
 	char buf2[10] = "";
 	if(CLevelManager::GetInstance()->GetLevelInformation()->m_iRateDoubleDamge >= 100)
 	{
 		sprintf(buf2, " Max");
+		m_iCoinToBuy = -1;
 	}
 	else{
 		sprintf(buf2, " %d %", CLevelManager::GetInstance()->GetLevelInformation()->m_iRateDoubleDamge + RATEDAMAGE_UPDATE);
 		int t1=((CLevelManager::GetInstance()->GetLevelInformation()->m_iRateDoubleDamge - INIT_RATE_DOUBLE_DAMGE +5)/5)*50;//num of coin to buy
 		int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
 		if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_BUY2,SCALE_ITEM,SCALE_ITEM*0.5);
+		m_iCoinToBuy = t1;
 	}
-	
+	m_iCurentItemSelect = RATEDAMAGE_ITEM;
+
 	m_lable1->setString("Rate Damage");
 	m_lable2->setString("Increase rate of damage of tower");
 	m_lable3->setString("Current rate:");
@@ -350,11 +370,47 @@ void CSkillUpgradeScene::buttonRateCallback( CCObject* pSender )
 	sprintf(buf2,"%d",((CLevelManager::GetInstance()->GetLevelInformation()->m_iRateDoubleDamge - INIT_RATE_DOUBLE_DAMGE +5)/5)*50);
 	m_lable7->setString(buf2);	
 
-	
+
 }
 
 void CSkillUpgradeScene::buttonBuyCallback( CCObject* pSender )
 {
+	if(m_iCoinToBuy > -1)
+	{
+		if(CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin >= m_iCoinToBuy)
+		{	
+			
+			char buf[10]="";
+			CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin -= m_iCoinToBuy;
+			sprintf(buf,"%d",CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin);
+			m_lable8->setString(buf);
+		switch(m_iCurentItemSelect){
+		case WALL_ITEM:
+			CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp += HP_UPDATE;
+			buttonWallCallback(NULL);
+			break;
+		case LEVEL_ITEM:
+			CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower += 1;
+			buttonLevelCallback(NULL);
+			break;
+		case SPEED_ITEM:
+			CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerSpeed += 1;
+			buttonSpeedCallback(NULL);
+			break;
+		case DAMAGE_ITEM:
+			CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent += HP_UPDATE;
+			buttonDamageCallback(NULL);	
+			break;
+		case RATEDAMAGE_ITEM:
+			CLevelManager::GetInstance()->GetLevelInformation()->m_iRateDoubleDamge += HP_UPDATE;
+			buttonRateCallback(NULL);	
+			break;
+		}
+		//CLevelManager::SaveLevelToFile( const  char* pszPath );
+		
+		}
+
+	}
 
 }
 
