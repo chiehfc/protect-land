@@ -104,7 +104,7 @@ void CSkillLayer::initVar()
 	m_timer=0;
 	stt=0;
 	for(int i=0;i<5;i++){
-		//arr_isTouched[i]=false;
+		arr_isTouched[i]=false;
 		arr_PointTouched[i]=0;
 	}
 }
@@ -114,8 +114,14 @@ void CSkillLayer::checkClick(CCPoint &p)
 	if(arr_PointTouched[stt-1]!=1) 
 	{
 		if(inAreaSphere(CENTRAL_X1,CENTRAL_Y1,p)){
-		arr_PointTouched[stt]=1;
-		stt++;
+			arr_PointTouched[stt]=1;
+			stt++;
+			if(!arr_isTouched[0])
+			{
+				arr_isTouched[0] = true;
+				removeChild(m_sprite1,true);
+				addSphere(m_sprite1,"Skill\\Skill-Kim2.png",CENTRAL_X1,CENTRAL_Y1);
+			}
 		}
 	}
 	if(arr_PointTouched[stt-1]!=2) {
@@ -123,6 +129,12 @@ void CSkillLayer::checkClick(CCPoint &p)
 		{
 			arr_PointTouched[stt]=2;
 			stt++;
+			if(!arr_isTouched[1])
+			{
+				arr_isTouched[1] = true;
+				removeChild(m_sprite2,true);
+				addSphere(m_sprite2,"Skill\\Skill-Tho2.png",CENTRAL_X2,CENTRAL_Y2);
+			}
 		}
 		
 	}
@@ -131,6 +143,12 @@ void CSkillLayer::checkClick(CCPoint &p)
 		{
 			arr_PointTouched[stt]=3;
 			stt++;
+			if(!arr_isTouched[2])
+			{
+				arr_isTouched[2] = true;
+				removeChild(m_sprite3,true);
+				addSphere(m_sprite3,"Skill\\Skill-Hoa2.png",CENTRAL_X3,CENTRAL_Y3);
+			}
 		}
 		
 	}
@@ -139,6 +157,12 @@ void CSkillLayer::checkClick(CCPoint &p)
 		{
 			arr_PointTouched[stt]=4;
 			stt++;
+			if(!arr_isTouched[3])
+			{
+				arr_isTouched[3] = true;
+				removeChild(m_sprite4,true);
+				addSphere(m_sprite4,"Skill\\Skill-Moc2.png",CENTRAL_X4,CENTRAL_Y4);
+			}
 		}
 	}
 	if(arr_PointTouched[stt-1]!=5) {
@@ -146,6 +170,12 @@ void CSkillLayer::checkClick(CCPoint &p)
 		{
 			arr_PointTouched[stt]=5;
 			stt++;
+			if(!arr_isTouched[4])
+			{
+				arr_isTouched[4] = true;
+				removeChild(m_sprite5,true);
+				addSphere(m_sprite5,"Skill\\Skill-Thuy2.png",CENTRAL_X5,CENTRAL_Y5);
+			}
 		}
 		
 	}
