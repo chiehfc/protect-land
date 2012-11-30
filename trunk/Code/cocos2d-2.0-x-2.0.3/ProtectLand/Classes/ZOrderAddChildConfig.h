@@ -3,8 +3,11 @@
 
 enum eZOderGameObjectLayer {
 	zLabel,
-	zBulletAndMonster,
+	zBulletAndMonster,	
 	zSkill,
+	zTower,
+	zGameOverBg,
+	zGameoverText,
 };
 
 #endif

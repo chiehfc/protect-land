@@ -153,6 +153,10 @@ public:
 	bool m_bIsFinshChooseSkill; //check khi skill da chon xong ben Skill layer
 	int m_iTypeSkillReturn;  // loai skill se hien len
 	void addSkillAnimation(int typeSkill);  //ham thuc hien them animation skill vao GameObjectlayer
+	//check dieu kien lose khi tower het mau
+	bool m_bIsLoose; // kiem tra xem da loose hay chua thong qua mau cua tower
+	void checkLoose();
+
 	//icon and label in game stage
 	CCLabelBMFont* m_pLabelCoinCollect;  // so coin co duoc
 	CCLabelBMFont* m_pLabelStageCurrent; // level hien tia cua stage
@@ -167,6 +171,10 @@ public:
 
 	CREATE_FUNC(CGameObjectLayer);
 
+	void transToSkillUpgradeScene(CCNode* sender); //thuc hien chuyen scene sau khi nguoi choi gameover
+	void transToWinScene(CCNode* sender); // thuc hien chuyen qua Win scence khi win
+
+	void changeTypeTower();
 	void killMonster(int damage);
 
 };

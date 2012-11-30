@@ -70,6 +70,7 @@ public:
 	static cocos2d::CCScene* scene();
 
 	void menuPlayCallBack(CCObject* pSender);
+	void menuBackCallBack(CCObject* pSender);
 	// implement the "static node()" method manually
 	CREATE_FUNC(CSkillUpgradeScene);
 	void addSpire(CCSprite **m_sprite, char* path, CCPoint &position, float scaleX,float scaleY);

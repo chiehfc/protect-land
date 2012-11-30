@@ -106,8 +106,8 @@ bool CWinScene::init()
 		"Button\\back_up.png",
 		this,
 		menu_selector(CWinScene::menuLevelSelectCallback));
-	pResetItem->setPosition(ccp(100,100));
-	pMenu->addChild(pResetItem);
+	pSelecLevelItem->setPosition(ccp(100,100));
+	pMenu->addChild(pSelecLevelItem);
 	this->addChild(pMenu);
 
 

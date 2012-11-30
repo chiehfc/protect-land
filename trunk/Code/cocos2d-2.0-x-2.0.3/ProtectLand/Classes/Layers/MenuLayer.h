@@ -17,7 +17,7 @@ public:
 	void menuContinueCallback(CCObject* pSender);
 
 	//Main menu call back
-	void menuLevelSelectCallback(CCObject* pSender);
+	void menuSkillUpgradeCallback(CCObject* pSender);
 	
 	//Mute call back
 	void menuMainMenuCallback(CCObject* pSender);

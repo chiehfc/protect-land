@@ -37,7 +37,7 @@ bool CSkillUpgradeScene::init()
 	pMenu->setPosition( CCPointZero );	
 
 	{
-		//FOR TEST
+		
 		//create button Play
 		CCMenuItemImage *pPlay = CCMenuItemImage::create(
 			"Button\\play_down.png",
@@ -46,6 +46,15 @@ bool CSkillUpgradeScene::init()
 			menu_selector(CSkillUpgradeScene::menuPlayCallBack));	
 		pPlay->setPosition(LOCATION_BUTTON_PLAY_SUG) ;
 		pMenu->addChild(pPlay);
+
+		//craete button Back
+		CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
+			"Button\\back_down.png",
+			"Button\\back_up.png",
+			this,
+			menu_selector(CSkillUpgradeScene::menuBackCallBack));
+		pCloseItem->setPosition(LOCATION_BUTTON_BACK_SLS);
+		pMenu->addChild(pCloseItem);
 	}
 	this->addChild(pMenu, 3);
 	CCDirector::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, TOUCH_PRIORITY_MAIN_LAYER , true);
@@ -84,7 +93,6 @@ bool CSkillUpgradeScene::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent )
 {
 
 	CCLOG("ccp(%d, %d)",(int)pTouch->getLocation().x,(int)pTouch->getLocation().y);
-
 	return true;
 }
 void CSkillUpgradeScene::ccTouchMoved( CCTouch *pTouch, CCEvent *pEvent )
@@ -218,8 +226,8 @@ void CSkillUpgradeScene::createLabelAndItem()
 	m_lable4->setString(buf1);
 	m_lable5->setString("Next level:");
 	m_lable6->setString(buf2);
-	addSpire(&m_pCoin,"SkillScreen\\current_coin.png", LOCATION_COIN,SCALE_ITEM,SCALE_ITEM);
-	addSpire(&m_pCoin2,"SkillScreen\\coin.png", LOCATION_COIN2,1.0f,1.0f);
+	addSpire(&m_pCoin,"SkillScreen\\current_coin.png", LOCATION_COIN, SCALE_ITEM, SCALE_ITEM);
+	addSpire(&m_pCoin2,"SkillScreen\\coin.png", LOCATION_COIN2, 1.0f, 1.0f);
 
 }
 
@@ -412,5 +420,17 @@ void CSkillUpgradeScene::buttonBuyCallback( CCObject* pSender )
 
 		}
 
+	}
+}
+
+void CSkillUpgradeScene::menuBackCallBack( CCObject* pSender )
+{
+	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
+	CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CCScene* mainmenuScene = CMainMenuScene::scene();
+	CCScene* pScene = CCTransitionFade::create(TRANSITION_DURATION, mainmenuScene);
+	if (pScene)
+	{
+		CCDirector::sharedDirector()->replaceScene(pScene);
 	}
 }
