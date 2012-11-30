@@ -167,6 +167,8 @@ public:
 
 	CREATE_FUNC(CGameObjectLayer);
 
+	void killMonster(int damage);
+
 };
 
 

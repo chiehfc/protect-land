@@ -1120,14 +1120,53 @@ cocos2d::CCRect CGameObjectLayer::getRectMonsterFire( CMonster* pMonster )
 void CGameObjectLayer::addSkillAnimation( int typeSkill)
 {
 	//TEST insert demo skill
-	for (int i=0; i<3; i++)
+	/*for (int i=0; i<3; i++)
 	{
 		CMySprite* pSprite = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
 		pSprite->setPosition(ccp(size.width/2.0f + i*200.0f, size.height/2.0f + 100.0f));
 		pSprite->setScale(2.5f);
 		this->addChild(pSprite, zSkill);
 		pSprite->PlayAnimation(0, 3.0f, 1, false);
-	}
+	}*/
+	CMySprite* pSprite1 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
+	CMySprite* pSprite2 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
+	CMySprite* pSprite3 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
+	CMySprite* pSprite4 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
+	CMySprite* pSprite5 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
+	CMySprite* pSprite6 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
+
+	pSprite1->setPosition(ccp(size.width/2.0f + 300.0f, size.height/2.0f));
+	pSprite1->setScale(1.5f);
+	this->addChild(pSprite1, zSkill);
+	pSprite1->PlayAnimation(0, 3.0f, 1, false);
+
+	pSprite2->setPosition(ccp(size.width/2.0f + 100.0f, size.height/2.0f));
+	pSprite2->setScale(1.5f);
+	this->addChild(pSprite2, zSkill);
+	pSprite2->PlayAnimation(0, 3.0f, 1, false);
+
+	pSprite3->setPosition(ccp(size.width/2.0f - 100.0f, size.height/2.0f));
+	pSprite3->setScale(1.5f);
+	this->addChild(pSprite3, zSkill);
+	pSprite3->PlayAnimation(0, 3.0f, 1, false);
+
+	pSprite4->setPosition(ccp(size.width/2.0f + 300.0f, size.height/2.0f + 200.0f));
+	pSprite4->setScale(1.5f);
+	this->addChild(pSprite4, zSkill);
+	pSprite4->PlayAnimation(0, 3.0f, 1, false);
+
+	pSprite5->setPosition(ccp(size.width/2.0f + 100.0f, size.height/2.0f + 200.0f));
+	pSprite5->setScale(1.5f);
+	this->addChild(pSprite5, zSkill);
+	pSprite5->PlayAnimation(0, 3.0f, 1, false);
+
+	pSprite6->setPosition(ccp(size.width/2.0f - 100.0f, size.height/2.0f + 200.0f));
+	pSprite6->setScale(1.5f);
+	this->addChild(pSprite6, zSkill);
+	pSprite6->PlayAnimation(0, 3.0f, 1, false);
+
+	int damage = (int) (CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent * 1.2f);
+	killMonster(damage);
 }
 
 void CGameObjectLayer::processWhenMonsterDie( CMonster* pMonster )
@@ -1206,4 +1245,18 @@ void CGameObjectLayer::addSkillButton()
 	m_pSkill = CCSprite::spriteWithFile(path);
 	m_pSkill->setPosition(ccp(LOCATION_X_SKILL, LOCATION_Y_SKILL));
 	this->addChild(m_pSkill);
+}
+
+void CGameObjectLayer::killMonster( int damage )
+{
+	CCObject * it = new CMonster;
+	CCARRAY_FOREACH(m_arrMonster,it){
+		CMonster* monsterD = (CMonster*)it;
+		if(monsterD->getType() == m_typeBullet){
+			hitMonster(monsterD, damage);
+		}else{
+			int trueDamage = (int)(damage * 0.75f);
+			hitMonster(monsterD,trueDamage);
+		}
+	}
 }
