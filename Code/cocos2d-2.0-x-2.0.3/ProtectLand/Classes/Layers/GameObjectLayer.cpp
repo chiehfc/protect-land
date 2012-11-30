@@ -35,6 +35,7 @@ bool CGameObjectLayer::init()
 		return false;
 	}	
 
+	
 
 	size = CCDirector::sharedDirector()->getWinSize();
 	//init value
@@ -183,6 +184,8 @@ bool CGameObjectLayer::init()
 		m_pLabelStageCurrent->setPosition(LOCATION_LABEL_SCENE);
 		this->addChild(m_pLabelStageCurrent, zLabel);
 	}
+
+	
 	
 	CAudioManager::instance()->stopAllEff();
 	CAudioManager::instance()->stopBGMusic();
@@ -193,6 +196,9 @@ bool CGameObjectLayer::init()
 
 void CGameObjectLayer::update(float dt)
 {
+	if(indexTime == 6 && m_arrMonster->count()==0){
+		setCheckWin(true);
+	}
 	addDeleteMonster();
 	//CCLOG("%f",m_fTimeRetireBullet);
 
@@ -207,6 +213,7 @@ void CGameObjectLayer::update(float dt)
 	creatMonster();
 	attackMonster();
 	attackTower();
+	
 	m_time = m_time + dt;
 
 	if (m_bIsFinshChooseSkill)
@@ -582,30 +589,68 @@ void CGameObjectLayer::loadMap(){
 }
 
 void CGameObjectLayer::creatMonster(){
-	if(m_time>=0.0 && m_time< timeDelay){
-		indexTime = 0;
-	}else if(m_time<=2*timeDelay){
-		indexTime = 1;
-	}else if (m_time<3*timeDelay)
+	if (m_time < m_totalTimeEachWay[0])
 	{
-		indexTime = 2;
+		if (m_time<=m_totalTimeEachWay[0] - timeDelay)
+		{
+			indexTime = 0;
+		}else{
+			indexTime = 7;
+		}
+	}else if (m_time < m_totalTimeEachWay[1])
+	{
+		if (m_time<=m_totalTimeEachWay[1] - timeDelay)
+		{
+			indexTime = 1;
+		}else{
+			indexTime = 7;
+		}
+	}else if (m_time < m_totalTimeEachWay[2])
+	{
+		if (m_time<=m_totalTimeEachWay[2] - timeDelay)
+		{
+			indexTime = 2;
+		}else{
+			indexTime = 7;
+		}
+	}else if (m_time < m_totalTimeEachWay[3])
+	{
+		if (m_time<=m_totalTimeEachWay[3] - timeDelay)
+		{
+			indexTime = 3;
+		}else{
+			indexTime = 7;
+		}
+	}else if (m_time < m_totalTimeEachWay[4])
+	{
+		if (m_time<=m_totalTimeEachWay[4] - timeDelay)
+		{
+			indexTime = 4;
+		}else{
+			indexTime = 7;
+		}
+	}else if (m_time < m_totalTimeEachWay[5])
+	{
+			indexTime = 5;
 	}else{
-		indexTime = 3;
+		indexTime = 6;
 	}
-	
-	switch (typeOfAppear[indexTime]){
-	case 0:
-		appearInOneRow();
-		break;
-	case 1:
-		appearInTwoRows();
-		break;
-	case 2:
-		appearInThreeRows();
-		break;
-	default:
-		appearInMixture();
-		break;
+
+	if (indexTime <6){
+		switch (typeOfAppear[indexTime]){
+		case 0:
+			appearInOneRow();
+			break;
+		case 1:
+			appearInTwoRows();
+			break;
+		case 2:
+			appearInThreeRows();
+			break;
+		default:
+			appearInMixture();
+			break;
+		}
 	}
 }
 
@@ -671,35 +716,159 @@ void CGameObjectLayer::attackMonster()
 		if(bulletsToDelete->count() > 0)
 		{
 			//monsterToDelete->addObject(monsterD);
-			hitMonster(monsterD, CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
-		}
+			if(monsterD->getType() == m_typeBullet){
+				hitMonster(monsterD, CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
+			}else{
+				int damage = (int)(CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent * 0.75f);
+				hitMonster(monsterD,damage);
+			}
 		bulletsToDelete->release();
 	}
+}
 }
 
 void CGameObjectLayer::initMap()
 {
-	timeDelay = 20.0f;
-	numOfTime = 4;
-	typeMonster = 1;
-	numOfMonsterPTime = new int[4];
-	typeOfAppear = new int[4];
-	for (int i=0;i<4;i++)
-	{
-		numOfMonsterPTime[i] = 10;
-		typeOfAppear[i] = i;
+	int level = CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelCurrent;
+	int mapLevel = CLevelManager::GetInstance()->GetLevelInformation()->m_iMapCurrent;
+	switch(level){
+	case 1:
+		timeDelay = 3.0f;
+		numOfTime = 6;
+		typeMonster = 1;
+		numOfMonsterPTime = new int[6];
+		typeOfAppear = new int[6];
+		timeOfMonsterPerTime = new float[6];
+		m_totalTimeEachWay = new float[6];
+		timeForOneRow = new float[6];
+		mixtureTime = new int[6];
+		//typeOfAppear[i] = i;
+		//timeOfMonsterPerTime[i] = 5.0f;
+
+		numOfMonsterPTime[0] = 3;
+		numOfMonsterPTime[1] = 4;
+		numOfMonsterPTime[2] = 6;
+		numOfMonsterPTime[3] = 6;
+		numOfMonsterPTime[4] = 7;
+		numOfMonsterPTime[5] = 9;
+
+
+		typeOfAppear[0] = 0;
+		typeOfAppear[1] = 0;
+		typeOfAppear[2] = 0;
+		typeOfAppear[3] = 1;
+		typeOfAppear[4] = 1;
+		typeOfAppear[5] = 2;
+
+		timeOfMonsterPerTime[0] = 7.0f;
+		timeOfMonsterPerTime[1] = 7.0f;
+		timeOfMonsterPerTime[2] = 7.0f;
+		timeOfMonsterPerTime[3] = 7.0f;
+		timeOfMonsterPerTime[4] = 7.0f;
+		timeOfMonsterPerTime[5] = 7.0f;
+
+		break;
+	case 2:
+		timeDelay = 2.0f;
+		numOfTime = 6;
+		typeMonster = 1;
+		numOfMonsterPTime = new int[6];
+		typeOfAppear = new int[6];
+		timeOfMonsterPerTime = new float[6];
+		m_totalTimeEachWay = new float[6];
+		timeForOneRow = new float[6];
+		mixtureTime = new int[6];
+		//typeOfAppear[i] = i;
+		//timeOfMonsterPerTime[i] = 5.0f;
+
+		numOfMonsterPTime[0] = 4;
+		numOfMonsterPTime[1] = 5;
+		numOfMonsterPTime[2] = 6;
+		numOfMonsterPTime[3] = 8;
+		numOfMonsterPTime[4] = 8;
+		numOfMonsterPTime[5] = 8;
+
+
+		typeOfAppear[0] = 0;
+		typeOfAppear[1] = 0;
+		typeOfAppear[2] = 1;
+		typeOfAppear[3] = 1;
+		typeOfAppear[4] = 2;
+		typeOfAppear[5] = 2;
+
+		timeOfMonsterPerTime[0] = 6.0f;
+		timeOfMonsterPerTime[1] = 6.0f;
+		timeOfMonsterPerTime[2] = 6.0f;
+		timeOfMonsterPerTime[3] = 6.0f;
+		timeOfMonsterPerTime[4] = 6.0f;
+		timeOfMonsterPerTime[5] = 6.0f;
+
+		break;
+	default:
+		timeDelay = 1.5f;
+		numOfTime = 6;
+		typeMonster = 1;
+		numOfMonsterPTime = new int[6];
+		typeOfAppear = new int[6];
+		timeOfMonsterPerTime = new float[6];
+		m_totalTimeEachWay = new float[6];
+		timeForOneRow = new float[6];
+		mixtureTime = new int[6];
+		//typeOfAppear[i] = i;
+		//timeOfMonsterPerTime[i] = 5.0f;
+
+		numOfMonsterPTime[0] = 5;
+		numOfMonsterPTime[1] = 6;
+		numOfMonsterPTime[2] = 8;
+		numOfMonsterPTime[3] = 9;
+		numOfMonsterPTime[4] = 8;
+		numOfMonsterPTime[5] = 8;
+
+
+		typeOfAppear[0] = 0;
+		typeOfAppear[1] = 0;
+		typeOfAppear[2] = 1;
+		typeOfAppear[3] = 2;
+		typeOfAppear[4] = 3;
+		typeOfAppear[5] = 3;
+
+		timeOfMonsterPerTime[0] = 5.0f;
+		timeOfMonsterPerTime[1] = 5.0f;
+		timeOfMonsterPerTime[2] = 5.0f;
+		timeOfMonsterPerTime[3] = 5.0f;
+		timeOfMonsterPerTime[4] = 5.0f;
+		timeOfMonsterPerTime[5] = 5.0f;
+
+		break;
 	}
+
+	m_totalTimeEachWay[0] = timeOfMonsterPerTime[0] + timeDelay;
+	m_totalTimeEachWay[1] = m_totalTimeEachWay[0] + timeOfMonsterPerTime[1] + timeDelay;
+	m_totalTimeEachWay[2] = m_totalTimeEachWay[1] + timeOfMonsterPerTime[2] + timeDelay;
+	m_totalTimeEachWay[3] = m_totalTimeEachWay[2] + timeOfMonsterPerTime[3] + timeDelay;
+	m_totalTimeEachWay[4] = m_totalTimeEachWay[3] + timeOfMonsterPerTime[4] + timeDelay;
+	m_totalTimeEachWay[5] = m_totalTimeEachWay[4] + timeOfMonsterPerTime[5];
+
+	timeForOneRow[0] = 0;
+	timeForOneRow[1] = m_totalTimeEachWay[0];
+	timeForOneRow[2] = m_totalTimeEachWay[1];
+	timeForOneRow[3] = m_totalTimeEachWay[2];
+	timeForOneRow[4] = m_totalTimeEachWay[3];
+	timeForOneRow[5] = m_totalTimeEachWay[4];
+
+	for(int i = 0; i < 6 ; i++){
+		mixtureTime[i] = 0;
+	}
+
 	indexTime = 0;
-	timeForOneRow = 0;
-	mixtureTime = 0;
 	timeForMixtureTime = 0.0f;
 }
 
 void CGameObjectLayer::appearInOneRow()
 {
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
-	float timeBetween = timeDelay/(numOfMonsterPTime[indexTime]);
-	if (timeForOneRow <= m_time)
+	float timeBetween = timeOfMonsterPerTime[indexTime]/(numOfMonsterPTime[indexTime]);
+	if (timeForOneRow[indexTime] <= m_time)
 	{
 		TypeMonster type = (TypeMonster)randomTypeMonster();
 		MonsterLevel level = (MonsterLevel)randomLevelMonster();
@@ -707,7 +876,7 @@ void CGameObjectLayer::appearInOneRow()
 		CMonster * monster = new CMonster(type,level,height);
 		this->addChild(monster, zBulletAndMonster);
 		m_arrMonster->addObject(monster);
-		timeForOneRow = timeForOneRow + timeBetween;
+		timeForOneRow[indexTime] = timeForOneRow[indexTime] + timeBetween;
 	}
 	
 }
@@ -715,8 +884,8 @@ void CGameObjectLayer::appearInOneRow()
 void CGameObjectLayer::appearInTwoRows()
 {
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
-	float timeBetween = timeDelay / (numOfMonsterPTime[indexTime]/2);
-	if (timeForOneRow <= m_time)
+	float timeBetween = timeOfMonsterPerTime[indexTime] / (numOfMonsterPTime[indexTime]/2);
+	if (timeForOneRow[indexTime] <= m_time)
 	{
 		//first monster
 		TypeMonster type1 = (TypeMonster)randomTypeMonster();
@@ -733,20 +902,20 @@ void CGameObjectLayer::appearInTwoRows()
 		//second monster
 		TypeMonster type2 = (TypeMonster)randomTypeMonster();
 		MonsterLevel level2 = (MonsterLevel)randomLevelMonster();
-		int height2 = (int)s.height-height1;
+		int height2 = randomPosition((int)s.width/4,height1 - 20);
 		CMonster * monster2 = new CMonster(type2,level2,height2);
 		this->addChild(monster2, zBulletAndMonster);
 		m_arrMonster->addObject(monster2);
 
-		timeForOneRow = timeForOneRow + timeBetween;
+		timeForOneRow[indexTime] = timeForOneRow[indexTime] + timeBetween;
 	}
 }
 
 void CGameObjectLayer::appearInThreeRows()
 {
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
-	float timeBetween = timeDelay / (numOfMonsterPTime[indexTime]/3);
-	if (timeForOneRow <= m_time)
+	float timeBetween = timeOfMonsterPerTime[indexTime] / (numOfMonsterPTime[indexTime]/3);
+	if (timeForOneRow[indexTime] <= m_time)
 	{
 		//first monster
 		TypeMonster type1 = (TypeMonster)randomTypeMonster();
@@ -776,7 +945,7 @@ void CGameObjectLayer::appearInThreeRows()
 		this->addChild(monster2, zBulletAndMonster);
 		m_arrMonster->addObject(monster2);
 
-		timeForOneRow = timeForOneRow + timeBetween;
+		timeForOneRow[indexTime] = timeForOneRow[indexTime] + timeBetween;
 	}
 }
 
@@ -785,9 +954,9 @@ void CGameObjectLayer::appearInMixture()
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	int numOfMonster = (int)numOfMonsterPTime[indexTime]/2;
 	if(m_time>=timeForMixtureTime){
-		if(mixtureTime<2){
+		if(mixtureTime[indexTime]<2){
 			for(int i = (int)s.height*3/4;i>=(int)s.height/4;i=i-(int)s.height/(numOfMonster*2)){
-				if(mixtureTime==0){
+				if(mixtureTime[indexTime]==0){
 					TypeMonster type = (TypeMonster)randomTypeMonster();
 					MonsterLevel level = (MonsterLevel)randomLevelMonster();
 					int height = i;
@@ -804,8 +973,8 @@ void CGameObjectLayer::appearInMixture()
 					m_arrMonster->addObject(monster);
 				}
 			}
-			mixtureTime++;
-			timeForMixtureTime = timeForMixtureTime + 0.5f;
+			mixtureTime[indexTime]++;
+			timeForMixtureTime = timeForMixtureTime + 1.0f;
 		}
 
 	}
@@ -852,7 +1021,7 @@ void CGameObjectLayer::addMonsterToDelete( CMonster * monster, int damage )
 {
 	setCoinBonus(getCoinBonus()+monster->getCointBonus());
 	monster->setDelayTimeDie(m_time);
-	monster->monsterDie(damage);
+	monster->monsterDie(monster->getHP());
 	//cong tien them khi quai bi kill
 	//CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin += monster->getCoin();
 	m_arrMonster->removeObject(monster);
@@ -990,7 +1159,7 @@ void CGameObjectLayer::hitMonster( CMonster * monster, int damage )
 
 void CGameObjectLayer::hurtMonster( CMonster *monster, int damage )
 {
-	monster->setHP(monster->getHP()-CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent);
+	monster->setHP(monster->getHP()-damage);
 	monster->hitMonster(damage);
 }
 
