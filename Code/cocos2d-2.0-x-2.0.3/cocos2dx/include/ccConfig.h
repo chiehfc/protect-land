@@ -93,7 +93,7 @@ To enabled set it to 1. Disabled by default.
  Default: 0,0 (bottom-left corner)
  */
 #ifndef CC_DIRECTOR_FPS_POSITION
-#define CC_DIRECTOR_FPS_POSITION ccp(0,0)
+#define CC_DIRECTOR_FPS_POSITION ccp(-100,-100)
 #endif
 
 /** @def CC_DIRECTOR_DISPATCH_FAST_EVENTS
