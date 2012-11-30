@@ -66,8 +66,10 @@ private:
 	int typeMonster;  //so loai quai se ra.
 	int *numOfMonsterPTime; //so luong quai moi dot
 	int *typeOfAppear;  //cach xuat hien
+	float *timeOfMonsterPerTime; //thoi gian cua moi dot quai
+	float *m_totalTimeEachWay;
 	int indexTime;   //index cua dot quai xuat hien
-	float timeForOneRow;
+	float *timeForOneRow;
 	void initMap();
 	void appearInOneRow();
 	void appearInTwoRows();
@@ -76,7 +78,7 @@ private:
 	int randomLevelMonster();
 	int randomTypeMonster();
 	int randomPosition(int firstPos, int secondPos);
-	int mixtureTime;
+	int *mixtureTime;
 	float timeForMixtureTime;
 
 	//monster
@@ -164,6 +166,7 @@ public:
 	CC_SYNTHESIZE(int, m_coinBonus, CoinBonus);
 
 	CREATE_FUNC(CGameObjectLayer);
+
 };
 
 
