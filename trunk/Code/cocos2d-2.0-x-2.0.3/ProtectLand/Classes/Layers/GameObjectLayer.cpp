@@ -1032,6 +1032,7 @@ void CGameObjectLayer::addMonsterToDelete( CMonster * monster, int damage )
 	setCoinBonus(getCoinBonus()+monster->getCointBonus());
 	monster->setDelayTimeDie(m_time);
 	monster->monsterDie(monster->getHP());
+	processWhenMonsterDie(monster);
 	//cong tien them khi quai bi kill
 	//CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin += monster->getCoin();
 	m_arrMonster->removeObject(monster);
