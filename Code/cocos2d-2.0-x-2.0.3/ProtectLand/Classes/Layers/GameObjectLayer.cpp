@@ -11,7 +11,7 @@
 #include "Bullet.h"
 #include "DebugConfig.h"
 
-
+#define SHIFTED     0x8000
 enum {
 	kTagTileMap = 1,
 	kTagSpriteManager = 1,
@@ -102,6 +102,7 @@ bool CGameObjectLayer::init()
 
 	//=======INIT VALUE=======//
 	{
+		m_bIsLoose = false; //ban dau de false tuc van chua thua
 		m_bIsFinshChooseSkill = false; // gan gia tri ban dau la false, tuc chua them skill
 		m_bIscol = false;
 		m_bIsTouching = false;
@@ -122,7 +123,7 @@ bool CGameObjectLayer::init()
 		
 		m_isClickChangeBullet = false;
 		m_fSpeed = 1000;
-		m_bIsFullEmergy = true;
+		m_bIsFullEmergy = false;
 		m_fTimeRetireBullet = 0;
 		m_TimeDelayBullet = 1.0f*pow(0.8,CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerSpeed);
 		m_levelBullet = CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower;
@@ -229,7 +230,14 @@ void CGameObjectLayer::update(float dt)
 		this->addChild(m_pSkill);
 		m_bToggle=false;
 	}
-	
+	//kiem tra xem co thua hay chua
+	if (!m_bIsLoose)
+		checkLoose();
+	//kiem tra win
+	if (getCheckWin())
+	{
+		transToWinScene(this);
+	}
 }
 
 void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
@@ -249,7 +257,7 @@ void CGameObjectLayer::menuSubMenuCallback( CCObject* pSender )
 
 bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 {	
-	CCLOG("%f %f",pTouch->getLocation().x,pTouch->getLocation().y);
+	//CCLOG("%f %f",pTouch->getLocation().x,pTouch->getLocation().y);
 	if(CCDirector::sharedDirector()->isPaused()) return false;
 	if(m_bIsTouching)
 	{
@@ -266,6 +274,12 @@ bool CGameObjectLayer::ccTouchBegan( CCTouch *pTouch, CCEvent *pEvent)
 		addStarSkill();		
 	}
 
+
+	// Verify whether "DOWN" keyboard key is pressed or not  
+	if(GetKeyState(VK_SPACE) & SHIFTED)  
+	{  
+		changeTypeTower();
+	}  
 	return true;
 }
 
@@ -380,13 +394,10 @@ void CGameObjectLayer::playSound( CCNode* sender, void* data )
 		CAudioManager::instance()->playEff(*(int*)data);
 }		
 
-
-
 void CGameObjectLayer::delayWinScene( float dt )
 {
 	
 }
-
 
 void CGameObjectLayer::addBullets(CCPoint &centerPoint)
 {	
@@ -488,7 +499,6 @@ float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
 	angle = angle/(PI/180);
 	return angle;
 }
-
 CCPoint CGameObjectLayer::getDestination(float X,float Y)
 {
 	
@@ -1184,8 +1194,6 @@ void CGameObjectLayer::processWhenMonsterDie( CMonster* pMonster )
 
 }
 
-
-
 void CGameObjectLayer::hitMonster( CMonster * monster, int damage )
 {
 	if(monster->getHP() > damage){
@@ -1208,6 +1216,73 @@ void CGameObjectLayer::processLabelCoin()
 	sprintf(bufTem, "%d", CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin);
 	m_pLabelCoinCollect->setString(bufTem);
 }
+
+void CGameObjectLayer::checkLoose()
+{
+	if (getTowerHP() <= 0)
+	{
+		m_bIsLoose = true;
+		CCDirector::sharedDirector()->getTouchDispatcher()->removeAllDelegates();
+		CCSprite* pBgGameOver = CCSprite::spriteWithFile("Background\\gameoverBg.png");
+		pBgGameOver->setPosition(ccp(size.width/2.0f, size.height/2.0f));
+		this->addChild(pBgGameOver, zGameOverBg);
+
+		CCSprite* pGameoverText = CCSprite::spriteWithFile("Background\\gameover.png");
+		pGameoverText->setPosition(ccp(size.width/2.0f, size.height/2.0f));
+		pGameoverText->setScale(0.3f);
+		pGameoverText->runAction(CCSequence::create(CCScaleBy::create(3.0f, 2.0f, 2.0f),
+													CCCallFuncN::actionWithTarget(this, callfuncN_selector(CGameObjectLayer::transToSkillUpgradeScene)), NULL));
+		this->addChild(pGameoverText, zGameoverText);
+		/*pGameoverText->runAction(CCSequence::create(CCScaleTo::create(3.0f, 2.0f, 2.0f), 
+													CCCallFuncN::actionWithTarget(this, callfuncN_selector(CGameObjectLayer::transToSkillUpgradeScene))));*/
+	}
+}
+
+void CGameObjectLayer::transToSkillUpgradeScene(CCNode* sender)
+{
+	CAudioManager::instance()->stopAllEff();
+	CAudioManager::instance()->stopBGMusic();
+	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
+	CGamePlay::destroy();
+	CCScene *pSkillScene = CSkillUpgradeScene::scene();
+	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, pSkillScene, ccWHITE);
+	if (pScene)
+	{
+		CCDirector::sharedDirector()->replaceScene(pScene);
+	}
+
+}
+
+void CGameObjectLayer::transToWinScene( CCNode* sender )
+{
+	CAudioManager::instance()->stopAllEff();
+	CAudioManager::instance()->stopBGMusic();
+	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
+	int coin = getCoinBonus();
+	int hp = getTowerHP();
+	CGamePlay::destroy();
+
+	CCScene *pWinScene = CWinScene::scene(coin, hp);
+	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, pWinScene, ccWHITE);
+	if (pScene)
+	{
+		CCDirector::sharedDirector()->replaceScene(pScene);
+	}
+}
+
+void CGameObjectLayer::changeTypeTower()
+{
+	if (m_typeBullet == FIRE_BULLET)
+	{
+		m_typeBullet = WATER_BULLET;
+	}
+	else
+	{
+		m_typeBullet = FIRE_BULLET;
+	}
+	updateBullet(m_typeBullet, m_levelBullet);
+}
+
 
 void CGameObjectLayer::addSkillButton()
 {

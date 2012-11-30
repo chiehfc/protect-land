@@ -110,20 +110,16 @@ bool CMainMenuScene::init()
 	/* Pop up Menu                                                          */
 	/************************************************************************/
 	CCMenuItemImage *pYesItem = CCMenuItemImage::create(
-		"icon_tick.png",
-		"icon_tick_selected.png",
+		"Button\\yes-down.png",
+		"Button\\yes-up.png",
 		this,
 		menu_selector(CMainMenuScene::PopupYesCallback));
 	CCMenuItemImage *pNoItem = CCMenuItemImage::create(
-		"icon_x.png",
-		"icon_x_selected.png",
+		"Button\\no-down.png",
+		"Button\\no-up.png",
 		this,
 		menu_selector(CMainMenuScene::PopupNoCallback));
 
-	pYesItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pYesItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
-	pNoItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pNoItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
 	pYesItem->setPosition(MyChangePointScreen(130.0f, - 50.0f));
 	pNoItem->setPosition(MyChangePointScreen(-130.0f,  - 50.0f));
 
@@ -134,9 +130,7 @@ bool CMainMenuScene::init()
 	this->addChild(m_pBlurLayer, ZORDER_GAMEPLAY_COLOR_LAYER, TAG_GAMEPLAY_COLOR_LAYER);
 	
 	//set position of Popup
-	pPopupBackground = CCSprite::create("popup_quitgame.png");
-	pPopupBackground->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pPopupBackground->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
+	pPopupBackground = CCSprite::create("Button\\popup1.png");
 	pPopupBackground->setPosition(ccp( size.width/2, size.height/2 ));	
 	this->addChild(pPopupBackground,ZORDER_GAMEPLAY_COLOR_LAYER + 1, TAG_GAMEPLAY_COLOR_LAYER + 1);
 

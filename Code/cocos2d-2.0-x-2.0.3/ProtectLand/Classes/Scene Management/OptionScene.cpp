@@ -95,44 +95,7 @@ bool COptionScene::init()
 	pResetLevelItem->setPosition(ccp(size.width/2 , size.height/2 - pSoundItemOn->getContentSize().height/2 - pResetLevelItem->getContentSize().height/2 - 50*SCREEN_HEIGHT_RATION_PORT) );
 	pMenu->addChild(pResetLevelItem);
 
-	CCMenuItemImage *pYesItem = CCMenuItemImage::create(
-		"icon_tick.png",
-		"icon_tick_selected.png",
-		this,
-		menu_selector(COptionScene::PopupYesCallback));
-	CCMenuItemImage *pNoItem = CCMenuItemImage::create(
-		"icon_x.png",
-		"icon_x_selected.png",
-		this,
-		menu_selector(COptionScene::PopupNoCallback));
 	
-	pYesItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pYesItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
-	pNoItem->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pNoItem->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
-	pYesItem->setPosition(MyChangePointScreen(130.0f, - 50.0f));
-	pNoItem->setPosition(MyChangePointScreen(-130.0f,  - 50.0f));
-
-	m_pBlurLayer = CCLayerColor::create();
-	m_pBlurLayer->setOpacityModifyRGB(true);
-	m_pBlurLayer->setColor(ccc3(0,0,0));
-	m_pBlurLayer->setOpacity(150);
-	this->addChild(m_pBlurLayer, ZORDER_GAMEPLAY_COLOR_LAYER, TAG_GAMEPLAY_COLOR_LAYER);
-	m_pBlurLayer->setVisible(false);
-	//set position of Popup
-	pPopupBackground = CCSprite::create("popup_reset.png");
-	pPopupBackground->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	pPopupBackground->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
-	pPopupBackground->setPosition(ccp( size.width/2, size.height/2 ));
-	pPopupBackground->setVisible(false);
-	this->addChild(pPopupBackground,ZORDER_GAMEPLAY_COLOR_LAYER + 1, TAG_GAMEPLAY_COLOR_LAYER + 1);
-
-	pPopupMenu = CCMenu::create(pYesItem, NULL);
-	pPopupMenu->addChild(pNoItem);
-	pPopupMenu->setVisible(false);
-	pPopupMenu->setEnabled(false);
-	this->addChild(pPopupMenu,ZORDER_GAMEPLAY_COLOR_LAYER + 1, TAG_GAMEPLAY_COLOR_LAYER + 1);
-
 	this->schedule(schedule_selector(COptionScene::update));
 	return true;
 }
@@ -183,35 +146,20 @@ void COptionScene::resetLevelCallback( CCObject* pSender )
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
 		CAudioManager::instance()->playEff(SOUND_CLICK_1);
-	pPopupMenu->setEnabled(true);
-	this->pMenu->setEnabled(false);
 	
-	m_pBlurLayer->setVisible(true);
-	pPopupMenu->setVisible(true);
-	pPopupBackground->setVisible(true);
 }
 
 void COptionScene::PopupYesCallback( CCObject* pSender )
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
 		CAudioManager::instance()->playEff(SOUND_CLICK_1);
-	pPopupMenu->setEnabled(false);
-	this->pMenu->setEnabled(true);
-	m_pBlurLayer->setVisible(false);
-	pPopupMenu->setVisible(false);
-	pPopupBackground->setVisible(false);
-	//CLevelManager::GetInstance()->ResetLevel("LevelInfo.txt", 8);
 }
 
 void COptionScene::PopupNoCallback( CCObject* pSender )
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
 		CAudioManager::instance()->playEff(SOUND_CLICK_1);
-	pPopupMenu->setEnabled(false);
 	this->pMenu->setEnabled(true);
-	m_pBlurLayer->setVisible(false);
-	pPopupMenu->setVisible(false);
-	pPopupBackground->setVisible(false);
 }
 
 void COptionScene::SetStateSoundButton( bool isSoundOn )
