@@ -283,39 +283,40 @@ LRESULT CCEGLView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_KEYDOWN:
-	/*
         if (wParam == VK_F1 || wParam == VK_F2)
         {
             CCDirector* pDirector = CCDirector::sharedDirector();
             if (GetKeyState(VK_LSHIFT) < 0 ||  GetKeyState(VK_RSHIFT) < 0 || GetKeyState(VK_SHIFT) < 0)
                 pDirector->getKeypadDispatcher()->dispatchKeypadMSG(wParam == VK_F1 ? kTypeBackClicked : kTypeMenuClicked);
         }
-		if ( m_lpfnAccelerometerKeyHook!=NULL )
+
+		// For "Up" key Keyboard changes.  
+		if (wParam == VK_UP)  
+		{  
+			SendMessage(m_hWnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(480-10, 320-10));// your up button postion
+
+			SendMessage(m_hWnd, WM_LBUTTONUP, MK_LBUTTON, MAKELONG(480-10, 320-10));  
+		} // End
+
+		// For "Down" key Keyboard changes.
+		if (wParam == VK_DOWN)  
+		{  
+			SendMessage(m_hWnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(480-10, 320-10));// your down button postion
+
+			SendMessage(m_hWnd, WM_LBUTTONUP, MK_LBUTTON, MAKELONG(480-10, 320-10));  
+		} // End 
+
+		if (wParam == VK_SPACE)  
+		{  
+			SendMessage(m_hWnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(480-10, 320-10));// your down button postion
+
+			SendMessage(m_hWnd, WM_LBUTTONUP, MK_LBUTTON, MAKELONG(480-10, 320-10));  
+		} // End
+
+        if ( m_lpfnAccelerometerKeyHook!=NULL )
         {
             (*m_lpfnAccelerometerKeyHook)( message,wParam,lParam );
         }
-		*/
-		if (wParam == VK_F1 || wParam == VK_F2)  
-           {  
-			   CCDirector* pDirector = CCDirector::sharedDirector();
-                if (GetKeyState(VK_LSHIFT) < 0 || GetKeyState(VK_RSHIFT) < 0 || GetKeyState(VK_SHIFT) < 0)
-                    pDirector->getKeypadDispatcher()->dispatchKeypadMSG(wParam == VK_F1 ? kTypeBackClicked : kTypeMenuClicked);
-           }  
-         // For "Up" key Keyboard changes.  
-     if (wParam == VK_UP)  
-     {  
-       SendMessage(m_hWnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(480-10, 320-10));// your up button postion
-  
-       SendMessage(m_hWnd, WM_LBUTTONUP, MK_LBUTTON, MAKELONG(480-10, 320-10));  
-     } // End
-  
-     // For "Down" key Keyboard changes.
-     if (wParam == VK_DOWN)  
-     {  
-       SendMessage(m_hWnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELONG(480-10, 320-10));// your down button postion
-  
-       SendMessage(m_hWnd, WM_LBUTTONUP, MK_LBUTTON, MAKELONG(480-10, 320-10));  
-     } // End  
         break;
     case WM_KEYUP:
         if ( m_lpfnAccelerometerKeyHook!=NULL )
