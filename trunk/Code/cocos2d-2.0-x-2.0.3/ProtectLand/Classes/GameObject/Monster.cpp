@@ -51,6 +51,7 @@ bool CMonster::init()
 	case LEVEL1_MONSTER:
 		setCointBonus(LEVEL1_MONSTER_COIN_BONUS);
 		setHP(LEVEL1_MONSTER_HP);
+		setMaxHP(LEVEL1_MONSTER_HP);
 		setSpeed(LEVEL1_MONSTER_SPEED);
 		setDamage(LEVEL1_MONSTER_DAMAGE);
 		setPower(LEVEL1_MONSTER_POWER);
@@ -64,6 +65,7 @@ bool CMonster::init()
 	case LEVEL2_MONSTER:
 		setCointBonus(LEVEL2_MONSTER_COIN_BONUS);
 		setHP(LEVEL2_MONSTER_HP);
+		setMaxHP(LEVEL2_MONSTER_HP);
 		setSpeed(LEVEL2_MONSTER_SPEED);
 		setDamage(LEVEL2_MONSTER_DAMAGE);
 		setPower(LEVEL2_MONSTER_POWER);
@@ -77,6 +79,7 @@ bool CMonster::init()
 	case LEVEL3_MONSTER:
 		setCointBonus(LEVEL3_MONSTER_COIN_BONUS);
 		setHP(LEVEL3_MONSTER_HP);
+		setMaxHP(LEVEL3_MONSTER_HP);
 		setSpeed(LEVEL3_MONSTER_SPEED);
 		setDamage(LEVEL3_MONSTER_DAMAGE);
 		setPower(LEVEL3_MONSTER_POWER);
@@ -93,6 +96,25 @@ bool CMonster::init()
 	m_spriteCoin = new CMySprite(COIN);
 	m_spriteCoin->setPosition(ccp(0,0));
 	addChild(m_sprite);
+
+
+	//add blood cho monster
+	m_activeHP = CCSprite::spriteWithFile("HPbar\\activeHP.png");
+	m_inactiveHP = CCSprite::spriteWithFile("HPbar\\inactiveHP.png");
+	m_inactiveHP->setScaleX(1.0f/8.0f);
+	m_inactiveHP->setScaleY(1.0f/8.0f);
+	m_activeHP->setScaleX(1.0f/7.8f);
+	m_activeHP->setScaleY(1.0f/7.4f);
+	m_activeHP->setPosition(ccp(-30,50));
+	m_inactiveHP->setPosition(ccp(-30,50));
+	m_activeHP->setAnchorPoint(ccp(0,0));
+	m_inactiveHP->setAnchorPoint(ccp(0,0));
+	this->addChild(m_inactiveHP);
+	this->addChild(m_activeHP);
+	m_activeHP->setVisible(false);
+	m_inactiveHP->setVisible(false);
+
+
 	addChild(m_spriteCoin);
 	m_spriteCoin->setVisible(false);
 	bloothOut1 = CCLabelTTF::labelWithString("","Arial",20);
@@ -110,6 +132,7 @@ bool CMonster::init()
 	addChild(bloothOut3);
 	bloothOut3->setVisible(false);
 	bloothOut3->setPosition(ccp(0,50));
+
 
 	moveMonster();
 	return true;
@@ -149,6 +172,7 @@ void CMonster::attackDone(CCNode* sender)
 void CMonster::monsterDie(int damage)
 {
 	//typeMove = MOVE;
+	setHP(0);
 	m_sprite->PlayAnimation(3,1.0f,1,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackDone)));
 	numberDamageIn(damage);
 }
@@ -237,6 +261,16 @@ void CMonster::numberDamageIn(int damage)
 		bloothOut1->runAction(CCMoveBy::create(TIME_BLOOD_MOVE_SCALE,ccp(0,30)));
 		bloothOut1->runAction(CCScaleBy::create(TIME_BLOOD_MOVE_SCALE,1.3f,1.3f));
 		bloothOut1->runAction(CCSequence::create(CCFadeIn::create(TIME_BLOOD_FADE),CCFadeOut::create(TIME_BLOOD_FADE),CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::hurtDone1)),NULL));
+
+
+
+		m_activeHP->setVisible(true);
+		m_activeHP->stopAllActions();
+		m_activeHP->setScaleX(getHP()/(getMaxHP()*7.8f));
+		m_inactiveHP->setVisible(true);
+		m_inactiveHP->stopAllActions();
+		m_activeHP->runAction(CCFadeOut::create(1.0f));
+		m_inactiveHP->runAction(CCFadeOut::create(1.0f));
 	}else if(!check2){
 		//index = 3;
 		check2 = true;
@@ -249,6 +283,15 @@ void CMonster::numberDamageIn(int damage)
 		bloothOut2->runAction(CCMoveBy::create(TIME_BLOOD_MOVE_SCALE,ccp(0,30)));
 		bloothOut2->runAction(CCScaleBy::create(TIME_BLOOD_MOVE_SCALE,1.3f,1.3f));
 		bloothOut2->runAction(CCSequence::create(CCFadeIn::create(TIME_BLOOD_FADE),CCFadeOut::create(TIME_BLOOD_FADE),CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::hurtDone2)),NULL));
+
+
+		m_activeHP->setVisible(true);
+		m_activeHP->stopAllActions();
+		m_activeHP->setScaleX(getHP()/(getMaxHP()*7.8f));
+		m_inactiveHP->setVisible(true);
+		m_inactiveHP->stopAllActions();
+		m_activeHP->runAction(CCFadeOut::create(1.0f));
+		m_inactiveHP->runAction(CCFadeOut::create(1.0f));
 	}else if(!check3){
 		////index = 1;
 		check3 = true;
@@ -261,6 +304,14 @@ void CMonster::numberDamageIn(int damage)
 		bloothOut3->runAction(CCMoveBy::create(TIME_BLOOD_MOVE_SCALE,ccp(0,30)));
 		bloothOut3->runAction(CCScaleBy::create(TIME_BLOOD_MOVE_SCALE,1.3f,1.3f));
 		bloothOut3->runAction(CCSequence::create(CCFadeIn::create(TIME_BLOOD_FADE),CCFadeOut::create(TIME_BLOOD_FADE),CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::hurtDone3)),NULL));
+
+		m_activeHP->setVisible(true);
+		m_activeHP->stopAllActions();
+		m_activeHP->setScaleX(getHP()/(getMaxHP()*7.8f));
+		m_inactiveHP->setVisible(true);
+		m_inactiveHP->stopAllActions();
+		m_activeHP->runAction(CCFadeOut::create(1.0f));
+		m_inactiveHP->runAction(CCFadeOut::create(1.0f));
 	}
 }
 

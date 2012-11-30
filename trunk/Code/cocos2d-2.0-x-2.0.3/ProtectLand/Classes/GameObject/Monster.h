@@ -12,6 +12,8 @@ private:
 public:
 	CMySprite * m_sprite;
 	CMySprite * m_spriteCoin;
+	CCSprite * m_activeHP;
+	CCSprite * m_inactiveHP;
 	float timeMove;
 	typeMove typeMove;
 	CCLabelTTF * bloothOut1,*bloothOut2, *bloothOut3;
@@ -30,6 +32,7 @@ public:
 	CC_SYNTHESIZE(float, m_currentTime, CurrentTime);
 	CC_SYNTHESIZE(int, m_numOfAttack, NumOfAttack);
 	CC_SYNTHESIZE(int, m_coinBonus, CointBonus);
+	CC_SYNTHESIZE(int, m_maxHP, MaxHP);
 	//CC_SYNTHESIZE(char *, m_text, text);
 	//CC_SYNTHESIZE(CCLabelTTF *, m_bloothOut, bloothOut);
 
@@ -60,5 +63,7 @@ public:
 	void hurtDone2(CCNode* sender);
 	void hurtDone3(CCNode* sender);
 	int attackTowerWithDamage(float m_time);
+
+	//void bloodBar();
 };
 #endif
