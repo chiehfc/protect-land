@@ -198,22 +198,22 @@ void CSkillUpgradeScene::createLabelAndItem()
 
 	pMenu->setPosition(ccp(0,0));
 	this->addChild(pMenu);
-	addLabel(&m_lable1,ccc3(255,255,0),200,LOCATION_NAME_LABEL,"Wall Protect",1.0);
-	addLabel(&m_lable2,ccc3(255,255,255),250,LOCATION_DETAIL_LABEL,"Can cause double the damage at certain probability",0.7);
-	addLabel(&m_lable3,ccc3(255,126,0),100,LOCATION_CURRENT_LABEL,"Current Probability:",0.7);
+	addLabel(&m_lable1,ccc3(255,255,0),200,LOCATION_NAME_LABEL,"Wall Protect", 1.0f);
+	addLabel(&m_lable2,ccc3(255,255,255),250,LOCATION_DETAIL_LABEL,"Can cause double the damage at certain probability", 0.7f);
+	addLabel(&m_lable3,ccc3(255,126,0),100,LOCATION_CURRENT_LABEL,"Current Probability:", 0.7f);
 	char buf[30];
 	sprintf(buf,"%d",CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp);
-	addLabel(&m_lable4,ccc3(0,255,0),100,LOCATION_CURRENTVALUE_LABEL,"24:",0.7);
-	addLabel(&m_lable5,ccc3(255,126,0),100,LOCATION_NEXT_LABEL,"Next level:",0.7);
+	addLabel(&m_lable4,ccc3(0,255,0),100,LOCATION_CURRENTVALUE_LABEL,"24:",0.7f);
+	addLabel(&m_lable5,ccc3(255,126,0),100,LOCATION_NEXT_LABEL,"Next level:",0.7f);
 	sprintf(buf,"%d",CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp + HP_UPDATE);
-	addLabel(&m_lable6,ccc3(0,255,0),100,LOCATION_NEXTVALUE_LABEL,buf,0.7);
+	addLabel(&m_lable6,ccc3(0,255,0),100,LOCATION_NEXTVALUE_LABEL,buf,0.7f);
 	sprintf(buf,"%d",((CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp - INIT_TOWER_HP +10)/10)*50);//num of coin to buy
-	addLabel(&m_lable7,ccc3(255,255,0),100,LOCATION_COIN2_LABEL,buf,1.3);
+	addLabel(&m_lable7,ccc3(255,255,0),100,LOCATION_COIN2_LABEL,buf,1.3f);
 	sprintf(buf,"%d",CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin);
-	addLabel(&m_lable8,ccc3(255,255,0),100,LOCATION_COIN_LABEL,buf,1.3);
+	addLabel(&m_lable8,ccc3(255,255,0),100,LOCATION_COIN_LABEL,buf,1.3f);
 	int t1=((CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp - INIT_TOWER_HP +10)/10)*50;
 	int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
-	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_UPGRADE_BORDER,SCALE_ITEM*0.75,SCALE_ITEM*0.5);
+	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_UPGRADE_BORDER,SCALE_ITEM*0.75f,SCALE_ITEM*0.5f);
 	m_iCoinToBuy = t1;
 	m_iCurentItemSelect = WALL_ITEM;
 	char buf1[20] = "";
@@ -245,7 +245,7 @@ void CSkillUpgradeScene::buttonWallCallback( CCObject* pSender )
 
 	int t1=((CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp - INIT_TOWER_HP +10)/10)*50;//num of coin to buy
 	int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
-	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_UPGRADE_BORDER,SCALE_ITEM*0.75,SCALE_ITEM*0.5);
+	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_UPGRADE_BORDER,SCALE_ITEM*0.75f, SCALE_ITEM*0.5f);
 	m_iCoinToBuy = t1;
 	m_iCurentItemSelect = WALL_ITEM;
 	m_lable1->setString("Wall Protect");
@@ -276,7 +276,7 @@ void CSkillUpgradeScene::buttonLevelCallback( CCObject* pSender )
 		sprintf(buf2, " %d", CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower + LEVEL_UPDATE);
 		int t1=(CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelTower)*3*50;//num of coin to buy
 		int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
-		if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_UPGRADE_BORDER,SCALE_ITEM*0.75,SCALE_ITEM*0.5);
+		if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png",LOCATION_UPGRADE_BORDER,SCALE_ITEM*0.75f,SCALE_ITEM*0.5f);
 		m_iCoinToBuy = t1;
 	}
 
@@ -317,7 +317,7 @@ void CSkillUpgradeScene::buttonSpeedCallback( CCObject* pSender )
 
 	int t1=(CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerSpeed)*50;//num of coin to buy
 	int t2=CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin;
-	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png", LOCATION_UPGRADE_BORDER, SCALE_ITEM*0.75, SCALE_ITEM*0.5);
+	if(t2 >= t1) addSpire(&m_pBorder,"SkillScreen\\buy2.png", LOCATION_UPGRADE_BORDER, SCALE_ITEM*0.75f, SCALE_ITEM*0.5f);
 	m_iCoinToBuy = t1;
 	m_iCurentItemSelect = SPEED_ITEM;
 }

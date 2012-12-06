@@ -176,7 +176,6 @@ void CMainMenuScene::menuHelpCallback(CCObject* pSender)
 	}
 }
 
-
 void CMainMenuScene::menuNewgameCallback(CCObject* pSender)
 {
     //Error

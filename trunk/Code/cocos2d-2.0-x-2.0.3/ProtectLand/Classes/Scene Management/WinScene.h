@@ -51,7 +51,6 @@ public:
 	// a selector callback
 	void menuLevelSelectCallback(CCObject* pSender);
 	void menuNextCallback(CCObject* pSender);
-	void menuRestartCallback(CCObject* pSender);
 	void playSound(CCNode* sender, void* data);
 	void particeStar(CCNode* sender);
 	void StitchMoveDone(CCNode* sender);

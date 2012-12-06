@@ -63,19 +63,7 @@ void CWinScene::menuNextCallback( CCObject* pSender )
 	{
 		CCDirector::sharedDirector()->replaceScene(pScene);
 	} 
-	CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin = 
-	CLevelManager::GetInstance()->SaveLevelToFile( "LevelInfo.txt" );
 }
-
-
-void CWinScene::menuRestartCallback( CCObject* pSender )
-{
-	CAudioManager::instance()->playEff(SOUND_CLICK_1);
-	CGamePlay::destroy();
-	CCScene *gamePlay = CGamePlay::scene();
-	//CCDirector::sharedDirector()->replaceScene(gamePlay);
-}
-
 
 void CWinScene::playSound(CCNode* sender, void* data)
 {
@@ -174,7 +162,7 @@ void CWinScene::addAllElement()
 	addLabel(&m_pLabel, ccc3(255, 255, 255), 300, LOCATION_TOTAL_VALUE,buf, 1.2f);
 	sprintf(buf,"%d",nDiamond);
 	addLabel(&m_pLabel, ccc3(255, 255, 255), 300, LOCATION_TOTAL_VALUE2,buf, 1.2f);
-
+	CLevelManager::GetInstance()->UpdateLevelAfterWin();
 	CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin += totalCoin;
 	CLevelManager::GetInstance()->SaveLevelToFile("LevelInfo.txt");
 
@@ -188,22 +176,7 @@ void CWinScene::addAllElement()
 		menu_selector(CWinScene::menuNextCallback));
 	pNextItem->setPosition(LOCATION_NEXT_BUTTON_WIN);
 	pMenu->addChild(pNextItem);
-	////////////////////////////////
-	p_tempMenu= CCMenuItemImage::create(
-		"Button\\next_down.png",
-		"Button\\next_up.png",
-		this,
-		menu_selector(CWinScene::menuNextCallback));
-	p_tempMenu->setPosition(ccp(0,0));
-	//pMenu->addChild(p_tempMenu);
-	//////////////////////////////////
-	CCMenuItemImage *pResetItem = CCMenuItemImage::create(
-		"Button\\reset_down.png",
-		"Button\\reset_up.png",
-		this,
-		menu_selector(CWinScene::menuRestartCallback));
-	pResetItem->setPosition(LOCATION_RESET_BUTTON_WIN);
-	pMenu->addChild(pResetItem);
+	
 	CCMenuItemImage *pSelecLevelItem = CCMenuItemImage::create(
 		"Button\\back_down.png",
 		"Button\\back_up.png",

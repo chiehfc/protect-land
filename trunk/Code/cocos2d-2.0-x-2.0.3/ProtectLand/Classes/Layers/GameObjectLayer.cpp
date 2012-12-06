@@ -173,7 +173,7 @@ bool CGameObjectLayer::init()
 		this->addChild(pSceneSorite);
 
 		//label coin
-		m_pLabelCoinCollect = CCLabelBMFont::create("0", "fonts/myFont.fnt", 50);
+		m_pLabelCoinCollect = CCLabelBMFont::create("0", "fonts/myFont.fnt", 100);
 		m_pLabelCoinCollect->setColor(ccc3(177, 89, 76));
 		m_pLabelCoinCollect->setScale(1.5f);
 		m_pLabelCoinCollect->setAnchorPoint(ccp(0.0f, 0.5f));
@@ -1048,7 +1048,7 @@ void CGameObjectLayer::appearInMixture()
 	int numOfMonster = (int)numOfMonsterPTime[indexTime]/2;
 	if(m_time>=timeForMixtureTime){
 		if(mixtureTime[indexTime]<2){
-			for(int i = (int)s.height*3/4;i>=(int)s.height/4;i=i-(int)s.height/(numOfMonster*2)){
+			for(int i = (int)s.height*3/4.0f; i>=(int)s.height/4 ; i = i-(int)s.height/(numOfMonster*2)){
 				if(mixtureTime[indexTime]==0){
 					TypeMonster type = (TypeMonster)randomTypeMonster();
 					MonsterLevel level = (MonsterLevel)randomLevelMonster();
@@ -1297,7 +1297,7 @@ void CGameObjectLayer::hurtMonster( CMonster *monster, int damage )
 
 void CGameObjectLayer::processLabelCoin()
 {
-	char bufTem[20] = "";
+	char bufTem[30] = "";
 	sprintf(bufTem, "%d", CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin);
 	m_pLabelCoinCollect->setString(bufTem);
 }
