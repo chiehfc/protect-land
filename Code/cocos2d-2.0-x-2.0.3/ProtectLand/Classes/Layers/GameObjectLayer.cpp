@@ -1369,7 +1369,6 @@ void CGameObjectLayer::changeTypeTower()
 	updateBullet(m_typeBullet, m_levelBullet);
 }
 
-
 void CGameObjectLayer::addSkillButton()
 {
 	this->removeChild(m_pSkill,true);

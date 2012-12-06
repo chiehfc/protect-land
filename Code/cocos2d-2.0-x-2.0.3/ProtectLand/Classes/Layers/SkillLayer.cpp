@@ -30,7 +30,7 @@ bool CSkillLayer::init()
 	resultSkill = -1;
 	m_timer = 0;
 	this->setTouchEnabled(true);
-	scheduleUpdate();
+	this->schedule( schedule_selector(CSkillLayer::update));
 	return true;
 }	
 void CSkillLayer::addSphere(CCSprite *m_sprite,char *path,int x,int y)
@@ -97,6 +97,7 @@ void CSkillLayer::onEnter()
 	CGamePlay::pGameObjectLayer->setTouchEnabled(false);
 	CGamePlay::setEnableMenu(false);
 	CGamePlay::pSkillLayer->setTouchEnabled(true);
+	
 }
 
 void CSkillLayer::initVar()

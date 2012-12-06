@@ -151,108 +151,31 @@ SLevelInfomation* CLevelManager::GetListLevel( int& NumOfLevel )
 }
 
 bool CLevelManager::ResetLevel( const char* pszPath, int iNumOfLevel )
-{
-	
-	#if ANDROID
-	string pathWriteable = CCFileUtils::sharedFileUtils()->getWriteablePath();
-	char pszFullPath[256] = {0};
-	strcpy(pszFullPath, pathWriteable.c_str());
-	strcat(pszFullPath, pszPath);
-	/*const char * sdcard = PATH_EXTERNAL;
-	int sdcardLength = strlen(sdcard);
-	char* pszFullPath = new char[strlen(sdcard)+ strlen(pszPath)+1];
-	strcpy(pszFullPath,sdcard);
-	strcat(pszFullPath,pszPath);*/
-	/*LOGI("FULLPATH Level Inf=================================================");
-	LOGI(pszFullPath);
-	LOGI("FULLPATH Level Inf=================================================");*/
-#else
-	const char *pszFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pszPath);
-	//LOGI("FULLPATH Level Info=================================================");
-	//LOGI(pszFullPath);
-	//LOGI("FULLPATH Level Inf=================================================");
-#endif
-	FILE * pFile =  NULL;
-	pFile = fopen(pszFullPath, "w+");
-	if (pFile != NULL)
-	{
-		fprintf(pFile,"%d\n",iNumOfLevel);
-		for (int i = 0; i < iNumOfLevel; i ++)
-		{
-			if (i==0) 
-			{
-				fprintf(pFile,"%d 0 0 1\n", (i+1) );
-			}
-			else
-			{
-				fprintf(pFile,"%d 0 0 0\n", (i+1) );
-			}
-		}
-
-		fclose(pFile);
-		//ResetLevelInfo(iNumOfLevel);
+{	
 		return true;
-	}
-	return false;
 }
 
 bool CLevelManager::ResetLevel( const char* pszPath )
 {
-	int iNumOfLevel  = 0;
-	#if ANDROID
-	string pathWriteable = CCFileUtils::sharedFileUtils()->getWriteablePath();
-	char pszFullPath[256] = {0};
-	strcpy(pszFullPath, pathWriteable.c_str());
-	strcat(pszFullPath, pszPath);
-	/*const char * sdcard = PATH_EXTERNAL;
-	int sdcardLength = strlen(sdcard);
-	char* pszFullPath = new char[strlen(sdcard)+ strlen(pszPath)+1];
-	strcpy(pszFullPath,sdcard);
-	strcat(pszFullPath,pszPath);*/
-	/*LOGI("FULLPATH Level Inf=================================================");
-	LOGI(pszFullPath);
-	LOGI("FULLPATH Level Inf=================================================");*/
-#else
-	const char *pszFullPath = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(pszPath);
-	//LOGI("FULLPATH Level Info=================================================");
-	//LOGI(pszFullPath);
-	//LOGI("FULLPATH Level Inf=================================================");
-#endif
-	//Neu chua load level
-	if (m_iNumOfLevel == 0 || m_psLevelInfo == NULL)
-	{
-		char* psContentFile = CFileManager::GetInstance()->GetFileContent(pszFullPath);
-		char pc_Line[99];
-		if ( psContentFile == NULL)
-		{
-			//Neu chua ton tai file do'
-			return false;
-		}
-		//Da ton tai file lay so luong phan tu trong do' ra
-		ReadLine(psContentFile, pc_Line, 0);
-		sscanf(pc_Line, "%d", &iNumOfLevel);
-		CC_SAFE_DELETE_ARRAY(psContentFile);
-	}
-	else
-	{
-		//Da load file
-		iNumOfLevel = m_iNumOfLevel;
-	}
-	//Ghi file
-	FILE * pFile =  NULL;
-	pFile = fopen(pszPath, "wb+");
-	if (pFile != NULL)
-	{
-		fprintf(pFile,"%d\n",iNumOfLevel);
-		for (int i = 0; i < iNumOfLevel; i ++)
-		{
-			fprintf(pFile,"%d 0 0 0\n", (i+1) );
-		}
+	int iMapCurrent = human;
+	int iLevelCurrent = 1;
+	int iCoin = 100;
+	int iLevelTower = 1;
+	int iDameTowerCurrent = INIT_DAMGE_TOWER;
+	int iTowerSpeed = 1;
+	int iTowerHp = INIT_TOWER_HP;
+	int iRateDoubleDamge = INIT_RATE_DOUBLE_DAMGE;
 
-		fclose(pFile);
-		ResetLevelInfo();
-	}
-	return true;
+	m_psLevelInfo->m_iMapCurrent = iMapCurrent;
+	m_psLevelInfo->m_iLevelCurrent = iLevelCurrent;
+	m_psLevelInfo->m_iCoin = iCoin;
+
+	m_psLevelInfo->m_iLevelTower = iLevelTower;
+	m_psLevelInfo->m_iDameTowerCurrent = iDameTowerCurrent;
+	m_psLevelInfo->m_iTowerSpeed = iTowerSpeed;
+	m_psLevelInfo->m_iTowerHp = iTowerHp;
+	m_psLevelInfo->m_iRateDoubleDamge = iRateDoubleDamge;
+	return SaveLevelToFile(pszPath);
 }
 
 bool CLevelManager::ResetLevelInfo()
