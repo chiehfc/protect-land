@@ -8,7 +8,7 @@
 			<key>Id</key>
 			<integer>0</integer>
 			<key>Filename</key>
-			<string>coconut_1_front.png</string>
+			<string>monster_1.png</string>
 			<key>Type</key>
 			<integer>0</integer>
 			<key>Rect</key>
@@ -27,7 +27,7 @@
 			<key>Id</key>
 			<integer>1</integer>
 			<key>Filename</key>
-			<string>coconut_1_back.png</string>
+			<string>monster_2</string>
 			<key>Type</key>
 			<integer>0</integer>
 			<key>Rect</key>
@@ -46,7 +46,7 @@
 			<key>Id</key>
 			<integer>2</integer>
 			<key>Filename</key>
-			<string>Wood.png</string>
+			<string>Skill1.png</string>
 			<key>Type</key>
 			<integer>0</integer>
 			<key>Rect</key>
@@ -65,7 +65,7 @@
 			<key>Id</key>
 			<integer>3</integer>
 			<key>Filename</key>
-			<string>rock_edit2.png</string>
+			<string>Skill2.png</string>
 			<key>Type</key>
 			<integer>0</integer>
 			<key>Rect</key>
@@ -103,7 +103,7 @@
 			<key>Id</key>
 			<integer>4</integer>
 			<key>Filename</key>
-			<string>Ant.sprite</string>
+			<string>Boss.png</string>
 			<key>Type</key>
 			<integer>1</integer>
 			<key>Pos_X</key>
