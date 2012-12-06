@@ -4,8 +4,8 @@
 #include "AudioManager.h"
 #include "cocos2d.h"
 #include "LevelManager.h"
-#define SCALE_BACKROUND 1.2
-#define SCALE_ITEM 1.5
+#define SCALE_BACKROUND 1.2f
+#define SCALE_ITEM 1.5f
 
 #define WALL_ITEM 1
 #define LEVEL_ITEM 2

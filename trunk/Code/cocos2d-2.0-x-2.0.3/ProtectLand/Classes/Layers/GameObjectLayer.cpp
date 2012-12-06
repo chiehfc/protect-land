@@ -1260,7 +1260,7 @@ void CGameObjectLayer::transToWinScene( CCNode* sender )
 	CAudioManager::instance()->stopAllEff();
 	CAudioManager::instance()->stopBGMusic();
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-	int coin = getCoinBonus();
+	int coin = CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin - (int)(CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin/2.0f);
 	int hp = getTowerHP();
 	CGamePlay::destroy();
 
