@@ -15,6 +15,7 @@ public:
 	CCSprite * m_activeHP;
 	CCSprite * m_inactiveHP;
 	float timeMove;
+	bool checkMove;
 	typeMove typeMove;
 	CCLabelTTF * bloothOut1,*bloothOut2, *bloothOut3;
 	bool check1, check2, check3;
