@@ -13,7 +13,7 @@
 // Images...
 // <Image> := IMAGE [id] "file" [ALPHA "alpha_file"] [TRANSP transp_color]
 
-    IMAGE 0x0000 "D:\009. SUBJECT\HK 1 - NAM 4\003_GamePrograming\Assignment\ProtectLandSVN\Code\cocos2d-2.0-x-2.0.3\ProtectLand\Resources\SkillAnimation\fire.png" TRANSP 0x00FF00FF // 0  size: 1024 x 512  palettes: 1
+    IMAGE 0x0000 ".\fire.png" TRANSP 0x00FF00FF // 0  size: 1024 x 512  palettes: 1
 
 ////////////////////////////////////////////////////////////////////////////////
 // Modules...
