@@ -15,7 +15,7 @@ using namespace cocos2d;
 
 
 enum Mapcurrent {
-	human,
+	human = 1,
 	elves,
 	magi,
 	dwarf,

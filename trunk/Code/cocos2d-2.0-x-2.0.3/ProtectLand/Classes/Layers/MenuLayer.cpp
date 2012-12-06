@@ -104,3 +104,8 @@ void CMenuLayer::onExit()
 	this->removeAllChildrenWithCleanup(true);
 }
 
+void CMenuLayer::update( float dt )
+{
+	int a;
+}
+

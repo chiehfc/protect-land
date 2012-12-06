@@ -114,15 +114,15 @@ bool CMainMenuScene::init()
 		"Button\\yes-up.png",
 		this,
 		menu_selector(CMainMenuScene::PopupYesCallback));
+	//pYesItem->setPosition(size.width/2.0f + 100.0f, size.height/2.0f);
+	pYesItem->setPosition(220.0f, 0.0f);
 	CCMenuItemImage *pNoItem = CCMenuItemImage::create(
 		"Button\\no-down.png",
 		"Button\\no-up.png",
 		this,
 		menu_selector(CMainMenuScene::PopupNoCallback));
-
-	pYesItem->setPosition(MyChangePointScreen(130.0f, - 50.0f));
-	pNoItem->setPosition(MyChangePointScreen(-130.0f,  - 50.0f));
-
+	//pNoItem->setPosition(size.width/2.0f + 150.0f, size.height/2.0f);
+	pNoItem->setPosition(380.0f, 0.0f);
 	m_pBlurLayer = CCLayerColor::create();
 	m_pBlurLayer->setOpacityModifyRGB(true);
 	m_pBlurLayer->setColor(ccc3(0,0,0));
