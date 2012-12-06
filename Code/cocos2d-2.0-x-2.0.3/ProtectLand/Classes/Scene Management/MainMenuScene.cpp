@@ -184,7 +184,6 @@ void CMainMenuScene::menuNewgameCallback(CCObject* pSender)
 	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene *loadingScene = CLoadingScene::scene(MODE_NEWGAME);
 	CCDirector::sharedDirector()->replaceScene(loadingScene);
-
 }
 
 void CMainMenuScene::menuCloseCallback(CCObject* pSender)
