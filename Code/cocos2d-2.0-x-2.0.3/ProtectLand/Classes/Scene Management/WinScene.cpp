@@ -116,7 +116,7 @@ void CWinScene::addAllElement()
 	addSpire(&m_pTemp,"WinScreen\\monster3.png",LOCATION_MONTER3, 1.2f,1.2f);
 	addSpire(&m_pTemp,"WinScreen\\monster6.png",LOCATION_MONTER4, -1.2f,1.2f);
 	addSpire(&m_pTemp,"WinScreen\\monster5.png",LOCATION_MONTER5, -1.2f,1.2f);
-	sprintf(buf,"STAGE  %d",CLevelManager::GetInstance()->GetLevelInformation()->m_iMapCurrent);
+	sprintf(buf,"STAGE  %d",CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelCurrent);
 	addLabel(&m_pLabel, ccc3(255, 255, 255), 400, LOCATION_TITLE ,buf, 2.0f);
 	int fullHP = CLevelManager::GetInstance()->GetLevelInformation()->m_iTowerHp;
 	float rate = m_iHpTowerRemind*100.0/fullHP;
