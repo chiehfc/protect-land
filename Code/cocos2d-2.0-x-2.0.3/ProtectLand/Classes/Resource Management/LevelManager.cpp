@@ -299,6 +299,7 @@ bool CLevelManager::SetLevelInfo( int iMapCurrent, int iLevelCurrent, int iCoin,
 
 
 
+
 bool CLevelManager::CreateFileFirstGame( const char* pc_FileName, int iNumOfLevel )
 {
 
@@ -351,4 +352,23 @@ bool CLevelManager::CreateFileFirstGame( const char* pc_FileName, int iNumOfLeve
 	
 #endif
 	return result;
+}
+
+bool CLevelManager::UpdateLevelAfterWin()
+{
+	if (m_psLevelInfo != NULL)
+	{
+		if (m_psLevelInfo->m_iLevelCurrent <= 4)
+		{
+			m_psLevelInfo->m_iLevelCurrent ++;
+			return true;
+		}
+		else
+		{
+			m_psLevelInfo->m_iLevelCurrent = 1;
+			m_psLevelInfo->m_iMapCurrent ++;
+			return true;
+		}
+	}
+	return false;
 }

@@ -36,17 +36,18 @@ bool CLoadingScene::init()
 
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
 	this->_label = CCLabelTTF::create("", "Arial", 24);
-	_label->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	_label->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
-	this->_label->setPosition( ccp(size.width / 2, size.height - 50*SCREEN_HEIGHT_RATION_PORT) );
-	this->addChild(this->_label,1);
-	
-	m_pLoadingBar = new CMySprite("WaterDrop.sprite",TYPE_SPRITE_SRITE);
+	this->_label->setPosition( ccp(size.width / 2.0f, size.height - 150.0f) );
+	this->addChild(this->_label, 1);
+	//load animation behind
+	CMySprite* pLoadSprite = new CMySprite("MainMenuScene\\start_button.sprite", TYPE_SPRITE_SRITE);
+	pLoadSprite->setPosition(ccp(size.width/2.0f, size.height/2.0f));
+	pLoadSprite->PlayAnimation(0, 2.0f, true, false);
+	this->addChild(pLoadSprite);
+	//load bar
+	m_pLoadingBar = new CMySprite("MainMenuScene\\loading.sprite", TYPE_SPRITE_SRITE);
 	addChild(m_pLoadingBar);
 	//m_pLoadingBar->PlayAnimation(0, 1.0f, 1, false);
-	m_pLoadingBar->setScaleX((float)size.width/WIDTH_SCREEN_STANDARD);
-	m_pLoadingBar->setScaleY((float)size.height/HEIGHT_SCREEN_STANDARD);
-	m_pLoadingBar->setPosition(ccp(size.width/2,size.height/2));
+	m_pLoadingBar->setPosition(ccp(size.width/2.0f, size.height/2.0f));
 	m_pLoadingBar->SetFrame(0,0);
 	schedule(schedule_selector(CLoadingScene::update));
 	return true;
@@ -82,15 +83,19 @@ void CLoadingScene::update(float dt)
 
 		if(!isTap && m_iCurrentStep > m_iNumOfStep )
 		{
+			
 			CCFadeOut *fadeOut = CCFadeOut::create(1.0f);
 			CCFadeIn *fadeIn = CCFadeIn::create(0.3f);
 			CCFiniteTimeAction *seq = CCSequence::create(fadeOut, fadeIn, NULL);
 			CCRepeatForever *forever = CCRepeatForever::create((CCActionInterval *)seq);
 			this->_label->setFontSize(24);
-			this->_label->setPosition(ccp(size.width/2, size.height/2 - m_pLoadingBar->getContentSize().height / 2 * SCREEN_HEIGHT_RATION_PORT - 10*SCREEN_HEIGHT_RATION_PORT));
+			this->_label->setPosition(ccp(size.width/2, size.height/2 - m_pLoadingBar->getContentSize().height / 2.0f - 90.0f));
 			this->_label->setString("Tap to continue...");
 			//this->_label->runAction(forever);
-			this->m_pLoadingBar->runAction(forever);
+			this->_label->runAction(forever);
+
+			//xoa di animation loading bar
+			this->removeChild(m_pLoadingBar, true);
 			isTap = true;
 			////////////////////////////////////////////////////////////////////////////
 			//CCLabelTTF *label1 = CCLabelTTF::create("Testing A8 Format", "Arial", 48);
