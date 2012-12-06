@@ -70,6 +70,9 @@ Winscene
 #define LOCATION_MONTER3 			ccp(827, 159) //monter3
 #define LOCATION_MONTER4 			ccp(215, 525) //monter6 -1
 #define LOCATION_MONTER5 			ccp(240, 190) //monter5
+#define LOCATION_NEXT_BUTTON_WIN		ccp(762, 75)
+#define LOCATION_BACK_BUTTON_WIN		ccp(245, 75)
+#define LOCATION_RESET_BUTTON_WIN		ccp(size.width/2.0, 75)
 /*
 Upgrade Skill
 */

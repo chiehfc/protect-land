@@ -27,7 +27,7 @@ private:
 	CMySprite* m_pStitchFun;
 	CCSprite* m_pTemp; //use to add item no change all layer
 	CCLabelBMFont *m_pLabel;
-
+	CCMenuItemImage *p_tempMenu;
 	
 	/*cocos2d::CCLabelTTF* m_pLabelScorce;
 	cocos2d::CCLabelTTF* m_pLabelBonus;
@@ -47,6 +47,7 @@ public:
 	void addSpire(CCSprite **m_sprite, char* path, CCPoint &position, float scaleX,float scaleY);
 	void addLabel(CCLabelBMFont **pLabel, ccColor3B &color, int width, CCPoint &position,char* str,float scale);
 
+	void addAllElement();
 	// a selector callback
 	void menuLevelSelectCallback(CCObject* pSender);
 	void menuNextCallback(CCObject* pSender);
