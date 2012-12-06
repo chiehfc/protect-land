@@ -16,7 +16,7 @@ CCScene* CSelectLevelScene::scene()
 
 	// 'layer' is an autorelease object
 	CSelectLevelScene *layer = CSelectLevelScene::create();
-
+	
 	// add layer as a child to scene
 	scene->addChild(layer);
 
@@ -108,7 +108,7 @@ void CSelectLevelScene::menuNextCallBack( CCObject* pSender )
 {
 	//chuyen den skillUpgradeScene
 	CCScene * pSkillUpgradeScene = CSkillUpgradeScene::scene();
-	//CCScene *pSkillUpgradeScene = CWinScene::scene();
+	//CCScene *pSkillUpgradeScene = CWinScene::scene(12,32);
 	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, pSkillUpgradeScene, ccWHITE);
 	if (pScene)
 	{

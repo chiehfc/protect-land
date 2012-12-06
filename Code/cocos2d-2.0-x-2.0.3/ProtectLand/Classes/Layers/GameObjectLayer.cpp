@@ -1197,6 +1197,7 @@ void CGameObjectLayer::processWhenMonsterDie( CMonster* pMonster )
 
 void CGameObjectLayer::hitMonster( CMonster * monster, int damage )
 {
+	damage += randomPosition(-5,5); 
 	if(monster->getHP() > damage){
 		hurtMonster(monster, damage);
 	}else {
@@ -1264,6 +1265,7 @@ void CGameObjectLayer::transToWinScene( CCNode* sender )
 	CGamePlay::destroy();
 
 	CCScene *pWinScene = CWinScene::scene(coin, hp);
+	pWinScene->setPosition(ccp(0,0));
 	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, pWinScene, ccWHITE);
 	if (pScene)
 	{
