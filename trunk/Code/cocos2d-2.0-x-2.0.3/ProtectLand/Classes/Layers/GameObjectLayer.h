@@ -17,7 +17,8 @@ USING_NS_CC;
 
 
 #define MAX_ENEGY 10
-
+#define TIME_DELAY_TO_PLAY_AMINATION 0.3f
+#define TIME_DELAY_TO_DELETE_AMINATION 0.8f
 class CThief;
 class CBeet;
 class CTeleport;
@@ -54,6 +55,10 @@ private:
 	int m_levelBullet;
 	//Skill
 	CCSprite *m_pSkill;
+	CCSprite *m_pSkillBorder;
+	float m_timeCounter;
+	float m_timePlayAminationNext;
+	float m_timeDeleteAmination;
 	//vector<Bullet *> *m_vBullet;
 	CCArray *m_arrBullet;	
 	float length;
@@ -109,7 +114,7 @@ private:
 	void removeStarSkill();
 	void addStarSkill();  // them layer Skill
 	void addSkillButton();
-	
+	void updateSkillButton();
 
 	void spriteMoveDone( CCNode* sender );
 
@@ -167,6 +172,9 @@ public:
 	bool m_bIsFinshChooseSkill; //check khi skill da chon xong ben Skill layer
 	int m_iTypeSkillReturn;  // loai skill se hien len
 	void addSkillAnimation(int typeSkill);  //ham thuc hien them animation skill vao GameObjectlayer
+	int randomNumber(int firstPos, int secondPos);
+	int getAvailabeMonter(int *arr,int numEle);
+	bool monterIsFree(int *arr,int numEle, int pos);
 	//check dieu kien lose khi tower het mau
 	bool m_bIsLoose; // kiem tra xem da loose hay chua thong qua mau cua tower
 	void checkLoose();

@@ -89,8 +89,6 @@ bool CGameObjectLayer::init()
 			music,
 			this,
 			menu_selector(CGameObjectLayer::menuMuteMenuCallback));
-		/*pMute->setScaleX((float)size.width/WIDTH_SCREEN);
-		pMute->setScaleY((float)size.height/HEIGHT_SCREEN);*/
 		pMute->setPosition( ccp(size.width -210, size.height -40) );
 		this->pMenu->addChild(pMute);
 		eAstate = MUSIC_ON;
@@ -114,7 +112,7 @@ bool CGameObjectLayer::init()
 		this->pMoveSprite = NULL;		
 
 		this->pMenu->setEnabled(true);
-
+		m_timeCounter = 0.0f;
 		/*
 		m_pBaseTower=CCSprite::spriteWithFile("Tower\\Data\\tower_11.png");
 		m_pBaseTower->setPosition(ccp(LOCATION_X_TOWER,LOCATION_Y_TOWER));
@@ -124,7 +122,8 @@ bool CGameObjectLayer::init()
 		this->addChild(m_pTowerItem);
 		m_pTowerItem->PlayAnimation(FIRE_TOWER, 0.4f, true, false);
 		*/
-		
+		m_timePlayAminationNext = 0.0f;
+		m_timeDeleteAmination = 0.0f;
 		m_isClickChangeBullet = false;
 		m_fSpeed = 1000;
 		m_bIsFullEmergy = false;
@@ -141,7 +140,7 @@ bool CGameObjectLayer::init()
 
 		m_iCurrentEnegy = 0;  // khoi tao enegy ban dau
 		m_bToggle=false;
-		addSkillButton();
+		
 		updateBullet(m_typeBullet,m_levelBullet);
 	}
 
@@ -201,6 +200,7 @@ bool CGameObjectLayer::init()
 
 void CGameObjectLayer::update(float dt)
 {
+	
 	if(indexTime == 6 && m_arrMonster->count()==0){
 		setCheckWin(true);
 	}
@@ -254,19 +254,22 @@ void CGameObjectLayer::update(float dt)
 	
 	m_time = m_time + dt;
 
-	if (m_bIsFinshChooseSkill)
+	if (m_bIsFinshChooseSkill && m_iTypeSkillReturn > 0)
 	{
 		addSkillAnimation(m_iTypeSkillReturn);
 		m_bIsFinshChooseSkill = false;
+		this->removeChild(m_pSkillBorder,true);
+		m_bIsFullEmergy = false;
+		m_iCurrentEnegy = 0;
 	}
-
-	if(m_bToggle){
-		this->removeChild(m_pSkill,true);
-		m_pSkill = CCSprite::spriteWithFile("Skill\\Skill1_2.png");
-		m_pSkill->setPosition(ccp(LOCATION_X_SKILL,LOCATION_Y_SKILL));
-		this->addChild(m_pSkill);
-		m_bToggle=false;
+	m_timePlayAminationNext += dt;
+	m_timeDeleteAmination += dt;
+	m_timeCounter +=dt;
+	if(m_bIsFullEmergy && m_timeCounter > 1.3){
+		updateSkillButton();
+		m_timeCounter = 0.0f;
 	}
+	
 	//kiem tra xem co thua hay chua
 	if (!m_bIsLoose)
 		checkLoose();
@@ -523,7 +526,6 @@ void CGameObjectLayer::addOneBullet(CCPoint &p,float angle)
 		CCCallFuncN::actionWithTarget(this,
 		callfuncN_selector(CGameObjectLayer::spriteMoveDone)), 
 		NULL));
-
 }
 
 float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
@@ -595,6 +597,8 @@ void CGameObjectLayer::updateBullet(int type, int level)
 		break;
 	}
 	
+	addSkillButton();
+	if(m_bIsFullEmergy) updateSkillButton();
 
 }
 void CGameObjectLayer::loadTower(char * base, char * item)
@@ -1222,43 +1226,44 @@ void CGameObjectLayer::addSkillAnimation( int typeSkill)
 		this->addChild(pSprite, zSkill);
 		pSprite->PlayAnimation(0, 3.0f, 1, false);
 	}*/
-	CMySprite* pSprite1 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
-	CMySprite* pSprite2 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
-	CMySprite* pSprite3 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
-	CMySprite* pSprite4 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
-	CMySprite* pSprite5 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
-	CMySprite* pSprite6 = new CMySprite("SkillAnimation\\skill_explode_earth.sprite");
-
-	pSprite1->setPosition(ccp(size.width/2.0f + 300.0f, size.height/2.0f));
-	pSprite1->setScale(1.5f);
-	this->addChild(pSprite1, zSkill);
-	pSprite1->PlayAnimation(0, 3.0f, 1, false);
-
-	pSprite2->setPosition(ccp(size.width/2.0f + 100.0f, size.height/2.0f));
-	pSprite2->setScale(1.5f);
-	this->addChild(pSprite2, zSkill);
-	pSprite2->PlayAnimation(0, 3.0f, 1, false);
-
-	pSprite3->setPosition(ccp(size.width/2.0f - 100.0f, size.height/2.0f));
-	pSprite3->setScale(1.5f);
-	this->addChild(pSprite3, zSkill);
-	pSprite3->PlayAnimation(0, 3.0f, 1, false);
-
-	pSprite4->setPosition(ccp(size.width/2.0f + 300.0f, size.height/2.0f + 200.0f));
-	pSprite4->setScale(1.5f);
-	this->addChild(pSprite4, zSkill);
-	pSprite4->PlayAnimation(0, 3.0f, 1, false);
-
-	pSprite5->setPosition(ccp(size.width/2.0f + 100.0f, size.height/2.0f + 200.0f));
-	pSprite5->setScale(1.5f);
-	this->addChild(pSprite5, zSkill);
-	pSprite5->PlayAnimation(0, 3.0f, 1, false);
-
-	pSprite6->setPosition(ccp(size.width/2.0f - 100.0f, size.height/2.0f + 200.0f));
-	pSprite6->setScale(1.5f);
-	this->addChild(pSprite6, zSkill);
-	pSprite6->PlayAnimation(0, 3.0f, 1, false);
-
+	CMySprite *AnimationSkill[14];
+	int isSelect[14];
+	int numAnima = typeSkill;
+	char *path="";
+	char *pathFire = "SkillAnimation\\skill_fire.sprite";
+	char *pathIce = "SkillAnimation\\skill_ice.sprite";
+	if(m_typeBullet == FIRE_BULLET)
+	{
+		path = pathFire;
+	}
+	else
+	{
+		path = pathIce;
+	}
+	
+	for(int i=0; i<numAnima; i++){
+		if(numAnima < 14)
+		{
+			AnimationSkill[i] = new CMySprite(path);
+		}
+		else{
+			if(i%2 == 0){
+				AnimationSkill[i] = new CMySprite(pathFire);
+			}
+			else{
+				AnimationSkill[i] = new CMySprite(pathIce);
+			}
+		}
+		int index = getAvailabeMonter(isSelect,i);
+		CCPoint p = ((CMonster*) m_arrMonster->objectAtIndex(index))->getPosition();
+		
+		AnimationSkill[i]->setPosition(ccp(p.x, p.y +100));
+		AnimationSkill[i]->setScale(1.0f);
+		this->addChild(AnimationSkill[i], zSkill);
+		AnimationSkill[i]->PlayAnimation(0, 0.7f,1, false);
+		
+	}
+	
 	int damage = (int) (CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent * 1.2f);
 	killMonster(damage);
 }
@@ -1460,3 +1465,45 @@ void CGameObjectLayer::MoveDone( CCNode * sender )
 {
 	
 }
+
+void CGameObjectLayer::updateSkillButton()
+{
+	this->removeChild(m_pSkillBorder,true);
+	char* path="";
+	if(m_typeBullet == FIRE_BULLET)
+	{
+		path="Skill\\magic_wait_fire.png";
+
+	}
+	else
+	{
+		path="Skill\\magic_wait_water.png";
+	}
+	m_pSkillBorder = CCSprite::spriteWithFile(path);
+	m_pSkillBorder->runAction(CCSequence::create(CCFadeIn::create(0.5f),CCFadeOut::create(0.5f),NULL,NULL));
+	m_pSkillBorder->setPosition(ccp(LOCATION_X_SKILL, LOCATION_Y_SKILL));
+	this->addChild(m_pSkillBorder);
+}
+
+
+int CGameObjectLayer::getAvailabeMonter(int *arr,int numEle)
+{
+	int freePos = -1;
+	freePos = randomPosition(0, m_arrMonster->count()-1);
+	while(!monterIsFree(arr,numEle,freePos)){
+		freePos = (freePos + 1)% m_arrMonster->count(); 
+	}
+	return freePos;
+	
+}
+
+bool CGameObjectLayer::monterIsFree(int *arr,int numEle, int pos)
+{
+	for(int i=0; i <numEle; i++){
+		if (pos == arr[i]){
+			return false;
+		}
+	}
+	return true;
+}
+
