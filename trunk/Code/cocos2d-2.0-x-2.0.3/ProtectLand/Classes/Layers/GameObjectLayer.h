@@ -85,9 +85,14 @@ private:
 	CCArray *m_arrMonster;
 	CCArray *m_arrMonsterToDelete;
 	float m_time;
+	float m_timeMove;
+	float currentTime;
+	int currentHP;
+	int turn;
 	int m_index;
 	CTower *m_tower;
 	bool m_checkLose;
+	CMonster * bossMonster;
 	//Monster
 	bool oneMonster;
 	void processWhenMonsterDie(CMonster* pMonster);
@@ -110,10 +115,19 @@ private:
 
 	void playSound(CCNode* sender, void* data);	
 
+
+	// boss:
+	int MonsterPTime;
+	int typeBossMonster;
+	float nuMonsterPerTime;
+	float timeBossOneRow;
+
 public:	
 	//Sprite	
 	void loadMap();
 	void creatMonster();
+	void creatBoss();
+	void createBossMonster();
 	void attackTower();
 	void actionKillMonster(CMonster* pMonster);
 	void actionDestroyTower();
@@ -173,6 +187,8 @@ public:
 
 	void transToSkillUpgradeScene(CCNode* sender); //thuc hien chuyen scene sau khi nguoi choi gameover
 	void transToWinScene(CCNode* sender); // thuc hien chuyen qua Win scence khi win
+	void timeBossForOneRow();
+	void MoveDone(CCNode * sender);
 
 	void changeTypeTower();
 	void killMonster(int damage);

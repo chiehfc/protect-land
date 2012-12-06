@@ -40,6 +40,10 @@ bool CGameObjectLayer::init()
 	size = CCDirector::sharedDirector()->getWinSize();
 	//init value
 	{
+		turn = 0;
+		currentHP = BOSS_MONSTER_HP;
+		m_timeMove = 3.0f;
+		currentTime = 0.0f;
 		check = false;
 		m_checkLose = false;
 		m_time = 0;
@@ -211,7 +215,40 @@ void CGameObjectLayer::update(float dt)
 		}
 	}
 	processLabelCoin();
-	creatMonster();
+	int level = CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelCurrent;
+	int mapLevel = CLevelManager::GetInstance()->GetLevelInformation()->m_iMapCurrent;
+	switch(level){
+	case 5:
+		if (bossMonster->getHP() <= 0)
+		{
+			setCheckWin(true);
+		}
+			if (currentHP - bossMonster->getHP()>=500)
+			{
+					bossMonster->checkMove = true;
+			}
+		if (bossMonster->checkMove == true)
+		{
+			turn ++;
+			currentHP = bossMonster->getHP();
+			bossMonster->checkMove = false;
+			CCSize s = CCDirector::sharedDirector()->getWinSize();
+			int bossX = randomPosition((int)s.width*3/4,(int)s.width);
+			int bossY = randomPosition((int)s.height/4, (int)s.height*3/4);
+			bossMonster->setPosition(ccp(bossX,bossY));
+			bossMonster->typeMove = MOVE;
+			bossMonster->moveMonster();
+			bossMonster->setNumOfAttack(0);
+			if(turn % 3 == 0){
+				createBossMonster();
+			}
+		}
+		break;
+	default:
+		creatMonster();
+		break;
+	}
+	//creatMonster();
 	attackMonster();
 	attackTower();
 	
@@ -814,7 +851,7 @@ void CGameObjectLayer::initMap()
 		timeOfMonsterPerTime[5] = 6.0f;
 
 		break;
-	default:
+	case 3:
 		timeDelay = 1.5f;
 		numOfTime = 6;
 		typeMonster = 1;
@@ -850,7 +887,52 @@ void CGameObjectLayer::initMap()
 		timeOfMonsterPerTime[5] = 5.0f;
 
 		break;
+	case 4:
+		timeDelay = 1.0f;
+		numOfTime = 6;
+		typeMonster = 1;
+		numOfMonsterPTime = new int[6];
+		typeOfAppear = new int[6];
+		timeOfMonsterPerTime = new float[6];
+		m_totalTimeEachWay = new float[6];
+		timeForOneRow = new float[6];
+		mixtureTime = new int[6];
+		//typeOfAppear[i] = i;
+		//timeOfMonsterPerTime[i] = 5.0f;
+
+		numOfMonsterPTime[0] = 5;
+		numOfMonsterPTime[1] = 6;
+		numOfMonsterPTime[2] = 8;
+		numOfMonsterPTime[3] = 9;
+		numOfMonsterPTime[4] = 8;
+		numOfMonsterPTime[5] = 10;
+
+
+		typeOfAppear[0] = 0;
+		typeOfAppear[1] = 1;
+		typeOfAppear[2] = 2;
+		typeOfAppear[3] = 2;
+		typeOfAppear[4] = 3;
+		typeOfAppear[5] = 3;
+
+		timeOfMonsterPerTime[0] = 5.0f;
+		timeOfMonsterPerTime[1] = 5.0f;
+		timeOfMonsterPerTime[2] = 5.0f;
+		timeOfMonsterPerTime[3] = 5.0f;
+		timeOfMonsterPerTime[4] = 3.0f;
+		timeOfMonsterPerTime[5] = 3.0f;
+
+		break;
+	default:
+		creatBoss();
+		typeMonster = 1;
+		MonsterPTime = 5;
+		typeBossMonster = 0;
+		nuMonsterPerTime = 1.0f;
+		timeBossOneRow= 0.0f;
+		break;
 	}
+	if(level!=5){
 
 	m_totalTimeEachWay[0] = timeOfMonsterPerTime[0] + timeDelay;
 	m_totalTimeEachWay[1] = m_totalTimeEachWay[0] + timeOfMonsterPerTime[1] + timeDelay;
@@ -872,6 +954,7 @@ void CGameObjectLayer::initMap()
 
 	indexTime = 0;
 	timeForMixtureTime = 0.0f;
+	}
 }
 
 void CGameObjectLayer::appearInOneRow()
@@ -1337,4 +1420,44 @@ void CGameObjectLayer::killMonster( int damage )
 			hitMonster(monsterD,trueDamage);
 		}
 	}
+}
+
+void CGameObjectLayer::creatBoss()
+{
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	int height = randomPosition((int)s.height/4, (int)s.height*3/4);
+	bossMonster = new CMonster(BOSS_MONSTER,LEVEL1_MONSTER,height);
+	this->addChild(bossMonster, zBulletAndMonster);
+	m_arrMonster->addObject(bossMonster);
+}
+
+void CGameObjectLayer::createBossMonster()
+{
+	timeBossOneRow = m_time;
+	if (MonsterPTime>=10)
+	{
+		MonsterPTime = 10;
+	}else{
+		MonsterPTime = MonsterPTime + 2;
+	}
+	
+	timeBossForOneRow();
+}
+
+void CGameObjectLayer::timeBossForOneRow()
+{
+	CCSize s = CCDirector::sharedDirector()->getWinSize();
+	for (int i=1;i<=MonsterPTime;i++){
+		TypeMonster type = (TypeMonster)randomTypeMonster();
+		MonsterLevel level = (MonsterLevel)randomLevelMonster();
+		int height = randomPosition((int)s.height/4, (int)s.height*3/4);
+		CMonster * monster = new CMonster(type,level,height);
+		this->addChild(monster, zBulletAndMonster);
+		m_arrMonster->addObject(monster);
+	}
+}
+
+void CGameObjectLayer::MoveDone( CCNode * sender )
+{
+	
 }

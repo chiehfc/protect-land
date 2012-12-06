@@ -9,6 +9,7 @@ CMonster::CMonster(TypeMonster type, MonsterLevel level, int height){
 	check1 = false;
 	check2 = false;
 	check3 = false;
+	checkMove = false;
 	index = 1;
 	setTimeAttackDelay(TIME_ATTACK_DELAY);
 	setCurrentTime(0);
@@ -49,17 +50,30 @@ bool CMonster::init()
 	}
 	switch(getLevel()){
 	case LEVEL1_MONSTER:
-		setCointBonus(LEVEL1_MONSTER_COIN_BONUS);
-		setHP(LEVEL1_MONSTER_HP);
-		setMaxHP(LEVEL1_MONSTER_HP);
-		setSpeed(LEVEL1_MONSTER_SPEED);
-		setDamage(LEVEL1_MONSTER_DAMAGE);
-		setPower(LEVEL1_MONSTER_POWER);
-		setCoin(LEVEL1_MONSTER_COIN);
+		if (getType()==BOSS_MONSTER)
+		{
+			setCointBonus(BOSS_MONSTER_COIN_BONUS);
+			setHP(BOSS_MONSTER_HP);
+			setMaxHP(BOSS_MONSTER_HP);
+			setSpeed(BOSS_MONSTER_SPEED);
+			setDamage(BOSS_MONSTER_DAMAGE);
+			setPower(BOSS_MONSTER_POWER);
+			setCoin(BOSS_MONSTER_COIN);
+		}else{
+			setCointBonus(LEVEL1_MONSTER_COIN_BONUS);
+			setHP(LEVEL1_MONSTER_HP);
+			setMaxHP(LEVEL1_MONSTER_HP);
+			setSpeed(LEVEL1_MONSTER_SPEED);
+			setDamage(LEVEL1_MONSTER_DAMAGE);
+			setPower(LEVEL1_MONSTER_POWER);
+			setCoin(LEVEL1_MONSTER_COIN);
+		}
 		if(getType()==WATER_MONSTER){
 			m_sprite = new CMySprite(LEVEL1_WATER_MONSTER_TEXTURE);
-		}else{
+		}else if(getType()==FIRE_MONSTER){
 			m_sprite = new CMySprite(LEVEL1_FIRE_MONSTER_TEXTURE);
+		}else{
+			m_sprite = new CMySprite(BOSS_MONSTER_TEXTURE);
 		}
 		break;
 	case LEVEL2_MONSTER:
@@ -184,10 +198,10 @@ void CMonster::hitMonster(int damage)
 		typeMove = ATTACK;
 	}else{
 		typeMove = MOVE;
+		m_sprite->stopAllActions();
+		stopAllActions();
+		m_sprite->PlayAnimation(2,0.3f,1,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::monsterAction)));
 	}
-	m_sprite->stopAllActions();
-	stopAllActions();
-	m_sprite->PlayAnimation(2,0.3f,1,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::monsterAction)));
 	numberDamageIn(damage);
 }
 
