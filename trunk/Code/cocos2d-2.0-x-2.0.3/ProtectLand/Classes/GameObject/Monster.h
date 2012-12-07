@@ -38,7 +38,7 @@ public:
 	//CC_SYNTHESIZE(CCLabelTTF *, m_bloothOut, bloothOut);
 
 
-	CMonster(TypeMonster type, MonsterLevel level, int height);
+	CMonster(TypeMonster type, MonsterLevel level, int width, int height);
 	CMonster();
 	~CMonster();
 	virtual bool init();
