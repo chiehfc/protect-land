@@ -6,7 +6,7 @@ class CMenuLayer: public cocos2d::CCLayer
 public:
 	virtual bool init();
 	virtual void onExit();
-	virtual void update(float dt);
+
 
 	/************************************************************************/
 	/* Menu call back funtions                                              */

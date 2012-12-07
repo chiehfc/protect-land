@@ -1,5 +1,6 @@
 #include "BackgroundLayer.h"
 #include "LevelManager.h"
+#include "AudioManager.h"
 USING_NS_CC;
 bool CBackgroundLayer::init()
 {
@@ -15,6 +16,13 @@ bool CBackgroundLayer::init()
 	CCSprite* pSprite = CCSprite::create(strNameFile[CLevelManager::GetInstance()->GetLevelInformation()->m_iMapCurrent - 1]);
 	pSprite->setPosition( ccp(size.width/2, size.height/2) );
 	this->addChild(pSprite, 0);
+
+	int arrIDbackgroundMusic[7] = {SOUND_BACKGROUND_HUMAN, SOUND_BACKGROUND_ELF, SOUND_BACKGROUND_ACADEMY, SOUND_BACKGROUND_DWARF,
+									SOUND_BACKGROUND_DARKELF, SOUND_BACKGROUND_UNDEAD, SOUND_BACKGROUND_DEVIL
+									};
+	CAudioManager::instance()->stopAllEff();
+	CAudioManager::instance()->stopBGMusic();
+	CAudioManager::instance()->playBGMusic(arrIDbackgroundMusic[CLevelManager::GetInstance()->GetLevelInformation()->m_iMapCurrent - 1], true);
 	return true;
 }
 

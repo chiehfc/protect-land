@@ -62,8 +62,8 @@ bool CGameObjectLayer::init()
 	// create menu, it's an autorelease object
 	{
 		CCMenuItemImage *pSubMenu = CCMenuItemImage::create(
-			"PauseGame.png",
-			"PauseGameSelected.png",
+			"Button\\pause-down.png",
+			"Button\\pause-up.png",
 			this,
 			menu_selector(CGameObjectLayer::menuSubMenuCallback));
 		pSubMenu->setPosition( ccp(size.width -70 , size.height -40) );
@@ -71,8 +71,8 @@ bool CGameObjectLayer::init()
 		this->pMenu->setPosition( CCPointZero );	
 
 		CCMenuItemImage *pReplay = CCMenuItemImage::create(
-			"ReplayNormal.png",
-			"ReplaySelected.png",
+			"Button\\back-play2.png",
+			"Button\\back-play.png",
 			this,
 			menu_selector(CGameObjectLayer::menuReplayMenuCallback));
 		pReplay->setPosition( ccp(size.width -140, size.height -40) );
@@ -80,11 +80,11 @@ bool CGameObjectLayer::init()
 
 		const char* music;
 		if(CAudioManager::instance()->GetSound() == SOUND_BG_EFF)
-			music = "MusicOn.png";
+			music = "Button\\MusicOn.png";
 		else if(CAudioManager::instance()->GetSound() == SOUND_EFF)
-			music = "MusicBackGroundOff.png";
+			music = "Button\\MusicBackGroundOff.png";
 		else
-			music = "Mute.png";
+			music = "Button\\Mute.png";
 		pMute = CCMenuItemImage::create(
 			music,
 			music,
@@ -393,7 +393,7 @@ void CGameObjectLayer::draw()
 void CGameObjectLayer::menuReplayMenuCallback( CCObject* pSender )
 {   
 	if(CCDirector::sharedDirector()->isPaused()) return;
-	CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	//this->removeAllChildrenWithCleanup(true);	
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_FRONTSPRITE_LAYER);
 	CGamePlay::removeLayerByTag(TAG_GAMEPLAY_GAME_OBJECT_LAYER);
@@ -409,27 +409,27 @@ void CGameObjectLayer::menuMuteMenuCallback( CCObject* pSender )
 	{
 	case SOUND_BG_EFF:
 		//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
-		pMute->setNormalImage(CCSprite::create("MusicBackGroundOff.png"));
-		pMute->setSelectedImage(CCSprite::create("MusicBackGroundOff.png"));
+		CAudioManager::instance()->playEff(SOUND_BUTTON);
+		pMute->setNormalImage(CCSprite::create("Button\\MusicBackGroundOff.png"));
+		pMute->setSelectedImage(CCSprite::create("Button\\MusicBackGroundOff.png"));
 		//CAudioManager::instance()->setBGMusicVolume(0.0f);
 		CAudioManager::instance()->pauseBGMusic();
 		CAudioManager::instance()->SetSound(SOUND_EFF);
 		break;
 	case SOUND_EFF:
 		//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
-		pMute->setNormalImage(CCSprite::create("Mute.png"));
-		pMute->setSelectedImage(CCSprite::create("Mute.png"));
+		CAudioManager::instance()->playEff(SOUND_BUTTON);
+		pMute->setNormalImage(CCSprite::create("Button\\Mute.png"));
+		pMute->setSelectedImage(CCSprite::create("Button\\Mute.png"));
 		//CAudioManager::instance()->setEffVolume(0.0f);
 		CAudioManager::instance()->pauseAllEff();
 		CAudioManager::instance()->SetSound(SOUND_OFF);
 		break;
 	case SOUND_OFF:
 		//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
-		pMute->setNormalImage(CCSprite::create("MusicOn.png"));
-		pMute->setSelectedImage(CCSprite::create("MusicOn.png"));
+		CAudioManager::instance()->playEff(SOUND_BUTTON);
+		pMute->setNormalImage(CCSprite::create("Button\\MusicOn.png"));
+		pMute->setSelectedImage(CCSprite::create("Button\\MusicOn.png"));
 		//CAudioManager::instance()->setBGMusicVolume(1.0f);
 		//CAudioManager::instance()->setEffVolume(1.0f);
 		CAudioManager::instance()->resumeBGMusic();
@@ -539,6 +539,15 @@ void CGameObjectLayer::addOneBullet(CCPoint &p,float angle)
 	newBullet->setType(m_typeBullet);
 	newBullet->setPosition(ccp(LOCATION_X_TOWER + 15,LOCATION_Y_TOWER+30));
 	newBullet->setRotation(angle);
+	//play Effect
+	if (m_typeBullet == WATER_BULLET)
+	{
+		CAudioManager::instance()->playEff(SOUND_ICE_TOWER);
+	}
+	else
+	{
+		CAudioManager::instance()->playEff(SOUND_FIRE_TOWER);
+	}
 	this->addChild(newBullet);
 	m_arrBullet->addObject(newBullet);
 	CCPoint realDest = getDestination(p.x,p.y);
@@ -551,6 +560,7 @@ void CGameObjectLayer::addOneBullet(CCPoint &p,float angle)
 		CCCallFuncN::actionWithTarget(this,
 		callfuncN_selector(CGameObjectLayer::spriteMoveDone)), 
 		NULL));
+
 }
 
 float CGameObjectLayer::caculateAngle(CCPoint v,CCPoint v1)
@@ -603,7 +613,7 @@ void CGameObjectLayer::updateBullet(int type, int level)
 			break;
 			
 		}
-		m_pTowerItem->PlayAnimation(FIRE_TOWER,0.4f, true, false);
+		m_pTowerItem->PlayAnimation(FIRE_TOWER, 0.4f, true, false);
 		break;
 	case WATER_BULLET:
 		switch(m_levelBullet){
@@ -735,6 +745,7 @@ void CGameObjectLayer::attackTower(){
 	{
 		CCObject *it = new CMonster;
 		CCARRAY_FOREACH(m_arrMonster,it){
+			//CAudioManager::instance()->playEff(SOUND_WALL_BEHIT, false);
 			CMonster * monsterD = (CMonster *)it;
 			//m_activeHP->setScaleX((towerHp - monsterD->attackTowerWithDamage(m_time))/towerHp);
 			towerHp = towerHp - monsterD->attackTowerWithDamage(m_time);
@@ -1285,7 +1296,7 @@ void CGameObjectLayer::addSkillAnimation( int typeSkill)
 		AnimationSkill[i]->setPosition(ccp(p.x, p.y +100));
 		AnimationSkill[i]->setScale(1.0f);
 		this->addChild(AnimationSkill[i], zSkill);
-		AnimationSkill[i]->PlayAnimation(0, 0.7f,1, false);
+		AnimationSkill[i]->PlayAnimation(0, 0.7f, 1, false);
 		
 	}
 	
@@ -1310,6 +1321,7 @@ void CGameObjectLayer::processWhenMonsterDie( CMonster* pMonster )
 
 void CGameObjectLayer::hitMonster( CMonster * monster, int damage )
 {
+	CAudioManager::instance()->playEff(SOUND_MONSTER_BEHIT, false);
 	damage += randomPosition(-5,5); 
 	if(monster->getHP() > damage){
 		hurtMonster(monster, damage);

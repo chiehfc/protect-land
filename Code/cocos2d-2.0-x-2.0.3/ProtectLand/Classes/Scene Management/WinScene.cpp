@@ -15,7 +15,9 @@ cocos2d::CCScene* CWinScene::scene( int coinBonus, int HpTowerRemind )
 	// add layer as a child to scene
 	
 	scene->addChild(layer);
-
+	CAudioManager::instance()->stopAllEff();
+	CAudioManager::instance()->stopBGMusic();
+	CAudioManager::instance()->playBGMusic(SOUND_BACKGROUND_SUCCEED, true);
 	// return the scene
 	return scene;
 }
@@ -44,7 +46,7 @@ void CWinScene::exit(){
 }
 void CWinScene::menuLevelSelectCallback(CCObject* pSender)
 {
-	CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CGamePlay::destroy();
 	CCScene *levelSelectScene = CSelectLevelScene::scene();
 	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, levelSelectScene, ccWHITE);
@@ -55,7 +57,7 @@ void CWinScene::menuLevelSelectCallback(CCObject* pSender)
 }
 void CWinScene::menuNextCallback( CCObject* pSender )
 {
-	CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CGamePlay::destroy();	
 	CCScene *gameSkillUpgradeScene = CSkillUpgradeScene::scene();
 	CCScene* pScene = CCTransitionSlideInR::create(0.7f, gameSkillUpgradeScene);
