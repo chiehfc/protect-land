@@ -16,7 +16,7 @@
 USING_NS_CC;
 
 
-#define MAX_ENEGY 10
+#define MAX_ENEGY 100
 #define TIME_DELAY_TO_PLAY_AMINATION 0.3f
 #define TIME_DELAY_TO_DELETE_AMINATION 0.8f
 class CThief;
