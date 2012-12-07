@@ -202,6 +202,8 @@ public:
 	void changeTypeTower();
 	void killMonster(int damage);
 
+	void animationSkillDone(CCNode* pSender);
+
 };
 
 

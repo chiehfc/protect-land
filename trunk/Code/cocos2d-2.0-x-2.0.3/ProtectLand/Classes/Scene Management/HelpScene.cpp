@@ -28,6 +28,11 @@ bool CHelpScene::init()
 	{
 		return false;
 	}
+	CCSize size = CCDirector::sharedDirector()->getWinSize();
+	//add background
+	CCSprite* pBackground = CCSprite::spriteWithFile("HelpScene\\help-screen.png");
+	pBackground->setPosition(ccp(size.width/2.0f, size.height/2.0f));
+	addChild(pBackground);
 
 	//insert menu
 	CCMenu* m_pMenu = CCMenu::create(NULL, NULL);
