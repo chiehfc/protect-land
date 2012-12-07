@@ -95,7 +95,7 @@ void CSelectLevelScene::exit(){
 void CSelectLevelScene::menuBackCallBack( CCObject* pSender )
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);;
+		CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene *mainmenuScene = CMainMenuScene::scene();
 	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, mainmenuScene, ccWHITE);
 	if (pScene)
@@ -107,6 +107,7 @@ void CSelectLevelScene::menuBackCallBack( CCObject* pSender )
 void CSelectLevelScene::menuNextCallBack( CCObject* pSender )
 {
 	//chuyen den skillUpgradeScene
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene * pSkillUpgradeScene = CSkillUpgradeScene::scene();
 	//CCScene *pSkillUpgradeScene = CWinScene::scene(12,32);
 	CCScene* pScene =CCTransitionFade::create(TRANSITION_DURATION, pSkillUpgradeScene, ccWHITE);

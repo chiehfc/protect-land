@@ -145,8 +145,7 @@ void COptionScene::exit(){
 
 void COptionScene::menuMainMenuCallback(CCObject* pSender)
 {
-	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene* mainmenuScene = CMainMenuScene::scene();
 	CCScene* pScene = CCTransitionFade::create(TRANSITION_DURATION, mainmenuScene);
 	if (pScene)
@@ -157,6 +156,7 @@ void COptionScene::menuMainMenuCallback(CCObject* pSender)
 
 void COptionScene::soundOnCallback( CCObject* pSender )
 {
+
 	CAudioManager::instance()->stopBGMusic();
 	CAudioManager::instance()->SetSound(SOUND_OFF);
 
@@ -173,8 +173,7 @@ void COptionScene::soundOffCallback( CCObject* pSender )
 
 void COptionScene::resetLevelCallback( CCObject* pSender )
 {
-	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	pPopupMenu->setEnabled(true);
 	this->pMenu->setEnabled(false);
 	
@@ -185,8 +184,7 @@ void COptionScene::resetLevelCallback( CCObject* pSender )
 
 void COptionScene::PopupYesCallback( CCObject* pSender )
 {
-	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	pPopupMenu->setEnabled(false);
 	this->pMenu->setEnabled(true);
 	m_pBlurLayer->setVisible(false);
@@ -197,8 +195,7 @@ void COptionScene::PopupYesCallback( CCObject* pSender )
 
 void COptionScene::PopupNoCallback( CCObject* pSender )
 {
-	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	pPopupMenu->setEnabled(false);
 	this->pMenu->setEnabled(true);
 	m_pBlurLayer->setVisible(false);

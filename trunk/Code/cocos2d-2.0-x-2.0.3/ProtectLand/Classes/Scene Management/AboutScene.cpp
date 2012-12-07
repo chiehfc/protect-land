@@ -66,8 +66,7 @@ void CAboutScene::exit(){
 
 void CAboutScene::menuMainMenuCallback(CCObject* pSender)
 {
-	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-		CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene* mainmenuScene = CMainMenuScene::scene();
 	CCScene* pScene = CCTransitionFade::create(TRANSITION_DURATION, mainmenuScene);
 	if (pScene)

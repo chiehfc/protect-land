@@ -2,6 +2,7 @@
 #include "GamePlay.h"
 #include "IncludeHelper.h"
 #include "PositionConfig.h"
+#include "AudioManager.h"
 USING_NS_CC;
 
 CCScene* CSkillUpgradeScene::scene()
@@ -79,7 +80,7 @@ void CSkillUpgradeScene::exit(){
 void CSkillUpgradeScene::menuPlayCallBack( CCObject* pSender )
 {
 	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-	CAudioManager::instance()->playEff(SOUND_CLICK_1);	
+	CAudioManager::instance()->playEff(SOUND_BUTTON);	
 	CCScene *gameplayScene = CGamePlay::scene();
 	CCScene* pScene = CCTransitionCrossFade::create(TRANSITION_DURATION, gameplayScene);
 	if (pScene)
@@ -385,11 +386,12 @@ void CSkillUpgradeScene::buttonRateCallback( CCObject* pSender )
 
 void CSkillUpgradeScene::buttonBuyCallback( CCObject* pSender )
 {
+	
 	if(m_iCoinToBuy > -1)
 	{
 		if(CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin >= m_iCoinToBuy)
 		{	
-
+			CAudioManager::instance()->playEff(SOUND_EQUIP_UPGRADE);
 			char buf[10]="";
 			CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin -= m_iCoinToBuy;
 			sprintf(buf,"%d",CLevelManager::GetInstance()->GetLevelInformation()->m_iCoin);
@@ -425,8 +427,7 @@ void CSkillUpgradeScene::buttonBuyCallback( CCObject* pSender )
 
 void CSkillUpgradeScene::menuBackCallBack( CCObject* pSender )
 {
-	//if(CAudioManager::instance()->GetSound()==SOUND_BG_EFF)
-	CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene* mainmenuScene = CMainMenuScene::scene();
 	CCScene* pScene = CCTransitionFade::create(TRANSITION_DURATION, mainmenuScene);
 	if (pScene)

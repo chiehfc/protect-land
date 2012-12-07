@@ -1,5 +1,6 @@
 #include "MainMenuScene.h"
 #include "PositionConfig.h"
+#include "AudioManager.h"
 
 CCScene* CMainMenuScene::scene()
 {

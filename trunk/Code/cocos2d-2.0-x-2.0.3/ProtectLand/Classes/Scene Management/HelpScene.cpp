@@ -60,7 +60,7 @@ void CHelpScene::exit(){
 
 void CHelpScene::menuMainMenuCallback(CCObject* pSender)
 {
-	CAudioManager::instance()->playEff(SOUND_CLICK_1);
+	CAudioManager::instance()->playEff(SOUND_BUTTON);
 	CCScene* mainmenuScene = CMainMenuScene::scene();
 	CCScene* pScene = CCTransitionFade::create(TRANSITION_DURATION, mainmenuScene);
 	if (pScene)
