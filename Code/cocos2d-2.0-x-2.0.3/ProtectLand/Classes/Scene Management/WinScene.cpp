@@ -112,6 +112,25 @@ void CWinScene::addAllElement()
 {
 	CCSize size = CCDirector::sharedDirector()->getWinSize();
 	int totalCoin=0;
+	
+	switch(CLevelManager::GetInstance()->GetLevelInformation()->m_iLevelCurrent){
+	case 1:
+		addSpire(&m_pTemp,"Background\\background_package_level_1.png",ccp(size.width/2.0f,size.height/2.0f), 1.0f,1.0f);
+		break;
+	case 2:
+		addSpire(&m_pTemp,"Background\\background_package_level_2.png",ccp(size.width/2.0f,size.height/2.0f), 1.0f,1.0f);
+		break;
+	case 3:
+		addSpire(&m_pTemp,"Background\\background_package_level_3.png",ccp(size.width/2.0f,size.height/2.0f), 1.0f,1.0f);
+		break;
+	case 4:
+		addSpire(&m_pTemp,"Background\\background_package_level_4.png",ccp(size.width/2.0f,size.height/2.0f), 1.0f,1.0f);
+		break;
+	case 5:
+		addSpire(&m_pTemp,"Background\\background_package_level_5.png",ccp(size.width/2.0f,size.height/2.0f), 1.0f,1.0f);
+		break;
+	}
+
 	addSpire(&m_pTemp,"WinScreen\\stats_bg.png",ccp(size.width/2.0f,size.height/2.0f), 1.0f,1.0f);
 	addSpire(&m_pTemp,"WinScreen\\boss1.png",LOCATION_MONTER1, 2.0f,2.0f);
 	addSpire(&m_pTemp,"WinScreen\\monster1.png",LOCATION_MONTER2, 1.2f,1.2f);

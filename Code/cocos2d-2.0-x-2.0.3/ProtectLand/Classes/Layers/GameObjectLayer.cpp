@@ -279,9 +279,12 @@ void CGameObjectLayer::update(float dt)
 	
 	m_time = m_time + dt;
 
-	if (m_bIsFinshChooseSkill && m_iTypeSkillReturn > 0)
+	if (m_bIsFinshChooseSkill)
 	{
-		addSkillAnimation(m_iTypeSkillReturn);
+		if(m_iTypeSkillReturn > 0)
+		{
+			addSkillAnimation(m_iTypeSkillReturn);
+		}
 		m_bIsFinshChooseSkill = false;
 		this->removeChild(m_pSkillBorder,true);
 		m_bIsFullEmergy = false;
@@ -1178,7 +1181,7 @@ cocos2d::CCRect CGameObjectLayer::getRectBulletFire( Bullet* pBullet )
 {
 	
 	float angle = - (pBullet->getRotation());
-	CCLOG("Angle = %f", angle);
+	//CCLOG("Angle = %f", angle);
 	float orginX = pBullet->getPosition().x ;
 	float orginY = pBullet->getPosition().y ;
 	float orginWidth = pBullet->m_sprite->getContentSize().width;
@@ -1263,6 +1266,7 @@ void CGameObjectLayer::addSkillAnimation( int typeSkill)
 		pSprite->PlayAnimation(0, 3.0f, 1, false);
 	}*/
 	CMySprite *AnimationSkill[14];
+	CCSize size = CCDirector::sharedDirector()->getWinSize();
 	int isSelect[14];
 	int numAnima = typeSkill;
 	char *path="";
@@ -1283,24 +1287,42 @@ void CGameObjectLayer::addSkillAnimation( int typeSkill)
 			AnimationSkill[i] = new CMySprite(path);
 		}
 		else{
-			if(i%2 == 0){
+			if(i%2 == 0){			
 				AnimationSkill[i] = new CMySprite(pathFire);
 			}
 			else{
+				
 				AnimationSkill[i] = new CMySprite(pathIce);
 			}
 		}
-		int index = getAvailabeMonter(isSelect,i);
-		CCPoint p = ((CMonster*) m_arrMonster->objectAtIndex(index))->getPosition();
+		int index = getAvailabeMonter(isSelect, i);
+		CCPoint p;
+		if(index  < 0){
+			index = randomPosition(0,m_arrMonster->count());
+			CCPoint ptemp = ((CMonster*) m_arrMonster->objectAtIndex(index))->getPosition();
+			p = ccp(randomPosition(LOCATION_X_TOWER + 100,ptemp.x), randomPosition( 100, size.height - 100 ));
+		}
+		else{
+			isSelect[i] = index;
+			p = ((CMonster*) m_arrMonster->objectAtIndex(index))->getPosition();
+		}
+		
+		if (m_typeBullet == WATER_BULLET)
+			CAudioManager::instance()->playEff(SOUND_ICE_MAGIC, false);
+		if (m_typeBullet == FIRE_BULLET)
+			CAudioManager::instance()->playEff(SOUND_FIRE_MAGIC, false);
 		
 		AnimationSkill[i]->setPosition(ccp(p.x, p.y +100));
+		CCLOG("Point: (%d, %d)", (int) p.x, (int)(p.y +100));
 		AnimationSkill[i]->setScale(1.0f);
 		this->addChild(AnimationSkill[i], zSkill);
-		AnimationSkill[i]->PlayAnimation(0, 0.7f, 1, false);
+		AnimationSkill[i]->PlayAnimation(0, 3.0f, 1, false, CCCallFuncN::actionWithTarget(this, callfuncN_selector(CGameObjectLayer::animationSkillDone)));
 		
 	}
-	
-	int damage = (int) (CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent * 1.2f);
+
+	float rateDamage = (typeSkill*0.2f) - 0.6f;
+
+	int damage = (int) (CLevelManager::GetInstance()->GetLevelInformation()->m_iDameTowerCurrent * rateDamage);
 	killMonster(damage);
 }
 
@@ -1499,7 +1521,6 @@ void CGameObjectLayer::timeBossForOneRow()
 	}
 }
 
-
 void CGameObjectLayer::updateSkillButton()
 {
 	this->removeChild(m_pSkillBorder,true);
@@ -1519,14 +1540,17 @@ void CGameObjectLayer::updateSkillButton()
 	this->addChild(m_pSkillBorder);
 }
 
-
 int CGameObjectLayer::getAvailabeMonter(int *arr,int numEle)
 {
 	int freePos = -1;
 	freePos = randomPosition(0, m_arrMonster->count()-1);
+	int i=1;
 	while(!monterIsFree(arr,numEle,freePos)){
 		freePos = (freePos + 1)% m_arrMonster->count(); 
+		i++;
+		if(i>numEle) break;
 	}
+	if (i >= numEle) return -1;
 	return freePos;
 	
 }
@@ -1539,5 +1563,11 @@ bool CGameObjectLayer::monterIsFree(int *arr,int numEle, int pos)
 		}
 	}
 	return true;
+}
+
+void CGameObjectLayer::animationSkillDone( CCNode* pSender )
+{
+	CMySprite * mSprite = (CMySprite *) pSender;
+	this->removeChild(mSprite,true);
 }
 
