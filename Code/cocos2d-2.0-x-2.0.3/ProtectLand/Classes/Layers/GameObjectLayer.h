@@ -85,6 +85,7 @@ private:
 	int randomPosition(int firstPos, int secondPos);
 	int *mixtureTime;
 	float timeForMixtureTime;
+	float timeDelayWin;
 
 	//monster
 	CCArray *m_arrMonster;
@@ -196,7 +197,7 @@ public:
 	void transToSkillUpgradeScene(CCNode* sender); //thuc hien chuyen scene sau khi nguoi choi gameover
 	void transToWinScene(CCNode* sender); // thuc hien chuyen qua Win scence khi win
 	void timeBossForOneRow();
-	void MoveDone(CCNode * sender);
+
 
 	void changeTypeTower();
 	void killMonster(int damage);

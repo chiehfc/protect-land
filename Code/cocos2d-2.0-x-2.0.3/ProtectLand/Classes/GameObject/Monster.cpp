@@ -4,7 +4,7 @@
 #include "LevelManager.h"
 //#include "GameObjectLayer.h"
 
-CMonster::CMonster(TypeMonster type, MonsterLevel level, int height){
+CMonster::CMonster(TypeMonster type, MonsterLevel level, int width, int height){
 	timeMove = 0.0f;
 	check1 = false;
 	check2 = false;
@@ -26,7 +26,7 @@ CMonster::CMonster(TypeMonster type, MonsterLevel level, int height){
 	int actualDuration = (rand()%rangeDuration) + minDuration;*/
 	setPos(height);
 
-	setPosition(ccp(s.width,getPos()));
+	setPosition(ccp(width,getPos()));
 
 
 	setLevel(level);
@@ -187,6 +187,7 @@ void CMonster::monsterDie(int damage)
 {
 	//typeMove = MOVE;
 	setHP(0);
+	stopAllActions();
 	m_sprite->PlayAnimation(3,1.0f,1,false,CCCallFuncN::actionWithTarget(this,callfuncN_selector(CMonster::attackDone)));
 	numberDamageIn(damage);
 }

@@ -40,6 +40,7 @@ bool CGameObjectLayer::init()
 	size = CCDirector::sharedDirector()->getWinSize();
 	//init value
 	{
+		timeDelayWin = 0.0f;
 		turn = 0;
 		currentHP = BOSS_MONSTER_HP;
 		m_timeMove = 3.0f;
@@ -202,7 +203,17 @@ void CGameObjectLayer::update(float dt)
 {
 	
 	if(indexTime == 6 && m_arrMonster->count()==0){
-		setCheckWin(true);
+		if (timeDelayWin==0.0f)
+		{
+			timeDelayWin = m_time;
+		}
+	}
+	if (timeDelayWin != 0.0f)
+	{
+		if (m_time >= timeDelayWin + 4.0f)
+		{
+			setCheckWin(true);
+		}
 	}
 	addDeleteMonster();
 	//CCLOG("%f",m_fTimeRetireBullet);
@@ -219,14 +230,28 @@ void CGameObjectLayer::update(float dt)
 	int mapLevel = CLevelManager::GetInstance()->GetLevelInformation()->m_iMapCurrent;
 	switch(level){
 	case 5:
-		if (bossMonster->getHP() <= 0)
+		/*if (bossMonster->getHP() <= 0)
 		{
 			setCheckWin(true);
-		}
-			if (currentHP - bossMonster->getHP()>=500)
+		}*/
+		if (m_arrMonster->count() == 0)
+		{
+			if (timeDelayWin==0.0f)
 			{
-					bossMonster->checkMove = true;
+				timeDelayWin = m_time;
 			}
+		}
+		if (timeDelayWin != 0.0f)
+		{
+			if (m_time >= timeDelayWin + 4.0f)
+			{
+				setCheckWin(true);
+			}
+		}
+		if (currentHP - bossMonster->getHP()>=500)
+		{
+				bossMonster->checkMove = true;
+		}
 		if (bossMonster->checkMove == true)
 		{
 			turn ++;
@@ -970,8 +995,8 @@ void CGameObjectLayer::appearInOneRow()
 		TypeMonster type = (TypeMonster)randomTypeMonster();
 		MonsterLevel level = (MonsterLevel)randomLevelMonster();
 		int height = randomPosition((int)s.height/4, (int)s.height*3/4);
-		CMonster * monster = new CMonster(type,level,height);
-		this->addChild(monster, zBulletAndMonster);
+		CMonster * monster = new CMonster(type,level,s.width,height);
+		this->addChild(monster, s.height - height);
 		m_arrMonster->addObject(monster);
 		timeForOneRow[indexTime] = timeForOneRow[indexTime] + timeBetween;
 	}
@@ -991,8 +1016,8 @@ void CGameObjectLayer::appearInTwoRows()
 		//while(abs(height1 - (int)s.height/2) < 30){
 			//height1 = randomPosition();
 		//}
-		CMonster * monster1 = new CMonster(type1,level1,height1);
-		this->addChild(monster1, zBulletAndMonster);
+		CMonster * monster1 = new CMonster(type1,level1, s.width,height1);
+		this->addChild(monster1, s.height - height1);
 		m_arrMonster->addObject(monster1);
 
 
@@ -1000,8 +1025,8 @@ void CGameObjectLayer::appearInTwoRows()
 		TypeMonster type2 = (TypeMonster)randomTypeMonster();
 		MonsterLevel level2 = (MonsterLevel)randomLevelMonster();
 		int height2 = randomPosition((int)s.width/4,height1 - 20);
-		CMonster * monster2 = new CMonster(type2,level2,height2);
-		this->addChild(monster2, zBulletAndMonster);
+		CMonster * monster2 = new CMonster(type2,level2,s.width,height2);
+		this->addChild(monster2, s.height - height2);
 		m_arrMonster->addObject(monster2);
 
 		timeForOneRow[indexTime] = timeForOneRow[indexTime] + timeBetween;
@@ -1018,8 +1043,8 @@ void CGameObjectLayer::appearInThreeRows()
 		TypeMonster type1 = (TypeMonster)randomTypeMonster();
 		MonsterLevel level1 = (MonsterLevel)randomLevelMonster();
 		int height1 = randomPosition((int)s.height/2+50,(int)s.height*3/4);
-		CMonster * monster1 = new CMonster(type1,level1,height1);
-		this->addChild(monster1, zBulletAndMonster);
+		CMonster * monster1 = new CMonster(type1,level1,s.width,height1);
+		this->addChild(monster1, s.height - height1);
 		m_arrMonster->addObject(monster1);
 
 
@@ -1027,19 +1052,19 @@ void CGameObjectLayer::appearInThreeRows()
 		TypeMonster type2 = (TypeMonster)randomTypeMonster();
 		MonsterLevel level2 = (MonsterLevel)randomLevelMonster();
 		int height2 = (int)s.height-height1;
-		CMonster * monster2 = new CMonster(type2,level2,height2);
+		CMonster * monster2 = new CMonster(type2,level2,s.width,height2);
 
 
 		//third monster
 		TypeMonster type3 = (TypeMonster)randomTypeMonster();
 		MonsterLevel level3 = (MonsterLevel)randomLevelMonster();
 		int height3 = randomPosition(height2+20,height1-20);
-		CMonster * monster3 = new CMonster(type3,level3,height3);
-		this->addChild(monster3, zBulletAndMonster);
+		CMonster * monster3 = new CMonster(type3,level3, s.width,height3);
+		this->addChild(monster3, s.height - height3);
 		m_arrMonster->addObject(monster3);
 
 		//add second monster
-		this->addChild(monster2, zBulletAndMonster);
+		this->addChild(monster2, s.height - height2);
 		m_arrMonster->addObject(monster2);
 
 		timeForOneRow[indexTime] = timeForOneRow[indexTime] + timeBetween;
@@ -1057,16 +1082,16 @@ void CGameObjectLayer::appearInMixture()
 					TypeMonster type = (TypeMonster)randomTypeMonster();
 					MonsterLevel level = (MonsterLevel)randomLevelMonster();
 					int height = i;
-					CMonster * monster = new CMonster(type,level,height);
-					this->addChild(monster, zBulletAndMonster);
+					CMonster * monster = new CMonster(type,level, s.width,height);
+					this->addChild(monster, s.height - height);
 					m_arrMonster->addObject(monster);
 					timeForMixtureTime = m_time;
 				}else{
 					TypeMonster type = (TypeMonster)randomTypeMonster();
 					MonsterLevel level = (MonsterLevel)randomLevelMonster();
 					int height = i+10;
-					CMonster * monster = new CMonster(type,level,height);
-					this->addChild(monster, zBulletAndMonster);
+					CMonster * monster = new CMonster(type,level, s.width,height);
+					this->addChild(monster, s.height - height);
 					m_arrMonster->addObject(monster);
 				}
 			}
@@ -1209,7 +1234,7 @@ cocos2d::CCRect CGameObjectLayer::getRectBulletFire( Bullet* pBullet )
 
 cocos2d::CCRect CGameObjectLayer::getRectMonsterFire( CMonster* pMonster )
 {
-	return CCRectMake(pMonster->getPosition().x + 28.0f - pMonster->m_sprite->getContentSize().width/2.0f, 
+	return CCRectMake(pMonster->getPosition().x + 28.0f - pMonster->m_sprite->getContentSize().width/23.0f, 
 		pMonster->getPosition().y - pMonster->m_sprite->getContentSize().height/2 + 5.0f,
 		pMonster->m_sprite->getContentSize().width,
 		pMonster->m_sprite->getContentSize().height - 5.0f);
@@ -1430,7 +1455,7 @@ void CGameObjectLayer::creatBoss()
 {
 	CCSize s = CCDirector::sharedDirector()->getWinSize();
 	int height = randomPosition((int)s.height/4, (int)s.height*3/4);
-	bossMonster = new CMonster(BOSS_MONSTER,LEVEL1_MONSTER,height);
+	bossMonster = new CMonster(BOSS_MONSTER,LEVEL1_MONSTER, s.width ,height);
 	this->addChild(bossMonster, zBulletAndMonster);
 	m_arrMonster->addObject(bossMonster);
 }
@@ -1455,16 +1480,13 @@ void CGameObjectLayer::timeBossForOneRow()
 		TypeMonster type = (TypeMonster)randomTypeMonster();
 		MonsterLevel level = (MonsterLevel)randomLevelMonster();
 		int height = randomPosition((int)s.height/4, (int)s.height*3/4);
-		CMonster * monster = new CMonster(type,level,height);
-		this->addChild(monster, zBulletAndMonster);
+		int width = randomPosition(0 , 100);
+		CMonster * monster = new CMonster(type,level, s.width + width,height);
+		this->addChild(monster, s.height - height);
 		m_arrMonster->addObject(monster);
 	}
 }
 
-void CGameObjectLayer::MoveDone( CCNode * sender )
-{
-	
-}
 
 void CGameObjectLayer::updateSkillButton()
 {
